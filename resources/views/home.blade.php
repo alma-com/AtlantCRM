@@ -1,17 +1,13 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container spark-screen">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+@section('content-header')
+<h1>Dashboard <small>Control panel</small></h1>
+<ol class="breadcrumb">
+	<li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+</ol>
+@endsection
 
-                <div class="panel-body">
-					Your Application's Landing Page.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+@section('content')
+
 @endsection

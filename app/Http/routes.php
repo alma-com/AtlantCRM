@@ -28,7 +28,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::auth();
 	
 	Route::group(['middleware' => ['auth']], function () {
-		Route::get('/', 'HomeController@index');
+		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+		Route::get('/example', function () {
+			return view('example');
+		});
 	});
 });
 
