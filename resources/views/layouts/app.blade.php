@@ -625,6 +625,8 @@
 	<!-- DataTables -->
 	{{ Html::script('AdminLTE-2.3.0/plugins/datatables/jquery.dataTables.min.js') }}
 	{{ Html::script('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.min.js') }}
+	<!-- iCheck -->
+	{{ Html::script('AdminLTE-2.3.0/plugins/iCheck/icheck.min.js') }}
     <!-- AdminLTE App -->
 	{{ Html::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
