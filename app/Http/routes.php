@@ -29,6 +29,8 @@ Route::group(['middleware' => ['web']], function () {
 	
 	Route::group(['middleware' => ['auth']], function () {
 		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+		Route::resource('users', 'UserController');
+		
 		Route::get('/example', function () {
 			return view('example');
 		});
@@ -36,3 +38,8 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 
+//use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Permission;
+
+//$role = Role::findByName('admin');
+//$role->givePermissionTo('add user');
