@@ -30,6 +30,8 @@
 	{{ Html::style('AdminLTE-2.3.0/plugins/daterangepicker/daterangepicker-bs3.css') }}
     <!-- bootstrap wysihtml5 - text editor -->
 	{{ Html::style('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
+	<!-- DataTables -->
+	{{ Html::style('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.css') }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -319,7 +321,7 @@
           <ul class="sidebar-menu">
             <li class="header">ИЗБРАННОЕ</li>
 			<li>
-				<a href="#"><i class="fa fa-users"></i> <span>Пользователи</span></a>
+				<a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>Пользователи</span></a>
             </li>
 			<li>
 				<a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
@@ -368,8 +370,50 @@
 		<section class="content-header">
 			@yield('content-header')
 		</section>
-		
-		@yield('content')
+				
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					@if (Session::has('error'))
+						<div class="alert alert-danger alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-ban"></i> Ошибка!</h4>
+							{{ Session::get('error') }}
+						</div>
+					@endif
+					
+					@if (Session::has('warning'))
+						<div class="alert alert-warning alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-warning"></i> Предупреждение!</h4>
+							{{ Session::get('warning') }}
+						</div>
+					@endif
+					
+					@if (Session::has('info'))
+						<div class="alert alert-info alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-info"></i> Информация!</h4>
+							{{ Session::get('info') }}
+						</div>
+					@endif
+					
+					@if (Session::has('success'))
+						<div class="alert alert-success alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-check"></i> Успешно!</h4>
+							{{ Session::get('success') }}
+						</div>
+					@endif
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					@yield('content')
+				</div>
+			</div>
+		</section>
 		
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
@@ -578,11 +622,15 @@
 	{{ Html::script('AdminLTE-2.3.0/plugins/slimScroll/jquery.slimscroll.min.js') }}
     <!-- FastClick -->
 	{{ Html::script('AdminLTE-2.3.0/plugins/fastclick/fastclick.min.js') }}
+	<!-- DataTables -->
+	{{ Html::script('AdminLTE-2.3.0/plugins/datatables/jquery.dataTables.min.js') }}
+	{{ Html::script('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.min.js') }}
     <!-- AdminLTE App -->
 	{{ Html::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 	{{ Html::script('AdminLTE-2.3.0/dist/js/pages/dashboard.js') }}
     <!-- AdminLTE for demo purposes -->
 	{{ Html::script('AdminLTE-2.3.0/dist/js/demo.js') }}
+	{{ Html::script('AdminLTE-2.3.0/dist/js/script.js') }}
 </body>
 </html>
