@@ -1,9 +1,42 @@
 /*
+* iCheck
+*/
+$('input[type="checkbox"]').iCheck({
+	checkboxClass: 'icheckbox_flat-blue',
+	radioClass: 'iradio_flat-blue'
+});
+
+
+
+/*
+* checkbox-toggle
+*/
+$(".checkbox-toggle").on('ifToggled', function () {
+	var clicks = $(this).data('clicks');
+	var name = $(this).data('name');
+	if (clicks) {
+		//Uncheck all checkboxes
+		$("input[name='"+name+"']").iCheck("uncheck");
+		$(".checkbox-toggle[data-name='"+name+"']").iCheck("uncheck");
+	} else {
+		//Check all checkboxes
+		$("input[name='"+name+"']").iCheck("check");
+		$(".checkbox-toggle[data-name='"+name+"']").iCheck("check");
+	}
+	$(this).data("clicks", !clicks);
+});
+
+
+
+/*
 *	DataTable
 */
 $(".data-table").DataTable({
 	"language": {"url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Russian.json"},
-	"pageLength": 25
+	"pageLength": 25,
+	"columnDefs": [{ targets: 'no-sort', orderable: false }],
+	"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Все"]],
+	stateSave: true
 });
 
 $(".data-table-small").DataTable({
@@ -14,32 +47,7 @@ $(".data-table-small").DataTable({
 	"searching": false,
 	"ordering": true,
 	"info": false,
-	"autoWidth": false
-});
-
-
-/*
-* iCheck
-*/
-$('input[type="checkbox"]').iCheck({
-	checkboxClass: 'icheckbox_flat-blue',
-	radioClass: 'iradio_flat-blue'
-});
-
-/*
-* checkbox-toggle
-*/
-$(".checkbox-toggle").click(function () {
-	var clicks = $(this).data('clicks');
-	var name = $(this).data('name');
-	if (clicks) {
-		//Uncheck all checkboxes
-		$("input[name='"+name+"']").iCheck("uncheck");
-		$(".checkbox-toggle[data-name='"+name+"']").find(".fa").removeClass("fa-check-square-o").addClass('fa-square-o');
-	} else {
-		//Check all checkboxes
-		$("input[name='"+name+"']").iCheck("check");
-		$(".checkbox-toggle[data-name='"+name+"']").find(".fa").removeClass("fa-square-o").addClass('fa-check-square-o');
-	}
-	$(this).data("clicks", !clicks);
+	"autoWidth": false,
+	"columnDefs": [{ targets: 'no-sort', orderable: false }],
+	stateSave: true
 });

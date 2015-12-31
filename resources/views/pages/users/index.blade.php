@@ -16,56 +16,50 @@
 	<div class="box-body">
 		@if(count($users) > 0)
 			
-			<div class="box-body no-padding">
-				<div class="mailbox-controls">
-					<button type="button" class="btn btn-default btn-sm checkbox-toggle" data-name="user[]"><i class="fa fa-square-o"></i></button>
-					<div class="btn-group">
-						<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
-						<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-					</div>
-				</div>
-			</div>
-		
-			@if(count($users) > 25)
-				<table class="data-table table table-bordered table-striped">
+
+
+			@if(count($users) > 25) 
+				<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
 			@else
-				<table class="data-table-small table table-bordered table-striped">
+			{{-- <table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'> --}}
+				<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
 			@endif
 				<thead>
-				<tr>
-					<th></th>
-					<th>Роль</th>
-					<th>E-mail</th>
-					<th>Фамилия</th>
-					<th>Имя</th>
-					<th>Отчество</th>
-					<th>Организация</th>
-				</tr>
+					<tr>
+						<th class="no-sort">
+							<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="user[]" value="">
+						</th>
+						<th>ФИО</th>
+						<th>E-mail</th>
+						<th>Роль</th>
+					</tr>
 				</thead>
 				<tbody>
-				@foreach($users as $user)
-				<tr>
-					<td><input type="checkbox" name="user[]" value="{{ $user->id }}"></td>
-					<td></td>
-					<td>{{ $user->email }}</td>
-					<td>{{ $user->name }}</td>
-					<td> </td>
-					<td></td>
-					<td></td>
-				</tr>
-				@endforeach
+					@foreach($users as $user)
+						<tr>
+							<td><input type="checkbox" name="user[]" value="{{ $user->id }}"></td>
+							<td><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></td>
+							<td>{{ $user->email }}</td>
+							<td></td>
+						</tr>
+					@endforeach
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="4">							
+							<div class="box-body no-padding">
+								<div>
+									<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="user[]" value="">
+									<div class="btn-group">
+										<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+										<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
-			
-			<div class="box-body no-padding">
-				<div class="mailbox-controls">
-					<button type="button" class="btn btn-default btn-sm checkbox-toggle" data-name="user[]"><i class="fa fa-square-o"></i></button>
-					<div class="btn-group">
-						<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
-						<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-					</div>
-				</div>
-			</div>
 			
 		@endif
 	</div>
