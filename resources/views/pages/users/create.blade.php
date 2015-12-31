@@ -87,12 +87,32 @@
 						@endif
 					</div>
 					
+					{{-- Пароль --}}
+					<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+						<label for="password">Пароль</label>
+						<input type="password" class="form-control" id="password" name="password">
+
+						@if ($errors->has('password'))
+							<span class="help-block"><strong>{{ $errors->first('password') }}</strong></span>
+						@endif
+					</div>
+					
+					{{-- Еще раз пароль --}}
+					<div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+						<label for="password_confirmation">Еще раз пароль</label>
+						<input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+
+						@if ($errors->has('password_confirmation'))
+							<span class="help-block"><strong>{{ $errors->first('password_confirmation') }}</strong></span>
+						@endif
+					</div>
+					
 				</div>
 				
 
 
 				<div class="box-footer">
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Добавить</button>
 				</div>
 			</form>
 		</div>

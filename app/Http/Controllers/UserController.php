@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Session;
+use Validator;
+
 use App\User;
 
 class UserController extends Controller
@@ -44,7 +46,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = array(
+            'name'       => 'required|max:255',
+            'email'      => 'required|unique:users|email|max:255',
+            'password' => 'required|max:255',
+            'password_confirmation' => 'required|max:255',
+        );
+		$validator = Validator::make($request->all(), $rules);
+		if($request->input('password') != $request->input('password_confirmation')){
+			$validator->after(function($validator){
+				$validator->errors()->add('password', 'Пароли не совпадают');
+			});
+		}
+		
+		if ($validator->fails()) {
+			 return redirect()->back()
+                ->withErrors($validator)
+				->withInput();
+		}else{
+			Session::flash('success', 'Пользователь успешно добавлен');
+            return redirect()->route('users.index');
+		}
+		
+		
     }
 
     /**
