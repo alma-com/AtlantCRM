@@ -14,6 +14,8 @@ use App\User;
 
 class UserController extends Controller
 {
+	
+	
     /**
      * Display a listing of the resource.
      *
@@ -50,14 +52,10 @@ class UserController extends Controller
             'name'       => 'required|max:255',
             'email'      => 'required|unique:users|email|max:255',
             'password' => 'required|max:255',
-            'password_confirmation' => 'required|max:255',
+            'password_confirmation' => 'required|same:password',
         );
 		$validator = Validator::make($request->all(), $rules);
-		if($request->input('password') != $request->input('password_confirmation')){
-			$validator->after(function($validator){
-				$validator->errors()->add('password', 'Пароли не совпадают');
-			});
-		}
+
 		
 		if ($validator->fails()) {
 			 return redirect()->back()
