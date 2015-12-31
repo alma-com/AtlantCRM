@@ -1,0 +1,5 @@
+.table-controls .btn-group{
+	padding-left:10px;
+}
+
+table.dataTable thead > tr > th.no-sort{padding-right: 0px;}

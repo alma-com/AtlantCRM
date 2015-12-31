@@ -34,7 +34,7 @@ $(".checkbox-toggle").on('ifToggled', function () {
 $(".data-table").DataTable({
 	"language": {"url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Russian.json"},
 	"pageLength": 25,
-	"columnDefs": [{ targets: 'no-sort', orderable: false }],
+	"columnDefs": [{ targets: 'no-sort', orderable: false, width: "20px" }],
 	"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Все"]],
 	stateSave: true
 });
@@ -48,6 +48,6 @@ $(".data-table-small").DataTable({
 	"ordering": true,
 	"info": false,
 	"autoWidth": false,
-	"columnDefs": [{ targets: 'no-sort', orderable: false }],
+	"columnDefs": [{ targets: 'no-sort', orderable: false, width: "20px" }],
 	stateSave: true
 });

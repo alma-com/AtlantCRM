@@ -21,8 +21,7 @@
 			@if(count($users) > 25) 
 				<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
 			@else
-			{{-- <table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'> --}}
-				<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
+				<table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'>
 			@endif
 				<thead>
 					<tr>
@@ -48,7 +47,7 @@
 					<tr>
 						<td colspan="4">							
 							<div class="box-body no-padding">
-								<div>
+								<div class="table-controls">
 									<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="user[]" value="">
 									<div class="btn-group">
 										<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
