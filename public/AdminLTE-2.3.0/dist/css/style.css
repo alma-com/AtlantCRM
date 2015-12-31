@@ -2,4 +2,11 @@
 	padding-left:10px;
 }
 
-table.dataTable thead > tr > th.no-sort{padding-right: 0px;}
+table.dataTable thead > tr > th.no-sort{
+	padding-right: 0px;
+}
+
+.alert ul{
+	list-style-type: none;
+    padding-left: 0px;
+}

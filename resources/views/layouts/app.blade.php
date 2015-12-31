@@ -8,33 +8,33 @@
 
     <title>Laravel</title>
 	<!-- Bootstrap 3.3.5 -->
-	{{ Html::style('AdminLTE-2.3.0/bootstrap/css/bootstrap.min.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/bootstrap/css/bootstrap.min.css') }}
 	<!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	    <!-- Theme style -->
-	{{ Html::style('AdminLTE-2.3.0/dist/css/AdminLTE.min.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/dist/css/AdminLTE.min.css') }}
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-	{{ Html::style('AdminLTE-2.3.0/dist/css/skins/_all-skins.min.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/dist/css/skins/_all-skins.min.css') }}
 	<!-- iCheck -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/iCheck/flat/blue.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/iCheck/flat/blue.css') }}
     <!-- Morris chart -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/morris/morris.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/morris/morris.css') }}
     <!-- jvectormap -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}
     <!-- Date Picker -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/datepicker/datepicker3.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/datepicker/datepicker3.css') }}
     <!-- Daterange picker -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/daterangepicker/daterangepicker-bs3.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/daterangepicker/daterangepicker-bs3.css') }}
     <!-- bootstrap wysihtml5 - text editor -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
 	<!-- DataTables -->
-	{{ Html::style('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.css') }}
 	
 
-	{{ Html::style('AdminLTE-2.3.0/dist/css/style.css') }}
+	{{ HTML::style('AdminLTE-2.3.0/dist/css/style.css') }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -594,7 +594,7 @@
     </div><!-- ./wrapper -->
 	
 	<!-- jQuery 2.1.4 -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/jQuery/jQuery-2.1.4.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/jQuery/jQuery-2.1.4.min.js') }}
 
     <!-- jQuery UI 1.11.4 -->
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -603,39 +603,39 @@
       $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 3.3.5 -->
-	{{ Html::script('AdminLTE-2.3.0/bootstrap/js/bootstrap.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/bootstrap/js/bootstrap.min.js') }}
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-	{{ Html::script('AdminLTE-2.3.0/plugins/morris/morris.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/morris/morris.min.js') }}
     <!-- Sparkline -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/sparkline/jquery.sparkline.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/sparkline/jquery.sparkline.min.js') }}
     <!-- jvectormap -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}
-	{{ Html::script('AdminLTE-2.3.0/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}
     <!-- jQuery Knob Chart -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/knob/jquery.knob.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/knob/jquery.knob.js') }}
     <!-- daterangepicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-	{{ Html::script('AdminLTE-2.3.0/plugins/daterangepicker/daterangepicker.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/daterangepicker/daterangepicker.js') }}
     <!-- datepicker -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/datepicker/bootstrap-datepicker.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/datepicker/bootstrap-datepicker.js') }}
     <!-- Bootstrap WYSIHTML5 -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
     <!-- Slimscroll -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/slimScroll/jquery.slimscroll.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/slimScroll/jquery.slimscroll.min.js') }}
     <!-- FastClick -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/fastclick/fastclick.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/fastclick/fastclick.min.js') }}
 	<!-- DataTables -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/datatables/jquery.dataTables.min.js') }}
-	{{ Html::script('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/datatables/jquery.dataTables.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.min.js') }}
 	<!-- iCheck -->
-	{{ Html::script('AdminLTE-2.3.0/plugins/iCheck/icheck.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/plugins/iCheck/icheck.min.js') }}
     <!-- AdminLTE App -->
-	{{ Html::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-	{{ Html::script('AdminLTE-2.3.0/dist/js/pages/dashboard.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/dist/js/pages/dashboard.js') }}
     <!-- AdminLTE for demo purposes -->
-	{{ Html::script('AdminLTE-2.3.0/dist/js/demo.js') }}
-	{{ Html::script('AdminLTE-2.3.0/dist/js/script.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/dist/js/demo.js') }}
+	{{ HTML::script('AdminLTE-2.3.0/dist/js/script.js') }}
 </body>
 </html>

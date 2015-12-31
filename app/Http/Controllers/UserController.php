@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 
 use Session;
 use Validator;
+use HTML;
+use Hash;
 
 use App\User;
 
@@ -51,17 +53,25 @@ class UserController extends Controller
         $rules = array(
             'name'       => 'required|max:255',
             'email'      => 'required|unique:users|email|max:255',
-            'password' => 'required|max:255',
+            'password' => 'required|min:6|max:255',
             'password_confirmation' => 'required|same:password',
         );
 		$validator = Validator::make($request->all(), $rules);
 
 		
 		if ($validator->fails()) {
+			Session::flash('warning', HTML::ul($validator->errors()->all()));
 			 return redirect()->back()
                 ->withErrors($validator)
 				->withInput();
 		}else{
+			
+			$user = new User;
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+            $user->password = Hash::make($request->get('password'));
+            $user->save();
+			
 			Session::flash('success', 'Пользователь успешно добавлен');
             return redirect()->route('users.index');
 		}
