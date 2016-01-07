@@ -37,9 +37,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-		return view('pages.users.create');
+		if($request->ajax()){
+			return view('pages.users.create_ajax');
+		}else{
+			return view('pages.users.create');
+		}
     }
 
     /**

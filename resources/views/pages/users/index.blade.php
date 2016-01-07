@@ -9,18 +9,20 @@
 @endsection
 
 
-@section('content')
+@section('content')				
+<div class="btn-group margin-bottom">
+	<a href="{{ route('users.create') }}" class="btn btn-success ajax" data-content="ajax-create-user">Добавить пользователя</a>
+</div>
 
+<div class="row ajax-create-user"></div>
 
 <div class="row">
 	<div class="col-md-12">
 		<div class="box">
-			<div class="box-body">
-				
-				<div class="btn-group margin-bottom">
-					<a href="{{ route('users.create') }}" class="btn btn-success">Добавить пользователя</a>
-				</div>
-			
+			<div class="box-header">
+              <h3 class="box-title">Список пользователей</h3>
+            </div>
+			<div class="box-body">			
 				@if(count($users) > 0)
 					@if(count($users) > 25) 
 						<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
@@ -70,10 +72,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
-
 </div>
-
 
 @endsection

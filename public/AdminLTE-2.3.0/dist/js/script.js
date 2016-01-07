@@ -4,6 +4,30 @@
 $(document).ajaxStart(function() {
 	Pace.restart();
 });
+$('.ajax').click(function(event){
+	event.preventDefault();
+	
+	var url = $(this).attr('href') || $(this).attr('data-url');		//URL
+	var method = $(this).attr('data-method') || 'GET';			//Метод POST или GET
+	var content = $(this).attr('data-content') || '';				//Контейнер в который вставится результат
+
+	if(url && method && content){
+		$.ajax({
+			url: url,
+			type: method,
+			data: {
+				'_token' : $('meta[name="csrf-token"]').attr('content')
+			},
+			success: function(result){
+				$('.'+content).html(result);
+			}
+		});
+	}else{
+		if(!url){alert = 'Нет url';}
+		if(!method){alert = 'Нет method';}
+		if(!content){alert = 'Нет content';}
+	}
+});
 
 
 
