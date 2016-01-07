@@ -39,10 +39,12 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
+		$view = view('pages.users.create');
 		if($request->ajax()){
-			return view('pages.users.create_ajax');
+			$sections = $view->renderSections();
+			return $sections['content'];
 		}else{
-			return view('pages.users.create');
+			return $view;
 		}
     }
 

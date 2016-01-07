@@ -14,7 +14,7 @@
 	<a href="{{ route('users.create') }}" class="btn btn-success ajax" data-content="ajax-create-user">Добавить пользователя</a>
 </div>
 
-<div class="row ajax-create-user"></div>
+<div class="ajax-create-user"></div>
 
 <div class="row">
 	<div class="col-md-12">
