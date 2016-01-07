@@ -32,6 +32,8 @@
 	{{ HTML::style('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
 	<!-- DataTables -->
 	{{ HTML::style('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.css') }}
+	<!-- Pace style -->
+	{{ HTML::style('AdminLTE-2.3.0/plugins/pace/pace.min.css') }}
 	
 
 	{{ HTML::style('AdminLTE-2.3.0/dist/css/style.css') }}
@@ -630,6 +632,8 @@
 	{{ HTML::script('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.min.js') }}
 	<!-- iCheck -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/iCheck/icheck.min.js') }}
+	<!-- PACE -->
+	{{ HTML::script('AdminLTE-2.3.0/plugins/pace/pace.js') }}
     <!-- AdminLTE App -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

@@ -1,4 +1,13 @@
 /*
+* ajaxStart
+*/
+$(document).ajaxStart(function() {
+	Pace.restart();
+});
+
+
+
+/*
 * iCheck
 */
 $('input[type="checkbox"]').iCheck({
