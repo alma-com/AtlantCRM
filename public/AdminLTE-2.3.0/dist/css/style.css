@@ -36,7 +36,44 @@ table.dataTable thead > tr > th.no-sort{
 	padding-right: 0px;
 }
 
+th{
+	font-family: "SourceSansProBold";
+	font-weight: normal;
+}
+
 .alert ul{
 	list-style-type: none;
     padding-left: 0px;
+}
+
+body {
+	 font-family: 'SourceSansProRegular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+label{
+	font-family: "SourceSansProBold";
+	font-weight: normal;
+}
+
+/* H1 - H6 font */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: 'SourceSansProRegular', sans-serif;
+}
+
+
+.control-sidebar-subheading{
+	font-family: "SourceSansProRegular";
+	font-weight: normal;
 }
