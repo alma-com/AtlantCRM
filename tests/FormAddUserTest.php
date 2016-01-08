@@ -51,16 +51,20 @@ class FormTest extends TestCase
 	*/
     public function validTest($arr)
     {
+		$name = $arr['faker']->name;
+		$email = $arr['faker']->email;
 		$password = $arr['faker']->lexify('??????');
 		
 		$this->actingAs($arr['user'])
 			->visit($arr['url'])
-				->type($arr['faker']->name, 'name')
-				->type($arr['faker']->email, 'email')
+				->type($name, 'name')
+				->type($email, 'email')
 				->type($password, 'password')
 				->type($password, 'password_confirmation')
 				->press($arr['press'])
 				->seePageIs($arr['url_ok']);
+		
+		$this->seeInDatabase('users', ['email' => $email, 'name' => $name]);
     }
 	
 	
