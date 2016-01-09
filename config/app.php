@@ -161,6 +161,7 @@ return [
 		*/
 		Collective\Html\HtmlServiceProvider::class,
 		Spatie\Permission\PermissionServiceProvider::class,
+		Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -208,8 +209,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 		
+		/*
+		* Extra
+		*/
 		'Form' => Collective\Html\FormFacade::class,
 		'HTML' => Collective\Html\HtmlFacade::class,
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
