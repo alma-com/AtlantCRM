@@ -162,6 +162,7 @@ return [
 		Collective\Html\HtmlServiceProvider::class,
 		Spatie\Permission\PermissionServiceProvider::class,
 		Barryvdh\Debugbar\ServiceProvider::class,
+		Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -215,6 +216,7 @@ return [
 		'Form' => Collective\Html\FormFacade::class,
 		'HTML' => Collective\Html\HtmlFacade::class,
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+		'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 
