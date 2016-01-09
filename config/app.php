@@ -163,6 +163,7 @@ return [
 		Spatie\Permission\PermissionServiceProvider::class,
 		Barryvdh\Debugbar\ServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
+		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 
@@ -217,6 +218,7 @@ return [
 		'HTML' => Collective\Html\HtmlFacade::class,
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 		'PDF' => Barryvdh\DomPDF\Facade::class,
+		'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
 
     ],
 
