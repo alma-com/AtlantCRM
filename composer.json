@@ -12,7 +12,8 @@
         "barryvdh/laravel-debugbar": "^2.1",
         "barryvdh/laravel-dompdf": "^0.6.1",
         "greggilbert/recaptcha": "dev-master",
-        "creativeorange/gravatar": "~1.0"
+        "creativeorange/gravatar": "~1.0",
+        "intervention/image": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
