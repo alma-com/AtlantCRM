@@ -164,6 +164,7 @@ return [
 		Barryvdh\Debugbar\ServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
 		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+		Creativeorange\Gravatar\GravatarServiceProvider::class,
 
     ],
 
@@ -219,6 +220,7 @@ return [
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 		'PDF' => Barryvdh\DomPDF\Facade::class,
 		'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+		'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
 
     ],
 
