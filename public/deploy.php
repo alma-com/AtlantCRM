@@ -12,6 +12,9 @@
 		'git commit -m "---server commit---"',
 		'git pull -X theirs origin master',
 		'git status',
+		'php artisan migrate',
+		'composer install',
+		'php artisan vendor:publish',
 	);
 	// Run the commands for output
 	$output = '';
