@@ -27,30 +27,40 @@ $(document).ajaxStart(function() {
 /*
 * Ajax загрузка страницы по url
 */
-function setPage(page, popstate){	
-	$.get(page, function(data){
-		var title = document.title;
-		var content = '';
-		var content_header = '';
-		
-		if(data.hasOwnProperty('title')){title = data['title'];}
-		if(data.hasOwnProperty('content')){content = data['content'];}
-		if(data.hasOwnProperty('content-header')){content_header = data['content-header'];}
+function setPage(page, popstate){
+	$.ajax({
+		url: page,
+		type: 'GET',
+		data: {
+			'_token' : $('meta[name="csrf-token"]').attr('content')
+		},
+		success: function(data){
+			var title = document.title;
+			var content = '';
+			var content_header = '';
+			
+			if(data.hasOwnProperty('title')){title = data['title'];}
+			if(data.hasOwnProperty('content')){content = data['content'];}
+			if(data.hasOwnProperty('content-header')){content_header = data['content-header'];}
 
-		
-		document.title = title;
-		$("#ajax-content").html(content);
-		$('.content-header').html(content_header);
-		
-		initAjaxClass();
-		initiCheck();
-		initiCheckboxToggle();
-		initDataTable();
-		
-		if(!popstate){
-			history.pushState({page: page, type: "page"}, title, page);
-		}        
-	})  
+			
+			document.title = title;
+			$("#ajax-content").html(content);
+			$('.content-header').html(content_header);
+			
+			initAjaxClass();
+			initiCheck();
+			initiCheckboxToggle();
+			initDataTable();
+			
+			if(!popstate){
+				history.pushState({page: page, type: "page"}, title, page);
+			} 
+		},
+		error: function() {
+			alert('Произошла ошибка!');
+		}
+	});
 }
 
 
