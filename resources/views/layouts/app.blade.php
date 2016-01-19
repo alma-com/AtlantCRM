@@ -6,7 +6,7 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Laravel</title>
+    <title>@yield('title', 'Атлант')</title>
 	<!-- Bootstrap 3.3.5 -->
 	{{ HTML::style('AdminLTE-2.3.0/bootstrap/css/bootstrap.min.css') }}
 	<!-- Font Awesome -->
@@ -376,7 +376,7 @@
 			@yield('content-header')
 		</section>
 				
-		<section class="content">
+		<section class="content" id="ajax-content">
 			<div class="row">
 				<div class="col-xs-12">
 					@if (Session::has('error'))

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Атлант - Добавление пользоавтеля
+@endsection
+
 @section('content-header')
 <h1>Пользователи<small>системы</small></h1>
 <ol class="breadcrumb">

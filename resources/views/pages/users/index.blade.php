@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Атлант - Пользователи системы
+@endsection
+
 @section('content-header')
 <h1>Пользователи<small>системы</small></h1>
 <ol class="breadcrumb">
@@ -11,7 +15,7 @@
 
 @section('content')				
 <div class="btn-group margin-bottom">
-	<a href="{{ route('users.create') }}" class="btn btn-success ajax" data-content="ajax-create-user">Добавить пользователя</a>
+	<a href="{{ route('users.create') }}" class="btn btn-success" >Добавить пользователя</a>
 </div>
 
 <div class="ajax-create-user"></div>

@@ -9,7 +9,7 @@ $('.ajax').click(function(event){
 	
 	var url = $(this).attr('href') || $(this).attr('data-url');		//URL
 	var method = $(this).attr('data-method') || 'GET';			//Метод POST или GET
-	var content = $(this).attr('data-content') || '';				//Контейнер в который вставится результат
+	var content = $(this).attr('data-content') || 'ajax-content';		//Контейнер в который вставится результат
 
 	if(url && method && content){
 		$.ajax({
@@ -28,6 +28,48 @@ $('.ajax').click(function(event){
 		if(!content){alert = 'Нет content';}
 	}
 });
+
+
+
+/*
+* AJAX click
+*/
+function setPage(page, popstate){
+	$wrap = $("#ajax-content");
+	
+	$.get(page, function(data){
+		var title = document.title;
+		var content = '';
+		var content_header = '';
+		
+		if(data.hasOwnProperty('title')){title = data['title'];}
+		if(data.hasOwnProperty('content')){content = data['content'];}
+		if(data.hasOwnProperty('content-header')){content_header = data['content-header'];}
+
+		
+		document.title = title;
+		$wrap.html(content);
+		$('.content-header').html(content_header);
+		
+		if(!popstate){
+			history.pushState({page: page, type: "page"}, title, page);
+		}        
+	})  
+}
+
+
+if (history.pushState) {
+	history.pushState({page: window.location.pathname, type: "page"}, document.title, window.location.pathname);
+	 
+	window.addEventListener('popstate', function(e){
+		setPage(e.state.page, 'popstate');
+	}, false);
+	
+	$(document).on('click','a:not(.no-ajax)',function(e){
+		setPage($(this).attr('href'));
+		return false;
+	});
+}
 
 
 

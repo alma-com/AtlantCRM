@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+
+@section('title')
+	Атлант
+@endsection
+
+
 @section('content-header')
 <h1>Атлант<small>Система поддержки сайтов</small></h1>
 <ol class="breadcrumb">

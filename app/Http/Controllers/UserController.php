@@ -29,7 +29,8 @@ class UserController extends Controller
 		if(count($users) == 0){
 			Session::flash('warning', 'Пользователей нет');
 		}
-        return view('pages.users.index')->with('users', $users);
+
+		return view('pages.users.index')->with('users', $users);
     }
 
     /**
@@ -39,13 +40,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-		$view = view('pages.users.create');
-		if($request->ajax()){
-			$sections = $view->renderSections();
-			return $sections['content'];
-		}else{
-			return $view;
-		}
+		return view('pages.users.create');
     }
 
     /**
