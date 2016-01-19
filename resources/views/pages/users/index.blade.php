@@ -15,10 +15,11 @@
 
 @section('content')				
 <div class="btn-group margin-bottom">
-	<a href="{{ route('users.create') }}" class="btn btn-success" >Добавить пользователя</a>
+	<a href="{{ route('users.create') }}" class="btn btn-info">
+		<i class="fa fa-btn fa-plus"></i>
+		Добавить пользователя
+	</a>
 </div>
-
-<div class="ajax-create-user"></div>
 
 <div class="row">
 	<div class="col-md-12">

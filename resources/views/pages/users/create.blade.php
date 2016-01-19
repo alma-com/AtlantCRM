@@ -5,7 +5,7 @@
 @endsection
 
 @section('content-header')
-<h1>Пользователи<small>системы</small></h1>
+<h1>Добавление пользователя<small>системы</small></h1>
 <ol class="breadcrumb">
 	<li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Атлант</a></li>
 	<li><a href="{{ route('users.index') }}">Пользователи</a></li>
@@ -15,6 +15,13 @@
 
 
 @section('content')
+<div class="btn-group margin-bottom">
+	<a href="{{ route('users.index') }}" class="btn btn-info">
+		<i class="fa fa-btn fa-users"></i>
+		Список пользователей
+	</a>
+</div>
+
 <div class="row">
 	<div class="col-md-8">
 		<div class="box box-primary">
