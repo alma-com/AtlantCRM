@@ -82,3 +82,7 @@ label{
 	font-family: "SourceSansProRegular";
 	font-weight: normal;
 }
+
+.btn .fa{
+	padding-right: 4px;
+}
