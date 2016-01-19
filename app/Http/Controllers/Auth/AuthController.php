@@ -74,4 +74,23 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+	
+	
+	/*
+	* Форма регистрации. 
+	* Если нужно вернуть стандартный функционал просто удалите эту функцию
+	*/
+	public function showRegistrationForm()
+	{
+		return abort(404);
+	}
+	
+	/*
+	* Регистрация пользователя. 
+	* Если нужно вернуть стандартный функционал просто удалите эту функцию
+	*/
+	public function register()
+	{
+		return abort(404);
+	}
 }
