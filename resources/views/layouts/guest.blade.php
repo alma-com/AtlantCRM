@@ -30,6 +30,8 @@
 	{{ HTML::style('AdminLTE-2.3.0/plugins/daterangepicker/daterangepicker-bs3.css') }}
     <!-- bootstrap wysihtml5 - text editor -->
 	{{ HTML::style('AdminLTE-2.3.0/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
+	
+	{{ HTML::style('AdminLTE-2.3.0/dist/css/style.css') }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

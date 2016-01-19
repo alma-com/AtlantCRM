@@ -47,14 +47,10 @@ th{
 }
 
 body {
-	 font-family: 'SourceSansProRegular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: 'SourceSansProRegular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 
-label{
-	font-family: "SourceSansProBold";
-	font-weight: normal;
-}
 
 /* H1 - H6 font */
 h1,
@@ -72,6 +68,15 @@ h6,
   font-family: 'SourceSansProRegular', sans-serif;
 }
 
+b, strong{
+	font-family: 'SourceSansProBold';
+	font-weight:normal;
+}
+
+label{
+	font-family: "SourceSansProRegular";
+	font-weight: normal;
+}
 
 .control-sidebar-subheading{
 	font-family: "SourceSansProRegular";
