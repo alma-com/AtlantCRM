@@ -23,14 +23,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 		$users = User::all();
 		if(count($users) == 0){
 			Session::flash('warning', 'Пользователей нет');
 		}
-
-		return view('pages.users.index')->with('users', $users);
+		
+		$view = view('pages.users.index')->with('users', $users);
+		if($request->ajax()){
+			return $view->renderSections();
+		}
+		return $view;
     }
 
     /**
@@ -40,7 +44,11 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-		return view('pages.users.create');
+		$view = view('pages.users.create');
+		if($request->ajax()){
+			return $view->renderSections();
+		}
+		return $view;
     }
 
     /**

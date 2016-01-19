@@ -27,7 +27,7 @@
 Route::group(['middleware' => ['web']], function () {
     Route::auth();
 	
-	Route::group(['middleware' => ['auth', 'ajax']], function () {
+	Route::group(['middleware' => ['auth']], function () {
 		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 		Route::resource('users', 'UserController');
 		
