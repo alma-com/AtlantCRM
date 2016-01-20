@@ -11,6 +11,7 @@ use Session;
 use Validator;
 use HTML;
 use Hash;
+use Response;
 
 use App\User;
 
@@ -59,6 +60,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+		$res = array();
         $rules = array(
             'name'       => 'required|max:255',
             'email'      => 'required|unique:users|email|max:255',
@@ -67,25 +69,37 @@ class UserController extends Controller
         );
 		$validator = Validator::make($request->all(), $rules);
 
-
 		if ($validator->fails()) {
-			Session::flash('warning', HTML::ul($validator->errors()->all()));
-			 return redirect()->back()
-                ->withErrors($validator)
-				->withInput();
-		}else{
-
+			$res = array(
+				'status' => 'warning',
+				'message' => (string) HTML::ul($validator->errors()->all())
+			);
+		}else{		
 			$user = new User;
             $user->name = $request->get('name');
             $user->email = $request->get('email');
             $user->password = Hash::make($request->get('password'));
             $user->save();
-
-			Session::flash('success', 'Пользователь успешно добавлен');
-            return redirect()->route('users.index');
+			
+			$res = array(
+				'status' => 'success',
+				'message' => 'Пользователь успешно добавлен',
+				'url' => route('users.index')
+			);	
+		}
+			
+		if($request->ajax()){
+			return Response::json($res);
+		}
+			
+		Session::flash($res['status'], $res['message']);		
+		if($validator->fails()) {
+			 return redirect()->back()
+                ->withErrors($validator)
+				->withInput();
 		}
 
-
+		return redirect($res['url']);
     }
 
     /**

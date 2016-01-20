@@ -79,6 +79,31 @@ if (history.pushState) {
 
 
 
+/*
+* ajax form
+*/
+$("form").submit(function(){
+	event.preventDefault();
+	
+	var url = $(this).attr('action');
+	var method = $(this).attr('method');
+	var data = $(this).serializeArray();
+	
+	$.ajax({
+		url: url,
+		type: method,
+		data: data,
+		success: function(data){
+			console.log(data);
+		},
+		error: function() {
+			alert('Произошла ошибка!');
+		}
+	});
+	
+});
+
+
 
 /*
 * initAjaxClass клик на ссылку с классом ajax
