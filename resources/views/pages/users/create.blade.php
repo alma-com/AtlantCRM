@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Атлант - Добавление пользоавтеля
+	Атлант - Добавление пользователя
 @endsection
 
 @section('content-header')
