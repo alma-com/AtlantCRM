@@ -595,6 +595,11 @@
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 	
+	
+	@include('modals.confirm')
+	
+	
+	
 	<!-- jQuery 2.1.4 -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/jQuery/jQuery-2.1.4.min.js') }}
 
@@ -634,10 +639,17 @@
 	{{ HTML::script('AdminLTE-2.3.0/plugins/iCheck/icheck.min.js') }}
 	<!-- PACE -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/pace/pace.js') }}
+	
+	
+	<!-- notie -->
+	{{ HTML::script('AdminLTE-2.3.0/plugins/notie/notie.js') }}
+	
+	
     <!-- AdminLTE App -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/pages/dashboard.js') }}
+	
     <!-- AdminLTE for demo purposes -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/demo.js') }}
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/script.js') }}

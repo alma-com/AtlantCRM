@@ -28,7 +28,7 @@
 			<div class="box-header with-border">
 				<h3 class="box-title">Добавление пользователя</h3>
 			</div>
-			<form id="form-admin" role="form" method="POST" action="{{ route('users.store') }}">
+			<form id="form-admin" role="form" method="POST" action="{{ route('users.store') }}" data-confirm="Вы действительно хотите добавить пользователя?">
 				{!! csrf_field() !!}
 			
 				<div class="box-body">
@@ -84,7 +84,7 @@
 				</div>
 		
 				<div class="box-footer">
-					<button type="submit" class="btn btn-primary" name="create_user">Добавить</button>
+					<button type="submit" class="btn btn-primary" name="create_user" >Добавить</button>
 				</div>
 			</form>
 		</div> 

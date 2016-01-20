@@ -82,26 +82,65 @@ if (history.pushState) {
 /*
 * ajax form
 */
-$("form").submit(function(){
+$("form:not(.no-ajax)").submit(function(){
 	event.preventDefault();
+	
+	$wrapConfirm = $('#confirmModal');
 	
 	var url = $(this).attr('action');
 	var method = $(this).attr('method');
 	var data = $(this).serializeArray();
+	var confirm = $(this).attr('data-confirm') || '';
 	
+	if(confirm != ''){
+		
+		// Перед открыванием модального окна
+		$wrapConfirm.on('show.bs.modal', function (event) {
+			$(this).find('.modal-body').html(confirm);
+			$(this).unbind('show.bs.modal');
+		});
+		
+		// Когда модальное окно видно
+		$wrapConfirm.on('shown.bs.modal', function (event) {
+			$(this).find(':submit').focus();
+			$(this).unbind('shown.bs.modal');
+		});
+		
+		// При ражатии на кнопку ок
+		$wrapConfirm.find("form").submit(function () {
+			event.preventDefault();
+			$wrapConfirm.modal('hide');
+			ajaxForm(url, method, data);
+			$(this).unbind('submit');
+		});
+		$wrapConfirm.modal('show');
+		return false;
+	}
+	
+	ajaxForm(url, method, data);
+	
+});
+
+
+
+/*
+* Отправка формы через ajax
+*/
+function ajaxForm(url, method, data){
 	$.ajax({
 		url: url,
 		type: method,
 		data: data,
 		success: function(data){
+			
+			notie.alert(1, data.message, 1.5);
 			console.log(data);
 		},
 		error: function() {
 			alert('Произошла ошибка!');
 		}
 	});
-	
-});
+}
 
 
 
@@ -194,4 +233,3 @@ function initDataTable(){
 		stateSave: true
 	});
 }
-
