@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	initAjaxClass();
 	initAjaxForm();
+	initRemoveError();
 	initiCheck();
 	initiCheckboxToggle();
 	initDataTable();
@@ -48,9 +49,11 @@ function setPage(page, popstate){
 			document.title = title;
 			$("#ajax-content").html(content);
 			$('.content-header').html(content_header);
+			scrollTo();
 			
 			initAjaxClass();
 			initAjaxForm();
+			initRemoveError();
 			initiCheck();
 			initiCheckboxToggle();
 			initDataTable();
@@ -83,19 +86,62 @@ if (history.pushState) {
 
 /*
 * Отправка формы через ajax
+* 	data {
+* 		'status': 'success|warning|error|info|',
+* 		'message': 'Краткий текст сообщения',
+* 		'description': 'Подробный текст сообщения',
+* 		'errFields': {
+*			'name' : {'Поле "Имя" обязательно для заполнения.'}
+*		},
+* 		'url': '/url/to/redirect',
+* 	}
+*
 */
-function ajaxForm(url, method, data){
+function ajaxForm($form){
+	var url = $form.attr('action');
+	var method = $form.attr('method');
+	var data = $form.serializeArray();
+
 	$.ajax({
 		url: url,
 		type: method,
 		data: data,
 		success: function(data){
+			if(data.hasOwnProperty('url')){
+				setPage(data.url);
+			}
 			
-			notie.alert(1, data.message, 1.5);
-			console.log(data);
+			if(data.hasOwnProperty('description')){
+				scrollTo();
+				$('#content-alert').hide(0);
+				$('#content-alert').html(data.description);
+				$('#content-alert').delay(300).slideDown(300);
+			}
+			
+			if(data.hasOwnProperty('errFields')){
+				$.each(data.errFields, function(index, value) {
+					$form.find(':input[name="'+index+'"]').closest('.form-group').addClass('has-error');
+				});
+			}
+				
+					
+			switch (data.status) {
+				case 'success':
+					notie.alert(1, data.message.toString(), 1.5);
+				break
+				case 'info':
+					notie.alert(4, data.message.toString(), 1.5);
+				break
+				case 'warning':
+				case 'error':
+					notie.alert(3, data.message, 1.5);
+				break
+				default:
+					notie.alert(1, data.message.toString(), 1.5);
+			}
 		},
 		error: function() {
-			alert('Произошла ошибка!');
+			notie.alert(3, 'Произошла ошибка', 1.5);
 		}
 	});
 }
@@ -111,10 +157,8 @@ function initAjaxForm(){
 		
 		$wrapConfirm = $('#confirmModal');
 		
-		var url = $(this).attr('action');
-		var method = $(this).attr('method');
-		var data = $(this).serializeArray();
-		var confirm = $(this).attr('data-confirm') || '';
+		var $form = $(this);
+		var confirm = $form.attr('data-confirm') || '';
 		
 		if(confirm != ''){
 			
@@ -130,18 +174,18 @@ function initAjaxForm(){
 				$(this).unbind('shown.bs.modal');
 			});
 			
-			// При ражатии на кнопку ок
+			// При нажатии на кнопку ок
 			$wrapConfirm.find("form").submit(function () {
 				event.preventDefault();
 				$wrapConfirm.modal('hide');
-				ajaxForm(url, method, data);
+				ajaxForm($form);
 				$(this).unbind('submit');
 			});
 			$wrapConfirm.modal('show');
 			return false;
 		}
 		
-		ajaxForm(url, method, data);
+		ajaxForm($form);
 	});
 }
 
@@ -236,3 +280,28 @@ function initDataTable(){
 		stateSave: true
 	});
 }
+
+
+//При фокусе убрать красную обводку
+function initRemoveError(){
+	$(':input').on('focus', function() {
+		$(this).closest('.form-group').removeClass('has-error');
+	});
+}
+
+
+
+/*
+* Скролл к элементу
+*/
+function scrollTo($elem){
+	var offset = 0;
+	if($elem){
+		offset = $elem.offset().top/1 + 100;
+	}
+	var body = $("html, body");
+	body.stop().animate({scrollTop: offset}, '300', 'swing');
+}
+
+
+
