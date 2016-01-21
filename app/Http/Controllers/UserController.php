@@ -69,39 +69,40 @@ class UserController extends Controller
         );
 		$validator = Validator::make($request->all(), $rules);
 		
-		// fails
-		if ($validator->fails()) {			
-			$res = array(
-				'status' => 'warning',
-				'message' => 'Не удалось добавить пользователя',
-				'errFields' => $validator->messages(),
-			);
+		//Array Status
+		$resOk = array(
+			'status' => 'success',
+			'message' => 'Пользователь успешно добавлен',
+			'url' => route('users.index'),
+		);
+		$resFail = array(
+			'status' => 'warning',
+			'message' => 'Не удалось добавить пользователя',
+		);
+		$res = getArrayStatus($resOk, $resFail, $validator);
 			
-			Session::flash($res['status'], HTML::ul($validator->errors()->all()));
+		
+		// Fails
+		if ($validator->fails()) {
 			if($request->ajax()){
-				$res['description'] = (string) view('common.alert');
-				Session::forget($res['status']);
 				return Response::json($res);
 			}
 			
+			Session::flash($res['status'], HTML::ul($validator->errors()->all()));
 			 return redirect()->back()
                 ->withErrors($validator)
 				->withInput();
 		}
 		
 		
-		// success
+		// Success
 		$user = new User;
 		$user->name = $request->get('name');
 		$user->email = $request->get('email');
 		$user->password = Hash::make($request->get('password'));
 		$user->save();
 		
-		$res = array(
-			'status' => 'success',
-			'message' => 'Пользователь успешно добавлен',
-			'url' => route('users.index'),
-		);
+
 		if($request->ajax()){
 			return Response::json($res);
 		}
