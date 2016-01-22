@@ -12,6 +12,7 @@ use Validator;
 use HTML;
 use Hash;
 use Response;
+use Alma;
 
 use App\User;
 
@@ -79,7 +80,7 @@ class UserController extends Controller
 			'status' => 'warning',
 			'message' => 'Не удалось добавить пользователя',
 		);
-		$res = getArrayStatus($resOk, $resFail, $validator);
+		$res = Alma::getArrayStatus($resOk, $resFail, $validator);
 			
 		
 		// Fails

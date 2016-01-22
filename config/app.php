@@ -156,6 +156,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 		
+		
+		/*
+		* Custom helpers
+		*/
+        App\Providers\HelperServiceProvider::class,
+		
 		/*
 		* Extra
 		*/
@@ -212,6 +218,11 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+		
+		/*
+		* Custom helpers
+		*/
+		'Alma' => App\Helpers\Alma::class,
 		
 		/*
 		* Extra
