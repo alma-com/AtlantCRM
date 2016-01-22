@@ -323,11 +323,25 @@
           </form>
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
+          
+		
+		  <ul class="sidebar-menu">
             <li class="header">ИЗБРАННОЕ</li>
-			<li>
-				<a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>Пользователи</span></a>
+					
+			<li class="treeview {{ Route::is('users.*') ? 'active' : '' }}">
+				<a href="{{ route('users.index') }}">
+					<i class="fa fa-users"></i> <span>Пользователи</span> <i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li class=" {{ Route::is('users.create') ? 'active' : '' }}">
+						<a href="{{ route('users.create') }}"><i class="fa fa-plus"></i> Добавление</a>
+					</li>
+					<li class=" {{ Route::is('users.show', Auth::user()->id) ? 'active' : '' }}">
+						<a href="{{ route('users.show', Auth::user()->id) }}"><i class="fa fa-eye"></i> Профиль</a>
+					</li>
+				</ul>
             </li>
+			
 			<li>
 				<a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
             </li>

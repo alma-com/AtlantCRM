@@ -37,6 +37,16 @@ $(document).ajaxStart(function() {
 * Ajax загрузка страницы по url
 */
 function setPage(page, popstate){
+	$('.sidebar-menu a').each(function(){
+		var url = $(this).attr('href');
+		if(page == url){
+			$(this).closest('li').addClass('active');
+			$(this).closest('li').parent().closest('li').addClass('active');
+		}else{
+			$(this).closest('li').removeClass('active');
+		}
+	});
+			
 	$.ajax({
 		url: page,
 		type: 'GET',
@@ -67,7 +77,7 @@ function setPage(page, popstate){
 			
 			if(!popstate){
 				history.pushState({page: page, type: "page"}, title, page);
-			} 
+			}
 		},
 		error: function() {
 			alert('Произошла ошибка!');
