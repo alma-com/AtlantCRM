@@ -611,6 +611,9 @@
 	
 	<!-- notie -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/notie/notie.js') }}
+	<!-- simplr-smoothscroll -->
+	{{ HTML::script('AdminLTE-2.3.0/plugins/simplr-smoothscroll/jquery.simplr.smoothscroll.min.js') }}
+		
 	
 	
     <!-- AdminLTE App -->

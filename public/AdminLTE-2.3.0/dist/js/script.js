@@ -5,9 +5,16 @@ $(document).ready(function() {
 	initiCheck();
 	initiCheckboxToggle();
 	initDataTable();
+	
+	$.srSmoothscroll({
+		step: 100,
+		speed: 100,
+		ease: 'swing',
+		target: $('body'),
+		container: $(window)
+	});
+	
 });
-
-
 
 $.ajaxSetup({
     headers: {
