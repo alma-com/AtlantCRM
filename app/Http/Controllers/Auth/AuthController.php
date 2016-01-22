@@ -80,17 +80,17 @@ class AuthController extends Controller
 	* Форма регистрации. 
 	* Если нужно вернуть стандартный функционал просто удалите эту функцию
 	*/
-	public function showRegistrationForm()
+	/*public function showRegistrationForm()
 	{
 		return abort(404);
-	}
+	}*/
 	
 	/*
 	* Регистрация пользователя. 
 	* Если нужно вернуть стандартный функционал просто удалите эту функцию
 	*/
-	public function register()
+	/*public function register()
 	{
 		return abort(404);
-	}
+	}*/
 }
