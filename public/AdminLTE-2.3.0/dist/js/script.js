@@ -83,7 +83,7 @@ if (history.pushState) {
 		setPage(e.state.page, 'popstate');
 	}, false);
 	
-	$(document).on('click','a:not(.no-ajax)',function(e){
+	$(document).on('click','a:not(.no-ajax):not([href="#"])',function(e){
 		setPage($(this).attr('href'));
 		return false;
 	});
@@ -159,16 +159,14 @@ function ajaxForm($form){
 * initAjaxForm ajax form
 */
 function initAjaxForm(){
-	$("form:not(.no-ajax)").submit(function(){
+	$("form:not(.no-ajax)").submit(function(event){
 		event.preventDefault();
 		
 		$wrapConfirm = $('#confirmModal');
-		
 		var $form = $(this);
 		var confirm = $form.attr('data-confirm') || '';
 		
-		if(confirm != ''){
-			
+		if(confirm != ''){			
 			// Перед открыванием модального окна
 			$wrapConfirm.on('show.bs.modal', function (event) {
 				$(this).find('.modal-body').html(confirm);
@@ -181,15 +179,18 @@ function initAjaxForm(){
 				$(this).unbind('shown.bs.modal');
 			});
 			
+			//Показ модального окна
+			$wrapConfirm.modal('show');
+			
 			// При нажатии на кнопку ок
-			$wrapConfirm.find("form").submit(function () {
+			$wrapConfirm.find("form").submit(function (event) {
 				event.preventDefault();
 				$wrapConfirm.modal('hide');
 				ajaxForm($form);
 				$(this).unbind('submit');
 			});
-			$wrapConfirm.modal('show');
 			return false;
+			
 		}
 		
 		ajaxForm($form);
