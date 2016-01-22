@@ -13,8 +13,6 @@
 		'git pull -X theirs origin master',
 		'git status',
 		'php artisan migrate',
-		'composer install',
-		'composer dump-autoload',
 		'php artisan vendor:publish',
 	);
 	// Run the commands for output
