@@ -13,7 +13,7 @@
 @endsection
 
 
-@section('content')				
+@section('content')
 <div class="btn-group margin-bottom">
 	<a href="{{ route('users.create') }}" class="btn btn-info">
 		<i class="fa fa-btn fa-plus"></i>
@@ -27,9 +27,11 @@
 			<div class="box-header">
               <h3 class="box-title">Список пользователей</h3>
             </div>
-			<div class="box-body">			
+			<div class="box-body">
 				@if(count($users) > 0)
-					@if(count($users) > 25) 
+			        <form id="form-items" role="form" method="POST">
+                    {!! csrf_field() !!}
+					@if(count($users) > 25)
 						<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
 					@else
 						<table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'>
@@ -48,7 +50,7 @@
 						<tbody>
 							@foreach($users as $user)
 								<tr>
-									<td><input type="checkbox" name="user[]" value="{{ $user->id }}"></td>
+									<td><input type="checkbox" name="item[]" value="{{ $user->id }}"></td>
 									<td><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></td>
 									<td>{{ $user->email }}</td>
 									<td></td>
@@ -58,13 +60,15 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="5">							
+								<td colspan="5">
 									<div class="box-body no-padding">
 										<div class="table-controls">
 											<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="user[]" value="">
 											<div class="btn-group">
 												<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
-												<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                <button type="button" class="btn btn-default btn-sm" onclick="actionCall('{{ route('users.destroyAll') }}', 'Вы действительно хотите удалить пользователей?')">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </button>
 											</div>
 										</div>
 									</div>
@@ -72,7 +76,7 @@
 							</tr>
 						</tfoot>
 					</table>
-					
+				</form>
 				@endif
 			</div>
 		</div>

@@ -152,8 +152,78 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+		$rules = array();
+        $validator = Validator::make($request->all(), $rules);
+		if (Auth::check() and Auth::user()->id == $id){
+			$validator->after(function($validator){
+				$validator->errors()->add('field', 'Нельзя удалить себя');
+			});
+		}
+		
+		//Array Status
+		$resOk = array(
+			'status' => 'success',
+			'message' => 'Пользователь успешно удален!',
+			'url' => route('users.index'),
+		);
+		$resFail = array(
+			'status' => 'warning',
+			'message' => 'Не удалось удалить пользователя',
+		);
+		$res = Alma::getArrayStatus($resOk, $resFail, $validator);
+		
+		// Fails
+		if ($validator->fails()) {
+			if($request->ajax()){
+				return Response::json($res);
+			}
+			
+			Session::flash($res['status'], HTML::ul($validator->errors()->all()));
+			 return redirect()->back()
+                ->withErrors($validator)
+				->withInput();
+		}
+		
+		
+		// Success
+		$user = User::find($id);
+		$user->delete();
+		
+		if($request->ajax()){
+			return Response::json($res);
+		}
+		
+		Session::flash($res['status'], $res['message']);
+		return redirect($res['url']);
+    }
+	
+	
+	
+	/**
+     * Удаление списка пользователей
+     */
+    public function destroyAll(Request $request)
+    {
+        $itemArray = $request->input('item');
+		if(count($itemArray) > 0){
+			foreach($itemArray as $key => $value){
+				//$this->destroy($modelGallery, $value);			//удаление одного заказа
+			}
+		}
+		
+		//Array Status
+		$resOk = array(
+			'status' => 'success',
+			'message' => 'Пользователи успешно удалены',
+			'url' => route('users.index'),
+		);
+		$resFail = array(
+			'status' => 'warning',
+			'message' => 'Не удалось удалить пользователя',
+		);
+		
+		return Response::json($this->destroy(1));
     }
 }

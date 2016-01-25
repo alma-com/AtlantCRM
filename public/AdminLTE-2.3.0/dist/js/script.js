@@ -5,7 +5,7 @@ $(document).ready(function() {
 	initiCheck();
 	initiCheckboxToggle();
 	initDataTable();
-	
+
 	$.srSmoothscroll({
 		step: 100,
 		speed: 100,
@@ -13,7 +13,7 @@ $(document).ready(function() {
 		target: $('body'),
 		container: $(window)
 	});
-	
+
 });
 
 $.ajaxSetup({
@@ -46,7 +46,7 @@ function setPage(page, popstate){
 			$(this).closest('li').removeClass('active');
 		}
 	});
-			
+
 	$.ajax({
 		url: page,
 		type: 'GET',
@@ -57,24 +57,24 @@ function setPage(page, popstate){
 			var title = document.title;
 			var content = '';
 			var content_header = '';
-			
+
 			if(data.hasOwnProperty('title')){title = data['title'];}
 			if(data.hasOwnProperty('content')){content = data['content'];}
 			if(data.hasOwnProperty('content-header')){content_header = data['content-header'];}
 
-			
+
 			document.title = title;
 			$("#ajax-content").html(content);
 			$('.content-header').html(content_header);
 			scrollTo();
-			
+
 			initAjaxClass();
 			initAjaxForm();
 			initRemoveError();
 			initiCheck();
 			initiCheckboxToggle();
 			initDataTable();
-			
+
 			if(!popstate){
 				history.pushState({page: page, type: "page"}, title, page);
 			}
@@ -88,11 +88,11 @@ function setPage(page, popstate){
 
 if (history.pushState) {
 	history.pushState({page: window.location.pathname, type: "page"}, document.title, window.location.pathname);
-	 
+
 	window.addEventListener('popstate', function(e){
 		setPage(e.state.page, 'popstate');
 	}, false);
-	
+
 	$(document).on('click','a:not(.no-ajax):not([href="#"])',function(e){
 		setPage($(this).attr('href'));
 		return false;
@@ -124,38 +124,7 @@ function ajaxForm($form){
 		type: method,
 		data: data,
 		success: function(data){
-			if(data.hasOwnProperty('url')){
-				setPage(data.url);
-			}
-			
-			if(data.hasOwnProperty('description')){
-				scrollTo();
-				$('#content-alert').hide(0);
-				$('#content-alert').html(data.description);
-				$('#content-alert').delay(300).slideDown(300);
-			}
-			
-			if(data.hasOwnProperty('errFields')){
-				$.each(data.errFields, function(index, value) {
-					$form.find(':input[name="'+index+'"]').closest('.form-group').addClass('has-error');
-				});
-			}
-				
-					
-			switch (data.status) {
-				case 'success':
-					notie.alert(1, data.message.toString(), 1.5);
-				break
-				case 'info':
-					notie.alert(4, data.message.toString(), 1.5);
-				break
-				case 'warning':
-				case 'error':
-					notie.alert(3, data.message, 1.5);
-				break
-				default:
-					notie.alert(1, data.message.toString(), 1.5);
-			}
+			successDo(data, $form);
 		},
 		error: function() {
 			notie.alert(3, 'Произошла ошибка', 1.5);
@@ -171,38 +140,17 @@ function ajaxForm($form){
 function initAjaxForm(){
 	$("form:not(.no-ajax)").submit(function(event){
 		event.preventDefault();
-		
-		$wrapConfirm = $('#confirmModal');
+
 		var $form = $(this);
 		var confirm = $form.attr('data-confirm') || '';
-		
-		if(confirm != ''){			
-			// Перед открыванием модального окна
-			$wrapConfirm.on('show.bs.modal', function (event) {
-				$(this).find('.modal-body').html(confirm);
-				$(this).unbind('show.bs.modal');
-			});
-			
-			// Когда модальное окно видно
-			$wrapConfirm.on('shown.bs.modal', function (event) {
-				$(this).find(':submit').focus();
-				$(this).unbind('shown.bs.modal');
-			});
-			
-			//Показ модального окна
-			$wrapConfirm.modal('show');
-			
-			// При нажатии на кнопку ок
-			$wrapConfirm.find("form").submit(function (event) {
-				event.preventDefault();
-				$wrapConfirm.modal('hide');
+
+		if(confirm != ''){
+			confirmCall(confirm, function(){
 				ajaxForm($form);
-				$(this).unbind('submit');
 			});
 			return false;
-			
 		}
-		
+
 		ajaxForm($form);
 	});
 }
@@ -215,7 +163,7 @@ function initAjaxForm(){
 function initAjaxClass(){
 	$('.ajax').click(function(event){
 		event.preventDefault();
-		
+
 		var url = $(this).attr('href') || $(this).attr('data-url');		//URL
 		var method = $(this).attr('data-method') || 'GET';			//Метод POST или GET
 		var content = $(this).attr('data-content') || 'ajax-content';		//Контейнер в который вставится результат
@@ -319,6 +267,124 @@ function scrollTo($elem){
 	}
 	var body = $("html, body");
 	body.stop().animate({scrollTop: offset}, '300', 'swing');
+}
+
+
+
+/*
+* Вызов confirm
+*/
+function confirmCall(text, yesCallback){
+	var text = text || '';
+	var yesCallback = yesCallback || '';
+	var $wrapConfirm = $('#confirmModal');
+	
+	// Перед открыванием модального окна
+	$wrapConfirm.on('show.bs.modal', function (event) {
+		$(this).find('.modal-body').html(text);
+		$(this).unbind('show.bs.modal');
+	});
+
+	// Когда модальное окно видно
+	$wrapConfirm.on('shown.bs.modal', function (event) {
+		$(this).find(':submit').focus();
+		$(this).unbind('shown.bs.modal');
+	});
+
+	//Показ модального окна
+	$wrapConfirm.modal('show');
+
+	// При нажатии на кнопку ок
+	$wrapConfirm.find("form").submit(function (event) {
+		event.preventDefault();
+		$wrapConfirm.modal('hide');
+		
+		yesCallback();
+		
+		$(this).unbind('submit');
+	});
+	return false;
+}
+
+
+
+/*
+* Вызов события в контроллере
+*/
+function actionCall(url, confirm){
+	var url = url || '';
+	var confirm = confirm || '';
+	
+	if(confirm != ''){
+		confirmCall(confirm, function(){
+			actionCall(url);
+		});
+		return false;
+	}
+
+	var $form = $('#form-items');
+	var data = $('#form-items').serializeArray();	
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: data,
+		success: function(data){
+			successDo(data, $form);
+		},
+		error: function() {
+			notie.alert(3, 'Произошла ошибка', 1.5);
+		}
+	});
+	
+	return false;
+}
+
+
+
+/*
+*  стандартные действия при успешно ajax
+*/
+function successDo(data, $form){
+	var data = data || '';
+	var $form = $form || '';
+	console.log(data);
+	
+	if(data.hasOwnProperty('url')){
+		setPage(data.url);
+	}
+
+	if(data.hasOwnProperty('description')){
+		scrollTo();
+		$('#content-alert').hide(0);
+		$('#content-alert').html(data.description);
+		$('#content-alert').delay(300).slideDown(300);
+	}
+
+	if(data.hasOwnProperty('errFields')){
+		$.each(data.errFields, function(index, value) {
+			$form.find(':input[name="'+index+'"]').closest('.form-group').addClass('has-error');
+		});
+	}
+
+
+	switch (data.status) {
+		case 'success':
+			notie.alert(1, data.message.toString(), 1.5);
+		break
+		case 'info':
+			notie.alert(4, data.message.toString(), 1.5);
+		break
+		case 'warning':
+			notie.alert(2, data.message, 1.5);
+		break
+		case 'error':
+			notie.alert(3, data.message, 1.5);
+		break
+		default:
+			notie.alert(1, data.message.toString(), 1.5);
+	}
+	
+	return false;
 }
 
 

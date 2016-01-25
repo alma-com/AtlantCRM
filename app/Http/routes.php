@@ -26,11 +26,13 @@
 
 Route::group(['middleware' => ['web']], function () {
     Route::auth();
-	
+
 	Route::group(['middleware' => ['auth']], function () {
 		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-		Route::resource('users', 'UserController');
 		
+		Route::resource('users', 'UserController');
+		Route::post('/users/destroyAll', ['as' => 'users.destroyAll', 'uses' => 'UserController@destroyAll']);
+
 		Route::get('/example', function () {
 			return view('example');
 		});
