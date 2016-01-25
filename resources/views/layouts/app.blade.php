@@ -34,7 +34,7 @@
 	{{ HTML::style('AdminLTE-2.3.0/plugins/datatables/dataTables.bootstrap.css') }}
 	<!-- Pace style -->
 	{{ HTML::style('AdminLTE-2.3.0/plugins/pace/pace.min.css') }}
-	
+
 
 	{{ HTML::style('AdminLTE-2.3.0/dist/css/style.css') }}
 
@@ -56,7 +56,7 @@
           <span class="logo-mini"><b>А</b></span>
           <span class="logo-lg"><b>Атлант</b></span>
         </a>
-		
+
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -292,7 +292,7 @@
               </li>
               <!-- Control Sidebar Toggle Button -->
               <li>
-                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
               </li>
             </ul>
           </div>
@@ -323,25 +323,17 @@
           </form>
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
-          
-		
+
+
 		  <ul class="sidebar-menu">
             <li class="header">ИЗБРАННОЕ</li>
-					
-			<li class="treeview {{ Route::is('users.*') ? 'active' : '' }}">
+
+			<li class="{{ Route::is('users.*') ? 'active' : '' }}">
 				<a href="{{ route('users.index') }}">
-					<i class="fa fa-users"></i> <span>Пользователи</span> <i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-users"></i> <span>Пользователи</span></i>
 				</a>
-				<ul class="treeview-menu">
-					<li class=" {{ Route::is('users.create') ? 'active' : '' }}">
-						<a href="{{ route('users.create') }}"><i class="fa fa-plus"></i> Добавление</a>
-					</li>
-					<li class=" {{ Route::is('users.show', Auth::user()->id) ? 'active' : '' }}">
-						<a href="{{ route('users.show', Auth::user()->id) }}"><i class="fa fa-eye"></i> Профиль</a>
-					</li>
-				</ul>
             </li>
-			
+
 			<li>
 				<a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
             </li>
@@ -385,23 +377,23 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-	  
+
 		<section class="content-header">
 			@yield('content-header')
 		</section>
-				
+
 		<section class="content" id="ajax-content">
 			<div id="content-alert">
 				@include('common.alert')
 			</div>
-			
+
 			<div class="row">
 				<div class="col-xs-12">
 					@yield('content')
 				</div>
 			</div>
 		</section>
-		
+
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
@@ -576,12 +568,12 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-	
-	
+
+
 	@include('common.confirm')
-	
-	
-	
+
+
+
 	<!-- jQuery 2.1.4 -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/jQuery/jQuery-2.1.4.min.js') }}
 
@@ -621,20 +613,20 @@
 	{{ HTML::script('AdminLTE-2.3.0/plugins/iCheck/icheck.min.js') }}
 	<!-- PACE -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/pace/pace.js') }}
-	
-	
+
+
 	<!-- notie -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/notie/notie.js') }}
 	<!-- simplr-smoothscroll -->
 	{{ HTML::script('AdminLTE-2.3.0/plugins/simplr-smoothscroll/jquery.simplr.smoothscroll.min.js') }}
-		
-	
-	
+
+
+
     <!-- AdminLTE App -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/app.min.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/pages/dashboard.js') }}
-	
+
     <!-- AdminLTE for demo purposes -->
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/demo.js') }}
 	{{ HTML::script('AdminLTE-2.3.0/dist/js/script.js') }}
