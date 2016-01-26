@@ -39,7 +39,7 @@
 						<thead>
 							<tr>
 								<th class="no-sort">
-									<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="user[]" value="">
+									<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 								</th>
 								<th>ФИО</th>
 								<th>E-mail</th>
@@ -63,7 +63,7 @@
 								<td colspan="5">
 									<div class="box-body no-padding">
 										<div class="table-controls">
-											<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="user[]" value="">
+											<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 											<div class="btn-group">
 												<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
                                                 <button type="button" class="btn btn-default btn-sm" onclick="actionCall('{{ route('users.destroyAll') }}', 'Вы действительно хотите удалить пользователей?')">
