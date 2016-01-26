@@ -353,7 +353,7 @@ function successDo(data, $form){
 		setPage(data.url);
 	}
 	
-	$('#content-alert').slideUp(300);
+	$('#content-alert').slideUp(0);
 	if(data.hasOwnProperty('description')){
 		scrollTo();
 		$('#content-alert').slideUp(0);
@@ -363,7 +363,14 @@ function successDo(data, $form){
 
 	if(data.hasOwnProperty('errFields')){
 		$.each(data.errFields, function(index, value) {
-			$form.find(':input[name="'+index+'"]').closest('.form-group').addClass('has-error');
+			if(index.indexOf("table_") === -1){
+				//Поля формы
+				$form.find(':input[name="'+index+'"]').closest('.form-group').addClass('has-error');
+			}else{
+				//Поля таблицы
+				var item = index.replace("table_", "");
+				blinkElem($('tr[data-item="'+item+'"]').delay(300));
+			}
 		});
 	}
 
@@ -390,3 +397,15 @@ function successDo(data, $form){
 
 
 
+/*
+* Мигание элемента
+*/
+function blinkElem($elem, count){
+	var $elem = $elem || '';
+	var count = count || 3;
+	if($elem != ''){
+		for(i=0;i<count;i++) {
+			$elem.fadeTo(250, 0.3).fadeTo(250, 1.0);
+		}
+	}
+}

@@ -49,7 +49,7 @@
 						</thead>
 						<tbody>
 							@foreach($users as $user)
-								<tr>
+								<tr data-item="{{ $user->id }}">
 									<td><input type="checkbox" name="item[]" value="{{ $user->id }}"></td>
 									<td><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></td>
 									<td>{{ $user->email }}</td>
