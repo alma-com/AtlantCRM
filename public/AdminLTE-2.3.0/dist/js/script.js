@@ -347,15 +347,16 @@ function actionCall(url, confirm){
 function successDo(data, $form){
 	var data = data || '';
 	var $form = $form || '';
-	console.log(data);
+	//console.log(data);
 	
 	if(data.hasOwnProperty('url')){
 		setPage(data.url);
 	}
-
+	
+	$('#content-alert').slideUp(300);
 	if(data.hasOwnProperty('description')){
 		scrollTo();
-		$('#content-alert').hide(0);
+		$('#content-alert').slideUp(0);
 		$('#content-alert').html(data.description);
 		$('#content-alert').delay(300).slideDown(300);
 	}
