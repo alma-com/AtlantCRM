@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Auth;
 use Session;
 use Validator;
 use HTML;
@@ -33,12 +34,11 @@ class UserController extends Controller
 		}
 		
 		$view = view('pages.users.index')->with('users', $users);
-		if($request->ajax()){
-			return $view->renderSections();
-		}
-		return $view;
+		return Alma::viewReturn($view, $request);
     }
 
+	
+	
     /**
      * Show the form for creating a new resource.
      *
@@ -47,12 +47,11 @@ class UserController extends Controller
     public function create(Request $request)
     {
 		$view = view('pages.users.create');
-		if($request->ajax()){
-			return $view->renderSections();
-		}
-		return $view;
+		return Alma::viewReturn($view, $request);
     }
 
+	
+	
     /**
      * Store a newly created resource in storage.
      *
@@ -71,28 +70,18 @@ class UserController extends Controller
 		$validator = Validator::make($request->all(), $rules);
 		
 		//Array Status
-		$resOk = array(
-			'status' => 'success',
-			'message' => 'Пользователь успешно добавлен',
-			'url' => route('users.index'),
+		$res = Alma::getArrayStatus(
+			array(
+				'message' => 'Пользователь успешно добавлен',
+				'url' => route('users.index'),
+			),
+			array('message' => 'Не удалось добавить пользователя',),
+			$validator
 		);
-		$resFail = array(
-			'status' => 'warning',
-			'message' => 'Не удалось добавить пользователя',
-		);
-		$res = Alma::getArrayStatus($resOk, $resFail, $validator);
 			
-		
 		// Fails
 		if ($validator->fails()) {
-			if($request->ajax()){
-				return Response::json($res);
-			}
-			
-			Session::flash($res['status'], HTML::ul($validator->errors()->all()));
-			 return redirect()->back()
-                ->withErrors($validator)
-				->withInput();
+			return Alma::failsReturn($res, $validator, $request);	
 		}
 		
 		
@@ -103,15 +92,12 @@ class UserController extends Controller
 		$user->password = Hash::make($request->get('password'));
 		$user->save();
 		
-
-		if($request->ajax()){
-			return Response::json($res);
-		}
 		
-		Session::flash($res['status'], $res['message']);
-		return redirect($res['url']);
+		return Alma::successReturn($res, $validator, $request);	
     }
 
+	
+	
     /**
      * Display the specified resource.
      *
@@ -123,6 +109,8 @@ class UserController extends Controller
         //
     }
 
+	
+	
     /**
      * Show the form for editing the specified resource.
      *
@@ -134,6 +122,8 @@ class UserController extends Controller
         //
     }
 
+	
+	
     /**
      * Update the specified resource in storage.
      *
@@ -146,6 +136,8 @@ class UserController extends Controller
         //
     }
 
+	
+	
     /**
      * Remove the specified resource from storage.
      *
@@ -163,27 +155,20 @@ class UserController extends Controller
 		}
 		
 		//Array Status
-		$resOk = array(
-			'status' => 'success',
-			'message' => 'Пользователь успешно удален!',
-			'url' => route('users.index'),
+		$res = Alma::getArrayStatus(
+			array(
+				'message' => 'Пользователь успешно удален',
+				'url' => route('users.index'),
+			),
+			array(
+				'message' => 'Не удалось удалить пользователя',
+			), 
+			$validator
 		);
-		$resFail = array(
-			'status' => 'warning',
-			'message' => 'Не удалось удалить пользователя',
-		);
-		$res = Alma::getArrayStatus($resOk, $resFail, $validator);
 		
 		// Fails
 		if ($validator->fails()) {
-			if($request->ajax()){
-				return Response::json($res);
-			}
-			
-			Session::flash($res['status'], HTML::ul($validator->errors()->all()));
-			 return redirect()->back()
-                ->withErrors($validator)
-				->withInput();
+			return Alma::failsReturn($res, $validator, $request);	
 		}
 		
 		
@@ -191,12 +176,8 @@ class UserController extends Controller
 		$user = User::find($id);
 		$user->delete();
 		
-		if($request->ajax()){
-			return Response::json($res);
-		}
 		
-		Session::flash($res['status'], $res['message']);
-		return redirect($res['url']);
+		return Alma::successReturn($res, $validator, $request);	
     }
 	
 	
@@ -206,24 +187,49 @@ class UserController extends Controller
      */
     public function destroyAll(Request $request)
     {
+		$rules = array();
+        $validator = Validator::make($request->all(), $rules);
+		
         $itemArray = $request->input('item');
 		if(count($itemArray) > 0){
-			foreach($itemArray as $key => $value){
-				//$this->destroy($modelGallery, $value);			//удаление одного заказа
+			foreach($itemArray as $key => $id_user){
+				if (Auth::check() and Auth::user()->id == $id_user){
+					$validator->after(function() use ($validator, $id_user){
+						$validator->errors()->add('table_'.$id_user, 'Нельзя удалить себя');
+					});
+				}
 			}
+		}else{
+			return Response::json(array(
+				'status' => 'info',
+				'message' => 'Ничего не выбрано',
+			));
+		}
+			
+		//Array Status
+		$res = Alma::getArrayStatus(
+			array(
+				'message' => 'Пользователи успешно удалены',
+				'url' => route('users.index'),
+			),
+			array(
+				'message' => 'Не удалось удалить',
+			), 
+			$validator
+		);
+		
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn($res, $validator, $request);	
 		}
 		
-		//Array Status
-		$resOk = array(
-			'status' => 'success',
-			'message' => 'Пользователи успешно удалены',
-			'url' => route('users.index'),
-		);
-		$resFail = array(
-			'status' => 'warning',
-			'message' => 'Не удалось удалить пользователя',
-		);
 		
-		return Response::json($this->destroy(1));
+		// Success
+		foreach($itemArray as $key => $id_user){
+			$this->destroy($request, $id_user);
+		}
+		
+		
+		return Alma::successReturn($res, $validator, $request);	
     }
 }
