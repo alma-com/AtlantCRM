@@ -285,7 +285,7 @@
                       <a href="#" class="btn btn-default btn-flat">Профиль</a>
                     </div>
                     <div class="pull-right">
-                      <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Выйти</a>
+                      <a href="{{ url('/logout') }}" class="btn btn-default btn-flat no-ajax">Выйти</a>
                     </div>
                   </li>
                 </ul>
@@ -369,6 +369,9 @@
             </li>
 			<li>
 				<a href="#"><i class="fa fa-cog"></i> <span>Настройки</span></a>
+            </li>
+			<li>
+				<a href="{{ url('/logout') }}" class="no-ajax"><i class="fa fa-sign-out"></i> <span>Выход</span></a>
             </li>
           </ul>
         </section>
