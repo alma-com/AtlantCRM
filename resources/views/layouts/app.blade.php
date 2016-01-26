@@ -382,13 +382,13 @@
 			@yield('content-header')
 		</section>
 
-		<section class="content" id="ajax-content">
+		<section class="content">
 			<div id="content-alert">
 				@include('common.alert')
 			</div>
 
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-xs-12" id="ajax-content">
 					@yield('content')
 				</div>
 			</div>
