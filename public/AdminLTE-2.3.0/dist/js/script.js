@@ -409,3 +409,32 @@ function blinkElem($elem, count){
 		}
 	}
 }
+
+
+
+/**
+ * Где выделены checkbox появляются input
+ */
+function editTable(type){
+	var type = type || 'show';
+	var $form = $('#form-items');
+	
+	if(type == 'show'){
+		
+		$form.find("input[type='checkbox']").iCheck("disable");
+		
+		$form.find("input[name='item[]']:checked").each(function(){
+			var id = $(this).val();
+			$form.find('tr[data-item="'+id+'"]').addClass('show-input');
+		});
+		
+		$form.find('.table-controls').addClass('edit');
+	}
+	
+	
+	if(type == 'hide'){
+		$form.find("input[type='checkbox']").iCheck("enable");
+		$form.find('tr').removeClass('show-input');
+		$form.find('.table-controls').removeClass('edit');
+	}
+}

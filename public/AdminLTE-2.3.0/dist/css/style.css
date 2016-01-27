@@ -86,3 +86,27 @@ label{
 .btn .fa{
 	padding-right: 4px;
 }
+
+
+/**
+ * Hide input in table
+ */
+td .td-input{display:none;}
+td .td-input input[type="text"]{width:100%;}
+
+tr.show-input td .td-input{display:block;}
+tr.show-input td .td-text{display:none;}
+
+
+/**
+ * hide table controls
+ */
+.table-controls .btn-group-edit{
+	display:none;
+	padding-left: 10px;
+}
+.table-controls.edit .btn-group-edit{display:inline-block;}
+.table-controls.edit .btn-group{display:none;}
+
+
+

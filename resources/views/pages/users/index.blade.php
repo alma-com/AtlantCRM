@@ -50,9 +50,17 @@
 						<tbody>
 							@foreach($users as $user)
 								<tr data-item="{{ $user->id }}">
-									<td><input type="checkbox" name="item[]" value="{{ $user->id }}"></td>
-									<td><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></td>
-									<td>{{ $user->email }}</td>
+									<td>
+										<input type="checkbox" name="item[]" value="{{ $user->id }}">
+									</td>
+									<td>
+										<div class="td-text"><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></div>
+										<div class="td-input"><input type="text" class="form-control" name="name[{{ $user->id }}]" value="{{ $user->name }}"></div>
+									</td>
+									<td>
+										<div class="td-text">{{ $user->email }}</div>
+										<div class="td-input"><input type="text"  class="form-control" name="email[{{ $user->id }}]" value="{{ $user->email }}"></div>
+									</td>
 									<td></td>
 									<td></td>
 								</tr>
@@ -65,10 +73,15 @@
 										<div class="table-controls">
 											<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 											<div class="btn-group">
-												<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+												<button type="button" class="btn btn-default btn-sm" onclick="editTable('show')"><i class="fa fa-pencil"></i></button>
                                                 <button type="button" class="btn btn-default btn-sm" onclick="actionCall('{{ route('users.destroyAll') }}', 'Вы действительно хотите удалить пользователей?')">
                                                     <i class="fa fa-trash-o"></i>
-                                                </button>
+                                                </button>			
+											</div>
+												
+											<div class="btn-group-edit">	
+												<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
+												<button type="button" class="btn btn-default" onclick="editTable('hide')">Отмена</button>
 											</div>
 										</div>
 									</div>
