@@ -11,9 +11,9 @@
 		<p></p>
 	  </div>
 	  <div class="modal-footer">
-		<form class="no-ajax">
-			<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
-			<button type="submit" class="btn btn-primary">Ок</button>
+		<form class="no-ajax pull-left">
+			<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Ок</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
 		</form>
 	  </div>
 	</div>
