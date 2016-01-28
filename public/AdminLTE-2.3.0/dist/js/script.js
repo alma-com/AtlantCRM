@@ -206,6 +206,16 @@ function initiCheck(){
 		checkboxClass: 'icheckbox_flat-blue',
 		radioClass: 'iradio_flat-blue'
 	});
+	
+	$("input[name='item[]']").on('ifClicked', function () {
+		$(this).iCheck("toggle");
+
+		if($("input[name='item[]']:checked").length > 0){
+			$('.table-controls .btn-group').find(':input').removeClass('disabled');
+		}else{
+			$('.table-controls .btn-group').find(':input').addClass('disabled');
+		}
+	});
 }
 
 
@@ -220,10 +230,12 @@ function initiCheckboxToggle(){
 			//Uncheck all checkboxes
 			$("input[name='"+name+"']").iCheck("uncheck");
 			$(".checkbox-toggle[data-name='"+name+"']").iCheck("uncheck");
+			$('.table-controls .btn-group').find(':input').addClass('disabled');
 		} else {
 			//Check all checkboxes
 			$("input[name='"+name+"']").iCheck("check");
 			$(".checkbox-toggle[data-name='"+name+"']").iCheck("check");
+			$('.table-controls .btn-group').find(':input').removeClass('disabled');
 		}
 		$(this).data("clicks", !clicks);
 	});
@@ -327,9 +339,14 @@ function confirmCall(text, yesCallback){
 /*
 * Вызов события в контроллере
 */
-function actionCall(url, confirm){
+function actionCall(el, url, confirm){
+	var el = el || '';
 	var url = url || '';
 	var confirm = confirm || '';
+	
+	if(el != '' && $(el).hasClass('disabled')){
+		return false;
+	}
 	
 	if(confirm != ''){
 		confirmCall(confirm, function(){
@@ -431,9 +448,14 @@ function blinkElem($elem, count){
 /**
  * Где выделены checkbox появляются input
  */
-function editTable(type){
+function editTable(el, type){
+	var el = el || '';
 	var type = type || 'show';
 	var $form = $('#form-items');
+	
+	if(el != '' && $(el).hasClass('disabled')){
+		return false;
+	}
 	
 	if(type == 'show'){
 		
@@ -453,4 +475,5 @@ function editTable(type){
 		$form.find('tr').removeClass('show-input');
 		$form.find('.table-controls').removeClass('edit');
 	}
+	return false;
 }

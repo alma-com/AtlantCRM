@@ -73,15 +73,15 @@
 										<div class="table-controls">
 											<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 											<div class="btn-group">
-												<button type="button" class="btn btn-default btn-sm" onclick="editTable('show')"><i class="fa fa-pencil"></i></button>
-                                                <button type="button" class="btn btn-default btn-sm" onclick="actionCall('{{ route('users.destroyAll') }}', 'Вы действительно хотите удалить пользователей?')">
+												<button type="button" class="btn btn-default btn-sm disabled" onclick="editTable(this, 'show')"><i class="fa fa-pencil"></i></button>
+                                                <button type="button" class="btn btn-default btn-sm disabled" onclick="actionCall(this, '{{ route('users.destroyAll') }}', 'Вы действительно хотите удалить пользователей?')">
                                                     <i class="fa fa-trash-o"></i>
                                                 </button>			
 											</div>
 												
 											<div class="btn-group-edit">	
 												<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
-												<button type="button" class="btn btn-default" onclick="editTable('hide')">Отмена</button>
+												<button type="button" class="btn btn-default" onclick="editTable(this, 'hide')">Отмена</button>
 											</div>
 										</div>
 									</div>
