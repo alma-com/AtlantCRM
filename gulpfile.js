@@ -14,5 +14,6 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss')
 		.version('css/app.css')
+		.phpUnit()
 		.browserSync({proxy: 'support.alma-com.ru.local'});
 });
