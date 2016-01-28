@@ -54,8 +54,9 @@
       <header class="main-header">
         <!-- Logo -->
         <a href="{{ route('home') }}" class="logo">
-          <span class="logo-mini"><b>А</b></span>
-          <span class="logo-lg"><b>Атлант</b></span>
+			
+			<span class="logo-mini"><img src="/images/logo.png" alt="Атлант" style="height:20px"></span>
+			<span class="logo-lg"><img src="/images/logo.png" alt="Атлант" style="position:absolute;height:40px;left:0;top:3px;"><b>Aтлант</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -633,6 +634,8 @@
 
     <!-- AdminLTE for demo purposes -->
 	{{ HTML::script('AdminLTE/dist/js/demo.js') }}
-	{{ HTML::script('AdminLTE/dist/js/script.js') }}
+
+	
+	{{ HTML::script('/js/all.js') }}
 </body>
 </html>

@@ -16,21 +16,6 @@ $(document).ready(function() {
 
 });
 
-$.ajaxSetup({
-    headers: {
-        'X-XSRF-TOKEN': $('input[name="csrf-token"]').val()
-    }
-});
-
-
-
-/*
-* ajaxStart
-*/
-$(document).ajaxStart(function() {
-	Pace.restart();
-});
-
 
 
 /*
