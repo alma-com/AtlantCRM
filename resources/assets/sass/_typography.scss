@@ -1,0 +1,47 @@
+body {
+	font-family: $font, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+b, strong{
+	font-family:$font-bold; font-weight:normal;
+}
+
+/* H1 - H6 font */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: $font, sans-serif;
+}
+
+label, .control-sidebar-subheading{
+	font-family: $font;
+	font-weight: normal;
+}
+
+.btn .fa{
+	padding-right: 4px;
+}
+
+
+table.dataTable thead > tr > th.no-sort{
+	padding-right: 0px;
+}
+
+th{
+	font-family: $font-bold;
+	font-weight: normal;
+}
+
+.alert ul{
+	list-style-type: none;
+    padding-left: 0px;
+}
