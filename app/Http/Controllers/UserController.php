@@ -68,20 +68,14 @@ class UserController extends Controller
             'password_confirmation' => 'required|same:password',
         );
 		$validator = Validator::make($request->all(), $rules);
-		
-		//Array Status
-		$res = Alma::getArrayStatus(
-			array(
-				'message' => 'Пользователь успешно добавлен',
-				'url' => route('users.index'),
-			),
-			array('message' => 'Не удалось добавить пользователя',),
-			$validator
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
 		);
-			
+				
 		// Fails
 		if ($validator->fails()) {
-			return Alma::failsReturn($res, $validator, $request);	
+			return Alma::failsReturn('Не удалось добавить пользователя', $arrStatus);
 		}
 		
 		
@@ -92,8 +86,8 @@ class UserController extends Controller
 		$user->password = Hash::make($request->get('password'));
 		$user->save();
 		
-		
-		return Alma::successReturn($res, $validator, $request);	
+		$arrStatus['url'] = route('users.index');
+		return Alma::successReturn('Пользователь успешно добавлен', $arrStatus);	
     }
 
 	
@@ -153,31 +147,23 @@ class UserController extends Controller
 				$validator->errors()->add('field', 'Нельзя удалить себя');
 			});
 		}
-		
-		//Array Status
-		$res = Alma::getArrayStatus(
-			array(
-				'message' => 'Пользователь успешно удален',
-				'url' => route('users.index'),
-			),
-			array(
-				'message' => 'Не удалось удалить пользователя',
-			), 
-			$validator
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
 		);
 		
 		// Fails
 		if ($validator->fails()) {
-			return Alma::failsReturn($res, $validator, $request);	
+			return Alma::failsReturn('Не удалось удалить пользователя', $arrStatus);
 		}
 		
 		
 		// Success
 		$user = User::find($id);
 		$user->delete();
-		
-		
-		return Alma::successReturn($res, $validator, $request);	
+			
+		$arrStatus['url'] = route('users.index');
+		return Alma::successReturn('Пользователь успешно удален', $arrStatus);	
     }
 	
 	
@@ -189,38 +175,28 @@ class UserController extends Controller
     {
 		$rules = array();
         $validator = Validator::make($request->all(), $rules);
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
 		
         $itemArray = $request->input('item');
-		if(count($itemArray) > 0){
-			foreach($itemArray as $key => $id_user){
-				if (Auth::check() and Auth::user()->id == $id_user){
-					$validator->after(function() use ($validator, $id_user){
-						$validator->errors()->add('table_'.$id_user, 'Нельзя удалить себя');
-					});
-				}
-			}
-		}else{
-			return Response::json(array(
-				'status' => 'info',
-				'message' => 'Ничего не выбрано',
-			));
+		if(count($itemArray) == 0){
+			return Alma::infoReturn('Ничего не выбрано', $arrStatus);
 		}
-			
-		//Array Status
-		$res = Alma::getArrayStatus(
-			array(
-				'message' => 'Пользователи успешно удалены',
-				'url' => route('users.index'),
-			),
-			array(
-				'message' => 'Не удалось удалить',
-			), 
-			$validator
-		);
+		
+		foreach($itemArray as $key => $id_user){
+			if (Auth::check() and Auth::user()->id == $id_user){
+				$validator->after(function() use ($validator, $id_user){
+					$validator->errors()->add('table_'.$id_user, 'Нельзя удалить себя');
+				});
+			}
+		}
+		$arrStatus['validator'] = $validator;
 		
 		// Fails
 		if ($validator->fails()) {
-			return Alma::failsReturn($res, $validator, $request);	
+			return Alma::failsReturn('Не удалось удалить', $arrStatus);
 		}
 		
 		
@@ -229,7 +205,7 @@ class UserController extends Controller
 			$this->destroy($request, $id_user);
 		}
 		
-		
-		return Alma::successReturn($res, $validator, $request);	
+		$arrStatus['url'] = route('users.index');
+		return Alma::successReturn('Пользователи успешно удалены', $arrStatus);		
     }
 }
