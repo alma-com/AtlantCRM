@@ -37,6 +37,14 @@ $(document).ajaxStart(function() {
 * Ajax загрузка страницы по url
 */
 function setPage(page, popstate){
+	var page = page || '';
+	var popstate = popstate || ''; 
+	
+	//Выход из функции
+	if(page == ''){
+		return false;
+	}
+	
 	$('.sidebar-menu a').each(function(){
 		var url = $(this).attr('href');
 		if(page == url){
@@ -75,7 +83,7 @@ function setPage(page, popstate){
 			initiCheckboxToggle();
 			initDataTable();
 
-			if(!popstate){
+			if(popstate == ''){
 				history.pushState({page: page, type: "page"}, title, page);
 			}
 		},
@@ -83,6 +91,7 @@ function setPage(page, popstate){
 			alert('Произошла ошибка!');
 		}
 	});
+	return false;
 }
 
 
@@ -303,6 +312,12 @@ function confirmCall(text, yesCallback){
 		
 		$(this).unbind('submit');
 	});
+	
+	// При нажатии на кнопку отмена
+	$wrapConfirm.find("button[data-dismiss='modal']").on('click', function (event) {
+		$wrapConfirm.find("form").unbind('submit');
+		$(this).unbind('click');
+	});
 	return false;
 }
 
@@ -349,19 +364,19 @@ function successDo(data, $form){
 	var $form = $form || '';
 	//console.log(data);
 	
-	if(data.hasOwnProperty('url')){
+	if(data.url != ''){
 		setPage(data.url);
 	}
 	
 	$('#content-alert').slideUp(0);
-	if(data.hasOwnProperty('description')){
+	if(data.description != ''){
 		scrollTo();
 		$('#content-alert').slideUp(0);
 		$('#content-alert').html(data.description);
 		$('#content-alert').delay(300).slideDown(300);
 	}
 
-	if(data.hasOwnProperty('errFields')){
+	if(data.errFields != ''){
 		$.each(data.errFields, function(index, value) {
 			if(index.indexOf("table_") === -1){
 				//Поля формы
