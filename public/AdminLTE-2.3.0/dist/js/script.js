@@ -313,10 +313,11 @@ function confirmCall(text, yesCallback){
 		$(this).unbind('submit');
 	});
 	
-	// При нажатии на кнопку отмена
-	$wrapConfirm.find("button[data-dismiss='modal']").on('click', function (event) {
+	
+	// При скрытии окна сбрасываем события
+	$wrapConfirm.on('hide.bs.modal', function (event) {
 		$wrapConfirm.find("form").unbind('submit');
-		$(this).unbind('click');
+		$(this).unbind('hide.bs.modal');
 	});
 	return false;
 }
