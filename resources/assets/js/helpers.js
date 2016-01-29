@@ -1,11 +1,11 @@
 /*
-* Ajax загрузка страницы по url
+* Ajax Р·Р°РіСЂСѓР·РєР° СЃС‚СЂР°РЅРёС†С‹ РїРѕ url
 */
 function setPage(page, popstate){
 	var page = page || '';
 	var popstate = popstate || ''; 
 	
-	//Выход из функции
+	//Р’С‹С…РѕРґ РёР· С„СѓРЅРєС†РёРё
 	if(page == ''){
 		return false;
 	}
@@ -53,7 +53,7 @@ function setPage(page, popstate){
 			}
 		},
 		error: function() {
-			alert('Произошла ошибка!');
+			notie.alert(3, 'РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°', 1.5);
 		}
 	});
 	return false;
@@ -62,13 +62,13 @@ function setPage(page, popstate){
 
 
 /*
-* Отправка формы через ajax
+* РћС‚РїСЂР°РІРєР° С„РѕСЂРјС‹ С‡РµСЂРµР· ajax
 * 	data {
 * 		'status': 'success|warning|error|info|',
-* 		'message': 'Краткий текст сообщения',
-* 		'description': 'Подробный текст сообщения',
+* 		'message': 'РљСЂР°С‚РєРёР№ С‚РµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ',
+* 		'description': 'РџРѕРґСЂРѕР±РЅС‹Р№ С‚РµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ',
 * 		'errFields': {
-*			'name' : {'Поле "Имя" обязательно для заполнения.'}
+*			'name' : {'РџРѕР»Рµ "РРјСЏ" РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ.'}
 *		},
 * 		'url': '/url/to/redirect',
 * 	}
@@ -87,7 +87,7 @@ function ajaxForm($form){
 			successDo(data, $form);
 		},
 		error: function() {
-			notie.alert(3, 'Произошла ошибка', 1.5);
+			notie.alert(3, 'РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°', 1.5);
 		}
 	});
 }
@@ -96,7 +96,7 @@ function ajaxForm($form){
 
 
 /*
-* Скролл к элементу
+* РЎРєСЂРѕР»Р» Рє СЌР»РµРјРµРЅС‚Сѓ
 */
 function scrollTo($elem){
 	var offset = 0;
@@ -110,29 +110,29 @@ function scrollTo($elem){
 
 
 /*
-* Вызов confirm
+* Р’С‹Р·РѕРІ confirm
 */
 function confirmCall(text, yesCallback){
 	var text = text || '';
 	var yesCallback = yesCallback || '';
 	var $wrapConfirm = $('#'+CONFIRM_MODAL);
 	
-	// Перед открыванием модального окна
+	// РџРµСЂРµРґ РѕС‚РєСЂС‹РІР°РЅРёРµРј РјРѕРґР°Р»СЊРЅРѕРіРѕ РѕРєРЅР°
 	$wrapConfirm.on('show.bs.modal', function (event) {
 		$(this).find('.modal-body').html(text);
 		$(this).unbind('show.bs.modal');
 	});
 
-	// Когда модальное окно видно
+	// РљРѕРіРґР° РјРѕРґР°Р»СЊРЅРѕРµ РѕРєРЅРѕ РІРёРґРЅРѕ
 	$wrapConfirm.on('shown.bs.modal', function (event) {
 		$(this).find(':submit').focus();
 		$(this).unbind('shown.bs.modal');
 	});
 
-	//Показ модального окна
+	//РџРѕРєР°Р· РјРѕРґР°Р»СЊРЅРѕРіРѕ РѕРєРЅР°
 	$wrapConfirm.modal('show');
 
-	// При нажатии на кнопку ок
+	// РџСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРЅРѕРїРєСѓ РѕРє
 	$wrapConfirm.find("form").submit(function (event) {
 		event.preventDefault();
 		$wrapConfirm.modal('hide');
@@ -143,7 +143,7 @@ function confirmCall(text, yesCallback){
 	});
 	
 	
-	// При скрытии окна сбрасываем события
+	// РџСЂРё СЃРєСЂС‹С‚РёРё РѕРєРЅР° СЃР±СЂР°СЃС‹РІР°РµРј СЃРѕР±С‹С‚РёСЏ
 	$wrapConfirm.on('hide.bs.modal', function (event) {
 		$wrapConfirm.find("form").unbind('submit');
 		$(this).unbind('hide.bs.modal');
@@ -154,7 +154,7 @@ function confirmCall(text, yesCallback){
 
 
 /*
-* Вызов события в контроллере
+* Р’С‹Р·РѕРІ СЃРѕР±С‹С‚РёСЏ РІ РєРѕРЅС‚СЂРѕР»Р»РµСЂРµ
 */
 function actionCall(el, url, confirm){
 	var el = el || '';
@@ -182,7 +182,7 @@ function actionCall(el, url, confirm){
 			successDo(data, $form);
 		},
 		error: function() {
-			notie.alert(3, 'Произошла ошибка', 1.5);
+			notie.alert(3, 'РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°', 1.5);
 		}
 	});
 	
@@ -193,7 +193,7 @@ function actionCall(el, url, confirm){
 
 
 /*
-*  стандартные действия при успешно ajax
+*  СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РґРµР№СЃС‚РІРёСЏ РїСЂРё СѓСЃРїРµС€РЅРѕ ajax
 */
 function successDo(data, $form){
 	var data = data || '';
@@ -215,10 +215,10 @@ function successDo(data, $form){
 	if(data.errFields != ''){
 		$.each(data.errFields, function(index, value) {
 			if(index.indexOf("table_") === -1){
-				//Поля формы
+				//РџРѕР»СЏ С„РѕСЂРјС‹
 				$form.find(':input[name="'+index+'"]').closest('.form-group').addClass(CLASS_ERROR);
 			}else{
-				//Поля таблицы
+				//РџРѕР»СЏ С‚Р°Р±Р»РёС†С‹
 				var item = index.replace("table_", "");
 				blinkElem($('tr[data-item="'+item+'"]').delay(300));
 			}
@@ -250,7 +250,7 @@ function successDo(data, $form){
 
 
 /*
-* Мигание элемента
+* РњРёРіР°РЅРёРµ СЌР»РµРјРµРЅС‚Р°
 */
 function blinkElem($elem, count){
 	var $elem = $elem || '';
@@ -265,7 +265,7 @@ function blinkElem($elem, count){
 
 
 /**
- * Где выделены checkbox появляются input
+ * Р“РґРµ РІС‹РґРµР»РµРЅС‹ checkbox РїРѕСЏРІР»СЏСЋС‚СЃСЏ input
  */
 function editTable(el, type){
 	var el = el || '';

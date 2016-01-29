@@ -50,15 +50,15 @@ if (history.pushState) {
 
 
 /*
-* initAjaxClass клик на ссылку с классом ajax
+* initAjaxClass РєР»РёРє РЅР° СЃСЃС‹Р»РєСѓ СЃ РєР»Р°СЃСЃРѕРј ajax
 */
 function initAjaxClass(){
 	$('.'+CLASS_AJAX).click(function(event){
 		event.preventDefault();
 
 		var url = $(this).attr('href') || $(this).attr('data-url');		//URL
-		var method = $(this).attr('data-method') || 'GET';			//Метод POST или GET
-		var content = $(this).attr('data-content') || ID_AJAX_CONTENT;		//Контейнер в который вставится результат
+		var method = $(this).attr('data-method') || 'GET';			//РњРµС‚РѕРґ POST РёР»Рё GET
+		var content = $(this).attr('data-content') || ID_AJAX_CONTENT;		//РљРѕРЅС‚РµР№РЅРµСЂ РІ РєРѕС‚РѕСЂС‹Р№ РІСЃС‚Р°РІРёС‚СЃСЏ СЂРµР·СѓР»СЊС‚Р°С‚
 
 		if(url && method && content){
 			$.ajax({
@@ -71,10 +71,6 @@ function initAjaxClass(){
 					$(content).html(result);
 				}
 			});
-		}else{
-			if(!url){alert = 'Нет url';}
-			if(!method){alert = 'Нет method';}
-			if(!content){alert = 'Нет content';}
 		}
 	});
 }
@@ -104,7 +100,7 @@ function initAjaxForm(){
 
 
 
-//При фокусе убрать красную обводку
+//РџСЂРё С„РѕРєСѓСЃРµ СѓР±СЂР°С‚СЊ РєСЂР°СЃРЅСѓСЋ РѕР±РІРѕРґРєСѓ
 function initRemoveError(){
 	$(':input').on('focus', function() {
 		$(this).closest('.form-group').removeClass(CLASS_ERROR);
@@ -167,7 +163,7 @@ function initDataTable(){
 		"language": {"url": "//cdn.datatables.net/plug-ins/1.10.10/i18n/Russian.json"},
 		"pageLength": 25,
 		"columnDefs": [{ targets: 'no-sort', orderable: false, width: "20px" }],
-		"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Все"]],
+		"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Р’СЃРµ"]],
 		stateSave: true
 	});
 
