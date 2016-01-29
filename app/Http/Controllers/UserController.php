@@ -133,7 +133,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {		
-        $rules = array();
 		$rules = array(
             'name'       => 'required|max:255',
             'email'      => 'required|email|max:255|unique:users,email,'.$id,
@@ -181,17 +180,42 @@ class UserController extends Controller
      */
     public function updateItems(Request $request)
     {
-        $rules = array();
+		$rules = array();
+		$itemArray = $request->input('item');
+		foreach($itemArray as $key => $id_user){
+			 $rules['name.'.$id_user] =  'required|max:255';
+			 $rules['email.'.$id_user] =  'required|email|max:255|unique:users,email,'.$id_user;
+		}
         $validator = Validator::make($request->all(), $rules);
 		$arrStatus = array(
 			'request' => $request,
 			'validator' => $validator,
 		);
 		
-        $itemArray = $request->input('item');
+        
 		if(count($itemArray) == 0){
 			return Alma::infoReturn('Ничего не выбрано', $arrStatus);
 		}
+		
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn('Не удалось изменить', $arrStatus);
+		}
+		
+		
+		// Success
+		foreach($itemArray as $key => $id_user){
+			$arrParam = array(
+				'id' => $id_user,
+				'name' => $request->input('name')[$id_user],
+				'email' => $request->input('email')[$id_user],
+			);
+			User::updateData($arrParam);
+		}
+		
+		$arrStatus['url'] = route('users.index');
+		return Alma::successReturn('Пользователи успешно изменены', $arrStatus);
+		
 		return 1;
     }
 

@@ -370,7 +370,11 @@ function actionCall(el, url, confirm){
 	}
 
 	var $form = $('#'+FORM_ITEMS);
+	
+	var disabled = $form.find(':input:disabled').removeAttr('disabled');
 	var data = $form.serializeArray();	
+	disabled.attr('disabled','disabled');
+
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -412,8 +416,18 @@ function successDo(data, $form){
 	if(data.errFields != ''){
 		$.each(data.errFields, function(index, value) {
 			if(index.indexOf("table_") === -1){
+				var field = index.split('.').map(function(word, count){
+					if(count > 0){
+						return "[" + word.trim() + "]";
+					}
+					return word.trim();
+				}).join('');
+
 				//Поля формы
-				$form.find(':input[name="'+index+'"]').closest('.form-group').addClass(CLASS_ERROR);
+				var $findField = $form.find(':input[name="'+field+'"]');
+				$findField.parent().addClass(CLASS_ERROR);
+				blinkElem($findField.delay(300));
+				
 			}else{
 				//Поля таблицы
 				var item = index.replace("table_", "");
