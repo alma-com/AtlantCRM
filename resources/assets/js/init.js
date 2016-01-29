@@ -41,7 +41,7 @@ if (history.pushState) {
 		setPage(e.state.page, 'popstate');
 	}, false);
 
-	$(document).on('click','a:not(.'+CLASS_NO_AJAX+'):not([href="#"])',function(e){
+	$(document).on('click','a:not(.'+CLASS_NO_AJAX+'):not([href*=#]):not([href*="javascript"])',function(e){
 		setPage($(this).attr('href'));
 		return false;
 	});
