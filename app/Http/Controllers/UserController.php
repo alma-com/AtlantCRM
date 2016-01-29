@@ -11,7 +11,6 @@ use Auth;
 use Session;
 use Validator;
 use HTML;
-use Hash;
 use Response;
 use Alma;
 
@@ -80,11 +79,12 @@ class UserController extends Controller
 		
 		
 		// Success
-		$user = new User;
-		$user->name = $request->get('name');
-		$user->email = $request->get('email');
-		$user->password = Hash::make($request->get('password'));
-		$user->save();
+		$arrParam = array(
+			'name' => $request->input('name'),
+			'email' => $request->input('email'),
+			'password' => $request->input('password'),
+		);
+		User::updateData($arrParam);
 		
 		$arrStatus['url'] = route('users.index');
 		return Alma::successReturn('Пользователь успешно добавлен', $arrStatus);	
@@ -162,13 +162,13 @@ class UserController extends Controller
 
 		
 		// Success
-		$user = User::find($id);
-		$user->name = $request->input('name');
-		$user->email = $request->input('email');
-		if($password != ''){
-			$user->password = Hash::make($password);
-		}
-		$user->save();
+		$arrParam = array(
+			'id' => $id,
+			'name' => $request->input('name'),
+			'email' => $request->input('email'),
+			'password' => $password,
+		);
+		User::updateData($arrParam);
 			
 		$arrStatus['url'] = route('users.index');
 		return Alma::successReturn('Пользователь успешно изменен', $arrStatus);	
@@ -224,8 +224,7 @@ class UserController extends Controller
 		
 		
 		// Success
-		$user = User::find($id);
-		$user->delete();
+		User::deleteData($id);
 			
 		$arrStatus['url'] = route('users.index');
 		return Alma::successReturn('Пользователь успешно удален', $arrStatus);	
@@ -267,7 +266,7 @@ class UserController extends Controller
 		
 		// Success
 		foreach($itemArray as $key => $id_user){
-			$this->destroy($request, $id_user);
+			User::deleteData($id_user);
 		}
 		
 		$arrStatus['url'] = route('users.index');
