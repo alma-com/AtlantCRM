@@ -30,19 +30,15 @@ Route::group(['middleware' => ['web']], function () {
 	Route::group(['middleware' => ['auth']], function () {
 		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 		
+		
 		Route::resource('users', 'UserController');
 		Route::post('/users/destroyItems', ['as' => 'users.destroyItems', 'uses' => 'UserController@destroyItems']);
 		Route::post('/users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
+		
+		Route::resource('users/role', 'RoleController');
 
 		Route::get('/example', function () {
 			return view('example');
 		});
 	});
 });
-
-
-//use Spatie\Permission\Models\Role;
-//use Spatie\Permission\Models\Permission;
-
-//$role = Role::findByName('admin');
-//$role->givePermissionTo('add user');

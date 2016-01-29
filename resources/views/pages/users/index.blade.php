@@ -19,6 +19,10 @@
 		<i class="fa fa-btn fa-plus"></i>
 		Добавить пользователя
 	</a>
+	<a href="{{ route('users.role.index') }}" class="btn btn-default">
+		<i class="fa fa-btn fa-cog"></i>
+		Управление ролями
+	</a>
 </div>
 
 <div class="row">
