@@ -100,6 +100,39 @@ function initAjaxForm(){
 
 
 
+/*
+* Отправка формы через ajax
+* 	data {
+* 		'status': 'success|warning|error|info|',
+* 		'message': 'Краткий текст сообщения',
+* 		'description': 'Подробный текст сообщения',
+* 		'errFields': {
+*			'name' : {'Поле "Имя" обязательно для заполнения.'}
+*		},
+* 		'url': '/url/to/redirect',
+* 	}
+*
+*/
+function ajaxForm($form){
+	var url = $form.attr('action');
+	var method = $form.attr('method');
+	var data = $form.serializeArray();
+
+	$.ajax({
+		url: url,
+		type: method,
+		data: data,
+		success: function(data){
+			successDo(data, $form);
+		},
+		error: function() {
+			notie.alert(3, 'Произошла ошибка', 1.5);
+		}
+	});
+}
+
+
+
 //При фокусе убрать красную обводку
 function initRemoveError(){
 	$(':input').on('focus', function() {

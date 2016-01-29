@@ -116,6 +116,39 @@ function initAjaxForm(){
 
 
 
+/*
+* Отправка формы через ajax
+* 	data {
+* 		'status': 'success|warning|error|info|',
+* 		'message': 'Краткий текст сообщения',
+* 		'description': 'Подробный текст сообщения',
+* 		'errFields': {
+*			'name' : {'Поле "Имя" обязательно для заполнения.'}
+*		},
+* 		'url': '/url/to/redirect',
+* 	}
+*
+*/
+function ajaxForm($form){
+	var url = $form.attr('action');
+	var method = $form.attr('method');
+	var data = $form.serializeArray();
+
+	$.ajax({
+		url: url,
+		type: method,
+		data: data,
+		success: function(data){
+			successDo(data, $form);
+		},
+		error: function() {
+			notie.alert(3, 'Произошла ошибка', 1.5);
+		}
+	});
+}
+
+
+
 //При фокусе убрать красную обводку
 function initRemoveError(){
 	$(':input').on('focus', function() {
@@ -260,40 +293,6 @@ function setPage(page, popstate){
 
 
 /*
-* Отправка формы через ajax
-* 	data {
-* 		'status': 'success|warning|error|info|',
-* 		'message': 'Краткий текст сообщения',
-* 		'description': 'Подробный текст сообщения',
-* 		'errFields': {
-*			'name' : {'Поле "Имя" обязательно для заполнения.'}
-*		},
-* 		'url': '/url/to/redirect',
-* 	}
-*
-*/
-function ajaxForm($form){
-	var url = $form.attr('action');
-	var method = $form.attr('method');
-	var data = $form.serializeArray();
-
-	$.ajax({
-		url: url,
-		type: method,
-		data: data,
-		success: function(data){
-			successDo(data, $form);
-		},
-		error: function() {
-			notie.alert(3, 'Произошла ошибка', 1.5);
-		}
-	});
-}
-
-
-
-
-/*
 * Скролл к элементу
 */
 function scrollTo($elem){
@@ -365,7 +364,7 @@ function actionCall(el, url, confirm){
 	
 	if(confirm != ''){
 		confirmCall(confirm, function(){
-			actionCall(url);
+			actionCall(el, url);
 		});
 		return false;
 	}
@@ -377,6 +376,7 @@ function actionCall(el, url, confirm){
 		type: 'POST',
 		data: data,
 		success: function(data){
+			console.log(data);
 			successDo(data, $form);
 		},
 		error: function() {
@@ -494,4 +494,6 @@ function editTable(el, type){
 	}
 	return false;
 }
+
+
 //# sourceMappingURL=all.js.map
