@@ -376,7 +376,6 @@ function actionCall(el, url, confirm){
 		type: 'POST',
 		data: data,
 		success: function(data){
-			console.log(data);
 			successDo(data, $form);
 		},
 		error: function() {
