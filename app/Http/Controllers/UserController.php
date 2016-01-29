@@ -100,7 +100,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+		//
     }
 
 	
@@ -111,9 +111,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+		$user = User::find($id);
+		if(count($user) == 0){
+			Session::flash('warning', 'Пользователь не найден');
+		}
+		
+		$view = view('pages.users.edit')->with('user', $user);
+		return Alma::viewReturn($view, $request);
     }
 
 	
@@ -126,8 +132,67 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
+    {		
+        $rules = array();
+		$rules = array(
+            'name'       => 'required|max:255',
+            'email'      => 'required|email|max:255|unique:users,email,'.$id,
+            'password' => 'min:6|max:255',
+            'password_confirmation' => 'same:password',
+        );
+        $validator = Validator::make($request->all(), $rules);
+		
+		$password = $request->input('password');
+		$password_confirmation = $request->input('password_confirmation');
+		
+		if ($password_confirmation == '' && $password_confirmation != $password){
+			$validator->after(function($validator){
+				$validator->errors()->add('password_confirmation', 'Значение "Еще раз пароль" должно совпадать с "Пароль".');
+			});
+		}
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
+				
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn('Не удалось изменить пользователя', $arrStatus);
+		}
+
+		
+		// Success
+		$user = User::find($id);
+		$user->name = $request->input('name');
+		$user->email = $request->input('email');
+		if($password != ''){
+			$user->password = Hash::make($password);
+		}
+		$user->save();
+			
+		$arrStatus['url'] = route('users.index');
+		return Alma::successReturn('Пользователь успешно изменен', $arrStatus);	
+    }
+	
+	
+	
+	/**
+     * Обновление полей пользователей
+     */
+    public function updateItems(Request $request)
     {
-        //
+        $rules = array();
+        $validator = Validator::make($request->all(), $rules);
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
+		
+        $itemArray = $request->input('item');
+		if(count($itemArray) == 0){
+			return Alma::infoReturn('Ничего не выбрано', $arrStatus);
+		}
+		return 1;
     }
 
 	
@@ -171,7 +236,7 @@ class UserController extends Controller
 	/**
      * Удаление списка пользователей
      */
-    public function destroyAll(Request $request)
+    public function destroyItems(Request $request)
     {
 		$rules = array();
         $validator = Validator::make($request->all(), $rules);

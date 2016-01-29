@@ -84,7 +84,7 @@
 				</div>
 		
 				<div class="box-footer">
-					<button type="submit" class="btn btn-primary" name="create_user" >Добавить</button>
+					<button type="submit" class="btn btn-success" name="create_user" >Добавить</button>
 				</div>
 			</form>
 		</div> 
