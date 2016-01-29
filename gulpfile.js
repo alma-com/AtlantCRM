@@ -19,6 +19,5 @@ elixir(function(mix) {
 			'init.js',
 			'helpers.js',
 		])
-		.phpUnit()
-		.browserSync({proxy: 'support.alma-com.ru.local'});
+		.phpUnit();
 });
