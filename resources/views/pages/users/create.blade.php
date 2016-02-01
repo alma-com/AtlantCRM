@@ -16,8 +16,8 @@
 
 @section('content')
 <div class="btn-group margin-bottom">
-	<a href="{{ route('users.index') }}" class="btn btn-info">
-		<i class="fa fa-btn fa-users"></i>
+	<a href="{{ route('users.index') }}" class="btn btn-default">
+		<i class="fa fa-btn fa-angle-double-left"></i>
 		Список пользователей
 	</a>
 </div>
@@ -46,7 +46,7 @@
 					</div>
 					
 					{{-- Имя --}}
-					<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+					<div class="form-group is-required{{ $errors->has('name') ? ' has-error' : '' }}">
 						<label for="name">Имя</label>
 						<input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
 					</div>
@@ -58,7 +58,7 @@
 					</div>
 					
 					{{-- E-mail --}}
-					<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+					<div class="form-group is-required{{ $errors->has('email') ? ' has-error' : '' }}">
 						<label for="email">E-mail</label>
 						<input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
 					</div>
@@ -70,13 +70,13 @@
 					</div>
 					
 					{{-- Пароль --}}
-					<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+					<div class="form-group is-required{{ $errors->has('password') ? ' has-error' : '' }}">
 						<label for="password">Пароль</label>
 						<input type="password" class="form-control" id="password" name="password">
 					</div>
 					
 					{{-- Еще раз пароль --}}
-					<div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+					<div class="form-group is-required{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
 						<label for="password_confirmation">Еще раз пароль</label>
 						<input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
 					</div>

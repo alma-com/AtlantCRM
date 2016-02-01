@@ -45,3 +45,20 @@ th{
 	list-style-type: none;
     padding-left: 0px;
 }
+
+
+.box-wrap{
+	border-top: 1px solid #f4f4f4;
+	border-bottom: 1px solid #f4f4f4;
+	color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+	
+	.box-title {
+		display: inline-block;
+		font-size: 18px;
+		margin: 0;
+		line-height: 1;
+	}
+}

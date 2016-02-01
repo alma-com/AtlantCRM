@@ -23,6 +23,10 @@
 		<i class="fa fa-btn fa-cog"></i>
 		Управление ролями
 	</a>
+	<a href="{{ route('roles.show', Auth::user()->id) }}" class="btn btn-default">
+		<i class="fa fa-btn fa-user"></i>
+		Мой профиль
+	</a>
 </div>
 
 <div class="row">

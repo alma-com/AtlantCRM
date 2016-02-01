@@ -16,8 +16,8 @@
 
 @section('content')
 <div class="btn-group margin-bottom">
-	<a href="{{ route('users.index') }}" class="btn btn-info">
-		<i class="fa fa-btn fa-users"></i>
+	<a href="{{ route('users.index') }}" class="btn btn-default">
+		<i class="fa fa-btn fa-angle-double-left"></i>
 		Список пользователей
 	</a>
 </div>

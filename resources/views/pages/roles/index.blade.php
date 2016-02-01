@@ -9,21 +9,25 @@
 <ol class="breadcrumb">
 	<li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Атлант</a></li>
 	<li><a href="{{ route('users.index') }}">Пользователи</a></li>
-	<li>Пользователи</li>
+	<li>Управление ролями</li>
 </ol>
 @endsection
 
 
 @section('content')
 <div class="btn-group margin-bottom">
-	<a href="{{ route('users.index') }}" class="btn btn-info">
-		<i class="fa fa-btn fa-users"></i>
+	<a href="{{ route('users.index') }}" class="btn btn-default">
+		<i class="fa fa-btn fa-angle-double-left"></i>
 		Список пользователей
+	</a>
+	<a href="{{ route('roles.create') }}" class="btn btn-info">
+		<i class="fa fa-btn fa-plus"></i>
+		Добавить роль
 	</a>
 </div>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div class="box">
 		
 			<div class="box-header">
@@ -60,8 +64,8 @@
 										<input type="checkbox" name="item[]" value="{{ $role->id }}">
 									</td>
 									<td>
-										<div class="td-text"><a href="{{ route('users.edit', $role->id) }}">{{ $role->name }}</a></div>
-										<div class="td-input"><input type="text" class="form-control" name="name[{{ $role->id }}]" value="{{ $role->name }}"></div>
+										<div class="td-text"><a href="{{ route('users.edit', $role->id) }}">{{ $role->name_display }}</a></div>
+										<div class="td-input"><input type="text" class="form-control" name="name_display[{{ $role->id }}]" value="{{ $role->name_display }}"></div>
 									</td>
 									<td>
 										<div class="td-text">{{ $role->description }}</div>

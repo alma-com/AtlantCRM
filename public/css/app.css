@@ -61,6 +61,19 @@ th {
   list-style-type: none;
   padding-left: 0px; }
 
+.box-wrap {
+  border-top: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f4f4f4;
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative; }
+  .box-wrap .box-title {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1; }
+
 .table-controls .btn-group {
   padding-left: 10px; }
 
@@ -94,5 +107,23 @@ tr.show-input td .td-text {
 
 .table-controls.edit .btn-group {
   display: none; }
+
+.form-group.is-required > label:after {
+  color: #ff0000;
+  vertical-align: super;
+  font-size: 60%;
+  content: " *";
+  text-shadow: 0 0 2px #b30000; }
+
+.icheckbox_flat-blue {
+  margin-top: -4px;
+  margin-right: 4px; }
+
+.checkbox, .radio {
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+.checkbox + .checkbox, .radio + .radio {
+  margin-top: 15px; }
 
 /*# sourceMappingURL=app.css.map */
