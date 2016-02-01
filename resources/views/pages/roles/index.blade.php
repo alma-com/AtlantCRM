@@ -53,23 +53,28 @@
 								</th>
 								<th>Название</th>
 								<th>Описание</th>
+								<th>Пользователи</th>
 								<th>Сортировка</th>
 							</tr>
 						</thead>
 						
 						<tbody>
 							@foreach($roles as $role)
-								<tr data-item="{{ $user->id }}">
+								<tr data-item="{{ $role->id }}">
 									<td>
 										<input type="checkbox" name="item[]" value="{{ $role->id }}">
 									</td>
 									<td>
-										<div class="td-text"><a href="{{ route('users.edit', $role->id) }}">{{ $role->name_display }}</a></div>
-										<div class="td-input"><input type="text" class="form-control" name="name_display[{{ $role->id }}]" value="{{ $role->name_display }}"></div>
+										<div class="td-text"><a href="{{ route('users.edit', $role->id) }}">{{ $role->display_name }}</a></div>
+										<div class="td-input"><input type="text" class="form-control" name="display_name[{{ $role->id }}]" value="{{ $role->display_name }}"></div>
 									</td>
 									<td>
 										<div class="td-text">{{ $role->description }}</div>
 										<div class="td-input"><input type="text"  class="form-control" name="email[{{ $role->id }}]" value="{{ $role->description }}"></div>
+									</td>
+									<td>
+										<div class="td-text">{{ $role->sort_order }}</div>
+										<div class="td-input"><input type="text"  class="form-control" name="sort_order[{{ $role->id }}]" value="{{ $role->sort_order }}"></div>
 									</td>
 									<td>
 										<div class="td-text">{{ $role->sort_order }}</div>
