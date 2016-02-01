@@ -32,10 +32,11 @@ Route::group(['middleware' => ['web']], function () {
 		
 		
 		Route::resource('users', 'UserController');
-		Route::post('/users/destroyItems', ['as' => 'users.destroyItems', 'uses' => 'UserController@destroyItems']);
-		Route::post('/users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
+		Route::post('users/destroyItems', ['as' => 'users.destroyItems', 'uses' => 'UserController@destroyItems']);
+		Route::post('users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
 		
-		Route::resource('users/role', 'RoleController');
+		Route::resource('roles', 'RoleController');
+		
 
 		Route::get('/example', function () {
 			return view('example');

@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('title')
-	Атлант - Пользователи системы
+	Атлант - Управление ролями
 @endsection
 
 @section('content-header')
-<h1>Пользователи<small>системы</small></h1>
+<h1>Управление ролями<small>системы</small></h1>
 <ol class="breadcrumb">
 	<li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Атлант</a></li>
+	<li><a href="{{ route('users.index') }}">Пользователи</a></li>
 	<li>Пользователи</li>
 </ol>
 @endsection
@@ -15,31 +16,27 @@
 
 @section('content')
 <div class="btn-group margin-bottom">
-	<a href="{{ route('users.create') }}" class="btn btn-info">
-		<i class="fa fa-btn fa-plus"></i>
-		Добавить пользователя
-	</a>
-	<a href="{{ route('roles.index') }}" class="btn btn-default">
-		<i class="fa fa-btn fa-cog"></i>
-		Управление ролями
+	<a href="{{ route('users.index') }}" class="btn btn-info">
+		<i class="fa fa-btn fa-users"></i>
+		Список пользователей
 	</a>
 </div>
 
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-6">
 		<div class="box">
 		
 			<div class="box-header">
-              <h3 class="box-title">Список пользователей</h3>
+              <h3 class="box-title">Список ролей</h3>
             </div>
 			
 			<div class="box-body">
 			
-				@if(count($users) > 0)
+				@if(count($roles) > 0)
 			        <form id="form-items" role="form" method="POST">
 				
                     {!! csrf_field() !!}
-					@if(count($users) > 25)
+					@if(count($roles) > 25)
 						<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
 					@else
 						<table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'>
@@ -50,29 +47,30 @@
 								<th class="no-sort">
 									<input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 								</th>
-								<th>ФИО</th>
-								<th>E-mail</th>
-								<th>Роль</th>
-								<th>Организация</th>
+								<th>Название</th>
+								<th>Описание</th>
+								<th>Сортировка</th>
 							</tr>
 						</thead>
 						
 						<tbody>
-							@foreach($users as $user)
+							@foreach($roles as $role)
 								<tr data-item="{{ $user->id }}">
 									<td>
-										<input type="checkbox" name="item[]" value="{{ $user->id }}">
+										<input type="checkbox" name="item[]" value="{{ $role->id }}">
 									</td>
 									<td>
-										<div class="td-text"><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></div>
-										<div class="td-input"><input type="text" class="form-control" name="name[{{ $user->id }}]" value="{{ $user->name }}"></div>
+										<div class="td-text"><a href="{{ route('users.edit', $role->id) }}">{{ $role->name }}</a></div>
+										<div class="td-input"><input type="text" class="form-control" name="name[{{ $role->id }}]" value="{{ $role->name }}"></div>
 									</td>
 									<td>
-										<div class="td-text">{{ $user->email }}</div>
-										<div class="td-input"><input type="text"  class="form-control" name="email[{{ $user->id }}]" value="{{ $user->email }}"></div>
+										<div class="td-text">{{ $role->description }}</div>
+										<div class="td-input"><input type="text"  class="form-control" name="email[{{ $role->id }}]" value="{{ $role->description }}"></div>
 									</td>
-									<td></td>
-									<td></td>
+									<td>
+										<div class="td-text">{{ $role->sort_order }}</div>
+										<div class="td-input"><input type="text"  class="form-control" name="sort_order[{{ $role->id }}]" value="{{ $role->sort_order }}"></div>
+									</td>
 								</tr>
 							@endforeach
 						</tbody>
@@ -115,6 +113,8 @@
 						
 					</table>
 					</form>
+				@else
+					Нет ролей
 				@endif
 			</div>
 		</div>
