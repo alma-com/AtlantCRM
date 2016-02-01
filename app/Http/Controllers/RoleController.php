@@ -25,16 +25,21 @@ class RoleController extends Controller
 		return Alma::viewReturn($view, $request);
     }
 
+	
+	
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $view = view('pages.roles.create');
+		return Alma::viewReturn($view, $request);
     }
 
+	
+	
     /**
      * Store a newly created resource in storage.
      *
