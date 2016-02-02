@@ -31,8 +31,6 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 		
 		
-		Route::get('/update-settings', 'SettingController@update');
-		
 		Route::resource('users', 'UserController');
 		Route::post('users/destroyItems', ['as' => 'users.destroyItems', 'uses' => 'UserController@destroyItems']);
 		Route::post('users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
