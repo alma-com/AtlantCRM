@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Alma;
 use Session;
 use App\Role;
+use App\Permission;
 
 class RoleController extends Controller
 {
@@ -19,8 +20,8 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-		$roles = Role::all();		
+    {		
+		$roles = Role::all();	
 		$view = view('pages.roles.index')->with('roles', $roles);
 		return Alma::viewReturn($view, $request);
     }
