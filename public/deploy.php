@@ -14,6 +14,7 @@
 		'git status',
 		'php artisan migrate',
 		'php artisan vendor:publish',
+		'permission:update',
 	);
 	// Run the commands for output
 	$output = '';
