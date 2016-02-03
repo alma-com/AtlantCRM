@@ -20,6 +20,19 @@ class Permission extends Model
 	
 	
 	/**
+	 * Получение id права по названию
+	 */
+	public function getByName($name = ''){
+		$permission = array();
+		if($name != ''){
+			$permission = $this->where('name', $name)->first();
+		}
+		
+		return $permission;
+	}
+	
+	
+	/**
 	 * Добавление права доступа
 	 */
 	public static function addPermission($arrData, $groupName = '')
@@ -41,14 +54,13 @@ class Permission extends Model
 		$permission = Permission::where('name', $res['name'])->first();
 		if(count($permission) == 0){
 			$permission = new Permission;
+			$permission->name = $res['name'];
+			$permission->display_name = $res['display_name'];
+			$permission->description = $res['description'];
+			$permission->sort_order = $res['sort_order'];
+			$permission->group_id = $res['group_id'];
+			$permission->save();
 		}
-		
-		$permission->name = $res['name'];
-		$permission->display_name = $res['display_name'];
-		$permission->description = $res['description'];
-		$permission->sort_order = $res['sort_order'];
-		$permission->group_id = $res['group_id'];
-		$permission->save();
 		
 		return $permission;		
 	}
