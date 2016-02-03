@@ -27,6 +27,33 @@ class User extends Authenticatable
     ];
 	
 	
+	public function roles()
+    {
+       return $this->belongsToMany('App\Role', 'user_has_roles');
+    }
+	
+	
+	
+	/**
+	 * Привязывание роли к пользователю
+	 */
+	public function assignRole($nameRole = '')
+	{
+		if($nameRole != ''){
+			$roleModel = new Role;
+			$role = $roleModel->getByName($nameRole);
+			
+			if(count($role) > 0){
+				$check = $this->roles()->find($role->id);
+				if(count($check) == 0){
+					$this->roles()->save($role);
+				}
+			}
+			
+		}
+		return $this;
+	}
+	
 	
 	
 	/**
