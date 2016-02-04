@@ -11,6 +11,7 @@ use Alma;
 use Session;
 use App\Role;
 use App\Permission;
+use App\PermissionGroup;
 
 class RoleController extends Controller
 {
@@ -35,7 +36,9 @@ class RoleController extends Controller
      */
     public function create(Request $request)
     {
-        $view = view('pages.roles.create');
+		$groups = PermissionGroup::with('permissions')->get();
+		
+        $view = view('pages.roles.create')->with('groups', $groups);
 		return Alma::viewReturn($view, $request);
     }
 
