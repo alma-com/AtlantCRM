@@ -24,6 +24,8 @@ class UserHasRoleTest extends TestCase
 		//Добавление ролей
 		$role1 = Role::addRole(array('name' => 'testRole1'));
 		$role2 = Role::addRole(array('name' => 'testRole2'));
+		$this->assertTrue(!is_null($role1));
+		$this->assertTrue(!is_null($role2));
 		
 		
 		//Привязывание ролей к пользователю
