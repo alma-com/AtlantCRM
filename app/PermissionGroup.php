@@ -28,14 +28,17 @@ class PermissionGroup extends Model
 	 * Получение id группы по названию
 	 */
 	public function getIdByName($name = ''){
-		$group = array();
+		$group = null;
 		$id_group = '';
 		if($name != ''){
 			$group = $this->where('name', $name)->first();
 		}
 		
-		if(count($group) == 0){
+		if(is_null($group)){
 			$group = $this->where('name', $this->defaultName)->first();
+			if(is_null($group)){
+				$group = self::addGroup(array('name' => $this->defaultName));
+			}
 		}
 		$id_group = $group->id;
 		
