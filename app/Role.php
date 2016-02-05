@@ -73,6 +73,24 @@ class Role extends Model
 	
 	
 	/**
+	 * Отвязывание права
+	 */
+	public function deletePermission($namePermission = '')
+	{
+		if($namePermission != ''){
+			$permission = new Permission;
+			$permission = $permission->getByName($namePermission);
+			
+			if(!is_null($permission)){
+				$this->permissions()->where('id', $permission->id)->delete();
+			}
+			
+		}
+		return $this;
+	}
+	
+	
+	/**
 	 * Получение id роли по названию
 	 */
 	public function getByName($name = ''){
