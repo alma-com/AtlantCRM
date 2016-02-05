@@ -57,10 +57,33 @@ class User extends Authenticatable
 	
 	
 	/**
+	 * Отвязывание роли к пользователю
+	 */
+	public function deleteRole($nameRole = '')
+	{
+		if($nameRole != ''){
+			$roleModel = new Role;
+			$role = $roleModel->getByName($nameRole);
+			
+			if(!is_null($role)){
+				$this->roles()->where('id', $role->id)->delete();
+			}
+			
+		}
+		return $this;
+	}
+	
+	
+	
+	/**
 	 * Изменение пользователя
 	 */
 	public static function updateData($arrParam)
 	{
+		if(is_array($arrParam) === false){
+			return false;
+		}
+		
 		$arrDefault = array(
 			'id' => '',
 			'name' => '',
