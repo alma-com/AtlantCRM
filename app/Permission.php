@@ -37,6 +37,10 @@ class Permission extends Model
 	 */
 	public static function addPermission($arrData, $groupName = '')
 	{
+		if(is_array($arrData) === false){
+			return null;
+		}
+		
 		$sort_order = Permission::max('sort_order')+10;
 		$permissionGroup = new PermissionGroup;
 		$group_id =  $permissionGroup->getIdByName($groupName);

@@ -23,6 +23,9 @@ class Role extends Model
 	 */
 	public static function addRole($arrData)
 	{
+		if(is_array($arrData) === false){
+			return null;
+		}
 		$sort_order = Role::max('sort_order')+10;
 		$arrDefault = array(
 			'name' => '',

@@ -49,6 +49,10 @@ class PermissionGroup extends Model
 	 */
 	public static function addGroup($arrData)
 	{
+		if(is_array($arrData) === false){
+			return null;
+		}
+		
 		$sort_order = PermissionGroup::max('sort_order')+10;
 		$arrDefault = array(
 			'name' => '',
