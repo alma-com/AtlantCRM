@@ -23,8 +23,8 @@ class RoleHasPermissionTest extends TestCase
 	   
 	   
 		//Добавление прав доступа
-		$permission1 = Permission::addPermission(array('name' => 'testPermission1'));
-		$permission2 = Permission::addPermission(array('name' => 'testPermission2'));
+		$permission1 = Permission::add(array('name' => 'testPermission1'));
+		$permission2 = Permission::add(array('name' => 'testPermission2'));
 		$this->assertTrue(!is_null($permission1));
 		$this->assertTrue(!is_null($permission2));
 		

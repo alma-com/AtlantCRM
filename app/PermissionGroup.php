@@ -6,16 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class PermissionGroup extends Model
 {
-	public $defaultName;
+	public static $defaultName = 'general';
 	
 	
 	protected $fillable = [
         'name', 'display_name', 'description', 'sort_order',
     ];
-	
-	public function __construct(){
-		$this->defaultName = 'general';
-	}
 	
 	public function permissions()
     {
@@ -25,24 +21,23 @@ class PermissionGroup extends Model
 	
 		
 	/**
-	 * Получение id группы по названию
+	 * Получение группы по названию
 	 */
-	public function getIdByName($name = ''){
+	public static function getByName($name = ''){
 		$group = null;
 		$id_group = '';
 		if($name != ''){
-			$group = $this->where('name', $name)->first();
+			$group = self::where('name', $name)->first();
 		}
 		
 		if(is_null($group)){
-			$group = $this->where('name', $this->defaultName)->first();
+			$group = self::where('name', self::$defaultName)->first();
 			if(is_null($group)){
-				$group = self::addGroup(array('name' => $this->defaultName));
+				$group = self::add(array('name' => self::$defaultName));
 			}
 		}
-		$id_group = $group->id;
 		
-		return $id_group;
+		return $group;
 	}
 	
 	
@@ -50,12 +45,13 @@ class PermissionGroup extends Model
 	/**
 	 * Добавление группы прав
 	 */
-	public static function addGroup($arrData)
+	public static function add($arrData = '')
 	{
-		if(is_array($arrData) === false){
-			return null;
-		}
+		if(self::checkArrAdd($arrData) === false){return null;}
 		
+		if(is_string($arrData) === true && $arrData !== ''){
+			$arrData = array('name' => $arrData);
+		}
 		$sort_order = PermissionGroup::max('sort_order')+10;
 		$arrDefault = array(
 			'name' => '',
@@ -66,17 +62,65 @@ class PermissionGroup extends Model
 		$res = array_merge($arrDefault, $arrData);
 		
 		$group = PermissionGroup::where('name', $res['name'])->first();
-		if(count($group) == 0){
+		if(is_null($group)){
 			$group = new PermissionGroup;
 			$group->name = $res['name'];
 			$group->display_name = $res['display_name'];
 			$group->description = $res['description'];
 			$group->sort_order = $res['sort_order'];
 			$group->save();
+			return $group;	
 		}
 				
-		return $group;		
+		return null;		
 	}
 	
+	
+	
+	/**
+	 * Привязывание права к роли
+	 */
+	public function assignPermission($name = '')
+	{
+		$permission = null;
+		if(is_string($name) === true){
+			$permission = Permission::getByName($name);
+		}
+		if(is_int($name) === true){
+			$permission = Permission::find($name);
+		}
+		if(is_object($name) === true){
+			$permission = $name;
+		}
+		
+		
+		if(!is_null($permission)){
+			$this->permissions()->save($permission);
+		}
+
+		return $this;
+	}
+	
+	
+	
+	/**
+	 * Self function
+	 */
+	
+	
+	/**
+	 * Проверка массива для добавления группы
+	 */
+	static function checkArrAdd($arrData = '')
+	{
+		if(is_string($arrData) === true && $arrData !== ''){
+			return true;
+		}
+		if(is_array($arrData) === true && array_key_exists('name', $arrData) === true){
+			return true;
+		}
+		
+		return false;
+	}
 	
 }

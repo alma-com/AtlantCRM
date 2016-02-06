@@ -20,12 +20,12 @@ class Permission extends Model
 	
 	
 	/**
-	 * Получение id права по названию
+	 * Получение права по названию
 	 */
-	public function getByName($name = ''){
-		$permission = array();
+	public static function getByName($name = ''){
+		$permission = null;
 		if($name != ''){
-			$permission = $this->where('name', $name)->first();
+			$permission = self::where('name', $name)->first();
 		}
 		
 		return $permission;
@@ -35,22 +35,24 @@ class Permission extends Model
 	/**
 	 * Добавление права доступа
 	 */
-	public static function addPermission($arrData, $groupName = '')
+	public static function add($arrData, $groupName = '')
 	{
+		if(is_string($arrData) === true && $arrData !== ''){
+			$arrData = array('name' => $arrData);
+		}
 		if(is_array($arrData) === false){
 			return null;
 		}
 		
 		$sort_order = Permission::max('sort_order')+10;
-		$permissionGroup = new PermissionGroup;
-		$group_id =  $permissionGroup->getIdByName($groupName);
+		$group =  PermissionGroup::getByName($groupName);
 		
 		$arrDefault = array(
 			'name' => '',
             'display_name' => '',
             'description' => '',
             'sort_order' => $sort_order,
-            'group_id' => $group_id,
+            'group_id' => $group->id,
 		);
 		$res = array_merge($arrDefault, $arrData);
 		
