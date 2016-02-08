@@ -188,6 +188,7 @@ class ModelPermissionGroupTest extends TestCase
 		
 		
 		//error
+		PermissionGroup::del();	
 		PermissionGroup::del(str_random(12));	
 	}
 
