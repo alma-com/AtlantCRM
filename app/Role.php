@@ -134,16 +134,10 @@ class Role extends Model
 	public static function del($role = '')
 	{
 		$role = self::getModel($role);
-		if(!is_null($role)){
-			$permission = $role->permissions()->get();
-			if(count($permission) > 0){
-				foreach($permission as $key => $item){
-					$role->deletePermission($item);
-				}
-			}
-			
+		if(!is_null($role)){			
 			$role->delete();
 		}
+		
 		return true;
 	}
 	
