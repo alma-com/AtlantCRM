@@ -129,7 +129,7 @@ class ModelPermissionGroupTest extends TestCase
 		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
 		
 		
-		//error
+		//Error
 		$group->assignPermission($permissionThree->id);
 		$group->deletePermission(str_random(12));
 		$this->assertTrue(count($group->permissions()->get()) == 1);
