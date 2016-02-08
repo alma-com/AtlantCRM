@@ -5,13 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * add - добавление группы
- * del - удаление группы
- * assignPermission - Привязывание права к группе
- * deletePermission - Отвязывание права от группы
- * getByName - Получение группы по названию
- * getModel - Получение модели группы по id или по названию или по моделе
- * getModelDefault - Получение модели по умолчанию
+ * @property static string $defaultName
+ *
+ * @method add(array $arrData)
+ * @method del(int|string|object $group)
+ * @method assignPermission(int|string|object $perm)
+ * @method deletePermission(int|string|object $perm)
+ * @method getByName(string $name)
+ * @method getModel(int|string|object $group)
+ * @method getModelDefault()
+ * @method checkArrayGroup(array $arrData)
+ *
  */
 class PermissionGroup extends Model
 {
@@ -30,11 +34,19 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Добавление группы прав
+	 * Add new permission groups
+	 *
+	 * @param {array} $arrData array with data to be added
+	 * 	@param {string} $arrData['name'] name group
+	 * 	@param {string} $arrData['display_name'] display name of the group
+	 * 	@param {string} $arrData['description'] group description
+	 * 	@param {string} $arrData['sort_order'] sorting order
+	 *
+	 * @returns {object|null} - return object models or null
 	 */
 	public static function add($arrData = '')
 	{
-		if(self::checkArrAdd($arrData) === false){return null;}
+		if(self::checkArrayGroup($arrData) === false){return null;}
 		
 		if(is_string($arrData) === true && $arrData !== ''){
 			$arrData = array('name' => $arrData);
@@ -65,11 +77,18 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Удаление группы прав
+	 * Delete groups
+	 *
+	 * @param {int|string|object}
+	 * 	@param {int} id group
+	 * 	@param {string} name group
+	 * 	@param {object} object group
+	 *
+	 * @returns {true}
 	 */
-	public static function del($name = '')
+	public static function del($group = '')
 	{
-		$group = self::getModel($name);
+		$group = self::getModel($group);
 		$permission = $group->permissions()->get();
 		if(count($permission) > 0){
 			foreach($permission as $key => $item){
@@ -84,11 +103,18 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Привязывание права к группе
+	 * Assign permission to the group
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id permission
+	 * 	@param {string} name permission
+	 * 	@param {object} object permission
+	 *
+	 * @returns {object}
 	 */
-	public function assignPermission($name = '')
+	public function assignPermission($perm = '')
 	{
-		$permission = Permission::getModel($name);
+		$permission = Permission::getModel($perm);
 		
 		if(!is_null($permission)){
 			$this->permissions()->save($permission);
@@ -100,11 +126,18 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Отвязывание права от группы
+	 * Delete permission to the group
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id permission
+	 * 	@param {string} name permission
+	 * 	@param {object} object permission
+	 *
+	 * @returns {object}
 	 */
-	public function deletePermission($name = '')
+	public function deletePermission($perm = '')
 	{	
-		$permission = Permission::getModel($name);
+		$permission = Permission::getModel($perm);
 		$groupDefault = self::getModelDefault();
 		
 		if(!is_null($permission)){
@@ -118,7 +151,11 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Получение группы по названию
+	 * Getting a group by name
+	 * 
+	 * @param {string} name group
+	 *
+	 * @returns {object}
 	 */
 	public static function getByName($name = ''){
 		$group = null;
@@ -140,28 +177,37 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Получение модели группы по id или по названию или по моделе
+	 *  Getting the group by id or name or object
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id group
+	 * 	@param {string} name group
+	 * 	@param {object} object group
+	 *
+	 * @returns {object}
 	 */
-	public static function getModel($name = '')
+	public static function getModel($group = '')
 	{
-		$group = null;
-		if(is_string($name) === true){
-			$group = self::getByName($name);
+		$groupModel = null;
+		if(is_string($group) === true){
+			$groupModel = self::getByName($group);
 		}
-		if(is_int($name) === true){
-			$group = self::find($name);
+		if(is_int($group) === true){
+			$groupModel = self::find($group);
 		}
-		if(is_object($name) === true){
-			$group = self::find($name->id);
+		if(is_object($group) === true){
+			$groupModel = self::find($group->id);
 		}
 		
-		return $group;
+		return $groupModel;
 	}
 	
 	
 	
 	/**
-	 * Получение модели по умолчанию
+	 *  Getting the default model
+	 *
+	 * @returns {object}
 	 */
 	public static function getModelDefault()
 	{
@@ -171,14 +217,11 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Self function --------------------------------------------------------------------------------
+	 * Checking to add to the array group
+	 * 
+	 * @returns {true|false}
 	 */
-	
-	
-	/**
-	 * Проверка массива для добавления группы
-	 */
-	static function checkArrAdd($arrData = '')
+	static function checkArrayGroup($arrData = '')
 	{
 		if(is_string($arrData) === true && $arrData !== ''){
 			return true;
