@@ -10,10 +10,7 @@ use App\Permission;
 class ModelPermissionTest extends TestCase
 {
 	use DatabaseTransactions; 
-	
-	/**
-	 * Тестирование модели Permission
-     */
+
     public function testExample()
     {
 		$arr = Array(
@@ -26,9 +23,6 @@ class ModelPermissionTest extends TestCase
 	
 	
 	
-	/**
-	 * addTest - добавление права
-	 */
 	public function addTest($arr)
 	{	
 		//Success
@@ -96,9 +90,6 @@ class ModelPermissionTest extends TestCase
 	
 	
 	
-	/**
-	 * deleteTest - Удаление права
-	 */
 	public function deleteTest($arr)
 	{	
 		//Success

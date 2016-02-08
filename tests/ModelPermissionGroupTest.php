@@ -11,9 +11,7 @@ class ModelPermissionGroupTest extends TestCase
 {
 	use DatabaseTransactions; 
 	
-    /**
-	 * Тестирование модели PermissionGroup
-     */
+
     public function testExample()
     {
 		$arr = Array(
@@ -28,9 +26,7 @@ class ModelPermissionGroupTest extends TestCase
 	
 	
 	
-	/**
-	 * addTest - добавление группы
-	 */
+
 	public function addTest($arr)
 	{	
 		//Success
@@ -71,9 +67,6 @@ class ModelPermissionGroupTest extends TestCase
 	
 	
 	
-	/**
-	 * assignPermissionTest - привязывание права доступа к группе
-	 */
 	public function assignPermissionTest($arr)
 	{
 		//Success
@@ -106,9 +99,6 @@ class ModelPermissionGroupTest extends TestCase
 	
 	
 	
-	/**
-	 * deletePermissionTest - отвязывание права доступа
-	 */
 	public function deletePermissionTest($arr)
 	{
 		//success
@@ -147,9 +137,6 @@ class ModelPermissionGroupTest extends TestCase
 	
 	
 	
-	/**
-	 * deleteTest - удаление группы
-	 */
 	public function deleteTest($arr)
 	{
 		//success
