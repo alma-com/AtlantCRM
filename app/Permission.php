@@ -19,18 +19,6 @@ class Permission extends Model
     }
 	
 	
-	/**
-	 * Получение права по названию
-	 */
-	public static function getByName($name = ''){
-		$permission = null;
-		if($name != ''){
-			$permission = self::where('name', $name)->first();
-		}
-		
-		return $permission;
-	}
-	
 	
 	/**
 	 * Добавление права доступа
@@ -69,5 +57,41 @@ class Permission extends Model
 		}
 		
 		return $permission;		
+	}
+	
+	
+	
+	
+	/**
+	 * Получение права по названию
+	 */
+	public static function getByName($name = ''){
+		$permission = null;
+		if($name != ''){
+			$permission = self::where('name', $name)->first();
+		}
+		
+		return $permission;
+	}
+	
+	
+	
+	/**
+	 * Получение модели права по id или по названию или по моделе
+	 */
+	public static function getModel($name = '')
+	{
+		$permission = null;
+		if(is_string($name) === true){
+			$permission = self::getByName($name);
+		}
+		if(is_int($name) === true){
+			$permission = self::find($name);
+		}
+		if(is_object($name) === true){
+			$permission = self::find($name->id);
+		}
+		
+		return $permission;
 	}
 }

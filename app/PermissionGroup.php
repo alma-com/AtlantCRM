@@ -4,6 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * add - добавление группы
+ * del - удаление группы
+ * assignPermission - Привязывание права к группе
+ * deletePermission - Отвязывание права от группы
+ * getByName - Получение группы по названию
+ * getModel - Получение модели группы по id или по названию или по моделе
+ * getModelDefault - Получение модели по умолчанию
+ */
 class PermissionGroup extends Model
 {
 	public static $defaultName = 'general';
@@ -17,28 +26,6 @@ class PermissionGroup extends Model
     {
         return $this->hasMany('App\Permission', 'group_id');
     }
-	
-	
-		
-	/**
-	 * Получение группы по названию
-	 */
-	public static function getByName($name = ''){
-		$group = null;
-		$id_group = '';
-		if($name != ''){
-			$group = self::where('name', $name)->first();
-		}
-		
-		if(is_null($group)){
-			$group = self::where('name', self::$defaultName)->first();
-			if(is_null($group)){
-				$group = self::add(array('name' => self::$defaultName));
-			}
-		}
-		
-		return $group;
-	}
 	
 	
 	
@@ -78,21 +65,30 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Привязывание права к роли
+	 * Удаление группы прав
+	 */
+	public static function del($name = '')
+	{
+		$group = self::getModel($name);
+		$permission = $group->permissions()->get();
+		if(count($permission) > 0){
+			foreach($permission as $key => $item){
+				$group->deletePermission($item);
+			}
+		}
+		
+		$group->delete();
+		return true;
+	}
+	
+	
+	
+	/**
+	 * Привязывание права к группе
 	 */
 	public function assignPermission($name = '')
 	{
-		$permission = null;
-		if(is_string($name) === true){
-			$permission = Permission::getByName($name);
-		}
-		if(is_int($name) === true){
-			$permission = Permission::find($name);
-		}
-		if(is_object($name) === true){
-			$permission = $name;
-		}
-		
+		$permission = Permission::getModel($name);
 		
 		if(!is_null($permission)){
 			$this->permissions()->save($permission);
@@ -104,7 +100,78 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Self function
+	 * Отвязывание права от группы
+	 */
+	public function deletePermission($name = '')
+	{	
+		$permission = Permission::getModel($name);
+		$groupDefault = self::getModelDefault();
+		
+		if(!is_null($permission)){
+			//$this->permissions()->where('id', $permission->id)->delete();
+			$groupDefault->assignPermission($permission);
+		}
+		
+		return $this;
+	}
+	
+	
+	
+	/**
+	 * Получение группы по названию
+	 */
+	public static function getByName($name = ''){
+		$group = null;
+		$id_group = '';
+		if($name != ''){
+			$group = self::where('name', $name)->first();
+		}
+		
+		if(is_null($group)){
+			$group = self::where('name', self::$defaultName)->first();
+			if(is_null($group)){
+				$group = self::add(array('name' => self::$defaultName));
+			}
+		}
+		
+		return $group;
+	}
+	
+	
+	
+	/**
+	 * Получение модели группы по id или по названию или по моделе
+	 */
+	public static function getModel($name = '')
+	{
+		$group = null;
+		if(is_string($name) === true){
+			$group = self::getByName($name);
+		}
+		if(is_int($name) === true){
+			$group = self::find($name);
+		}
+		if(is_object($name) === true){
+			$group = self::find($name->id);
+		}
+		
+		return $group;
+	}
+	
+	
+	
+	/**
+	 * Получение модели по умолчанию
+	 */
+	public static function getModelDefault()
+	{
+		return self::getModel(self::$defaultName);
+	}
+	
+	
+	
+	/**
+	 * Self function --------------------------------------------------------------------------------
 	 */
 	
 	
@@ -121,6 +188,5 @@ class PermissionGroup extends Model
 		}
 		
 		return false;
-	}
-	
+	}	
 }
