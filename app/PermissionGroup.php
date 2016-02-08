@@ -44,7 +44,7 @@ class PermissionGroup extends Model
 	 *
 	 * @returns {object|null} - return object models or null
 	 */
-	public static function add($arrData = '')
+	public static function add($arrData = array())
 	{
 		if(self::checkArrayGroup($arrData) === false){return null;}
 		
@@ -89,14 +89,16 @@ class PermissionGroup extends Model
 	public static function del($group = '')
 	{
 		$group = self::getModel($group);
-		$permission = $group->permissions()->get();
-		if(count($permission) > 0){
-			foreach($permission as $key => $item){
-				$group->deletePermission($item);
+		if(!is_null($group)){
+			$permission = $group->permissions()->get();
+			if(count($permission) > 0){
+				foreach($permission as $key => $item){
+					$group->deletePermission($item);
+				}
 			}
+			
+			$group->delete();
 		}
-		
-		$group->delete();
 		return true;
 	}
 	
@@ -221,7 +223,7 @@ class PermissionGroup extends Model
 	 * 
 	 * @returns {true|false}
 	 */
-	static function checkArrayGroup($arrData = '')
+	static function checkArrayGroup($arrData = array())
 	{
 		if(is_string($arrData) === true && $arrData !== ''){
 			return true;

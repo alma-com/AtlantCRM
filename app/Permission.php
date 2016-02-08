@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\PermissionGroup;
 
+/**
+ *
+ * @method add(array $arrData, string $groupName)
+ * @method del(int|string|object $permission)
+ * @method getByName(string $name)
+ * @method getModel(int|string|object $permission)
+ * @method checkArrayPermission(array $arrData)
+ *
+ */
 class Permission extends Model
 {
     protected $fillable = [
@@ -21,15 +30,24 @@ class Permission extends Model
 	
 	
 	/**
-	 * Добавление права доступа
+	 * Adding permissions
+	 * 
+	 * @param {array} $arrData array with data to be added
+	 * 	@param {string} $arrData['name'] name permission
+	 * 	@param {string} $arrData['display_name'] display name of the permission
+	 * 	@param {string} $arrData['description'] permission description
+	 * 	@param {string} $arrData['sort_order'] sorting order
+	 * 	@param {int} $arrData['group_id'] id group
+	 * @param {string}	$groupName name group
+	 * 	
+	 * @returns {object|null} - return object models or null
 	 */
-	public static function add($arrData, $groupName = '')
+	public static function add($arrData = array(), $groupName = '')
 	{
+		if(self::checkArrayPermission($arrData) === false){return null;}
+		
 		if(is_string($arrData) === true && $arrData !== ''){
 			$arrData = array('name' => $arrData);
-		}
-		if(is_array($arrData) === false){
-			return null;
 		}
 		
 		$sort_order = Permission::max('sort_order')+10;
@@ -61,9 +79,34 @@ class Permission extends Model
 	
 	
 	
+	/**
+	 * Delete permission
+	 *
+	 * @param {int|string|object}
+	 * 	@param {int} id permission
+	 * 	@param {string} name permission
+	 * 	@param {object} object permission
+	 *
+	 * @returns {true}
+	 */
+	public static function del($permission = '')
+	{
+		$permission = self::getModel($permission);
+		if(!is_null($permission)){
+			$permission->delete();
+		}
+		
+		return true;
+	}
+	
+	
 	
 	/**
-	 * Получение права по названию
+	 * Getting a permission by name
+	 * 
+	 * @param {string} name permission
+	 *
+	 * @returns {object}
 	 */
 	public static function getByName($name = ''){
 		$permission = null;
@@ -77,21 +120,47 @@ class Permission extends Model
 	
 	
 	/**
-	 * Получение модели права по id или по названию или по моделе
+	 *  Getting the permission by id or name or object
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id permission
+	 * 	@param {string} name permission
+	 * 	@param {object} object permission
+	 *
+	 * @returns {object}
 	 */
-	public static function getModel($name = '')
+	public static function getModel($permission = '')
 	{
-		$permission = null;
-		if(is_string($name) === true){
-			$permission = self::getByName($name);
+		$permModel = null;
+		if(is_string($permission) === true){
+			$permModel = self::getByName($permission);
 		}
-		if(is_int($name) === true){
-			$permission = self::find($name);
+		if(is_int($permission) === true){
+			$permModel = self::find($permission);
 		}
-		if(is_object($name) === true){
-			$permission = self::find($name->id);
+		if(is_object($permission) === true){
+			$permModel = self::find($permission->id);
 		}
 		
-		return $permission;
+		return $permModel;
 	}
+	
+	
+	
+	/**
+	 * Checking to add to the array permission
+	 * 
+	 * @returns {true|false}
+	 */
+	static function checkArrayPermission($arrData = array())
+	{
+		if(is_string($arrData) === true && $arrData !== ''){
+			return true;
+		}
+		if(is_array($arrData) === true && array_key_exists('name', $arrData) === true){
+			return true;
+		}
+		
+		return false;
+	}	
 }
