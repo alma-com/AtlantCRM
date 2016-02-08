@@ -5,16 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property static string $defaultName
+ * @static @property static string $defaultName
  *
- * @method add(array $arrData)
- * @method del(int|string|object $group)
  * @method assignPermission(int|string|object $perm)
  * @method deletePermission(int|string|object $perm)
- * @method getByName(string $name)
- * @method getModel(int|string|object $group)
- * @method getModelDefault()
- * @method checkArrayGroup(array $arrData)
+ *
+ * @static @method add(array $arrData)
+ * @static @method del(int|string|object $group)
+ * @static @method getByName(string $name)
+ * @static @method getModel(int|string|object $group)
+ * @static @method getModelDefault()
+ * @static @method checkArrayGroup(array $arrData)
  *
  */
 class PermissionGroup extends Model
@@ -30,6 +31,53 @@ class PermissionGroup extends Model
     {
         return $this->hasMany('App\Permission', 'group_id');
     }
+	
+	
+	
+	/**
+	 * Assign permission to the group
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id permission
+	 * 	@param {string} name permission
+	 * 	@param {object} object permission
+	 *
+	 * @returns {object}
+	 */
+	public function assignPermission($perm = '')
+	{
+		$permission = Permission::getModel($perm);
+		
+		if(!is_null($permission)){
+			$this->permissions()->save($permission);
+		}
+
+		return $this;
+	}
+	
+	
+	
+	/**
+	 * Delete permission to the group
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id permission
+	 * 	@param {string} name permission
+	 * 	@param {object} object permission
+	 *
+	 * @returns {object}
+	 */
+	public function deletePermission($perm = '')
+	{	
+		$permission = Permission::getModel($perm);
+		$groupDefault = self::getModelDefault();
+		
+		if(!is_null($permission)){
+			$groupDefault->assignPermission($permission);
+		}
+		
+		return $this;
+	}
 	
 	
 	
@@ -105,59 +153,11 @@ class PermissionGroup extends Model
 	
 	
 	/**
-	 * Assign permission to the group
-	 * 
-	 * @param {int|string|object}
-	 * 	@param {int} id permission
-	 * 	@param {string} name permission
-	 * 	@param {object} object permission
-	 *
-	 * @returns {object}
-	 */
-	public function assignPermission($perm = '')
-	{
-		$permission = Permission::getModel($perm);
-		
-		if(!is_null($permission)){
-			$this->permissions()->save($permission);
-		}
-
-		return $this;
-	}
-	
-	
-	
-	/**
-	 * Delete permission to the group
-	 * 
-	 * @param {int|string|object}
-	 * 	@param {int} id permission
-	 * 	@param {string} name permission
-	 * 	@param {object} object permission
-	 *
-	 * @returns {object}
-	 */
-	public function deletePermission($perm = '')
-	{	
-		$permission = Permission::getModel($perm);
-		$groupDefault = self::getModelDefault();
-		
-		if(!is_null($permission)){
-			//$this->permissions()->where('id', $permission->id)->delete();
-			$groupDefault->assignPermission($permission);
-		}
-		
-		return $this;
-	}
-	
-	
-	
-	/**
 	 * Getting a group by name
 	 * 
 	 * @param {string} name group
 	 *
-	 * @returns {object}
+	 * @returns {object|null}
 	 */
 	public static function getByName($name = ''){
 		$group = null;
@@ -186,7 +186,7 @@ class PermissionGroup extends Model
 	 * 	@param {string} name group
 	 * 	@param {object} object group
 	 *
-	 * @returns {object}
+	 * @returns {object|null}
 	 */
 	public static function getModel($group = '')
 	{
@@ -223,7 +223,7 @@ class PermissionGroup extends Model
 	 * 
 	 * @returns {true|false}
 	 */
-	static function checkArrayGroup($arrData = array())
+	public static function checkArrayGroup($arrData = array())
 	{
 		if(is_string($arrData) === true && $arrData !== ''){
 			return true;

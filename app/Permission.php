@@ -8,11 +8,11 @@ use App\PermissionGroup;
 
 /**
  *
- * @method add(array $arrData, string $groupName)
- * @method del(int|string|object $permission)
- * @method getByName(string $name)
- * @method getModel(int|string|object $permission)
- * @method checkArrayPermission(array $arrData)
+ * @static @method add(array $arrData, string $groupName)
+ * @static @method del(int|string|object $permission)
+ * @static @method getByName(string $name)
+ * @static @method getModel(int|string|object $permission)
+ * @static @method checkArrayPermission(array $arrData)
  *
  */
 class Permission extends Model
@@ -106,7 +106,7 @@ class Permission extends Model
 	 * 
 	 * @param {string} name permission
 	 *
-	 * @returns {object}
+	 * @returns {object|null}
 	 */
 	public static function getByName($name = ''){
 		$permission = null;
@@ -127,7 +127,7 @@ class Permission extends Model
 	 * 	@param {string} name permission
 	 * 	@param {object} object permission
 	 *
-	 * @returns {object}
+	 * @returns {object|null}
 	 */
 	public static function getModel($permission = '')
 	{
@@ -152,7 +152,7 @@ class Permission extends Model
 	 * 
 	 * @returns {true|false}
 	 */
-	static function checkArrayPermission($arrData = array())
+	public static function checkArrayPermission($arrData = array())
 	{
 		if(is_string($arrData) === true && $arrData !== ''){
 			return true;
