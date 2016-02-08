@@ -34,13 +34,13 @@ class FormTest extends TestCase
 			'press' => 'create_user',
 		);
 		
-		//$this->validTest($arrValue);				//правильные значения
-		//$this->requiredTest($arrValue);			//наличие обязательных полей
-		//$this->existTest($arrValue);				//email уникальное поле
-		//$this->emailTest($arrValue);				//email должен быть формат e-mail
+		$this->validTest($arrValue);				//правильные значения
+		$this->requiredTest($arrValue);			//наличие обязательных полей
+		$this->existTest($arrValue);				//email уникальное поле
+		$this->emailTest($arrValue);				//email должен быть формат e-mail
 		//$this->roleTest($arrValue);				//Если не заполено поле role, то по умолчанию user
-		//$this->lengthPassTest($arrValue);		//password должен быть от 6 символов и более
-		//$this->passEqTest($arrValue);			//password и password_confirmation должны совпадать
+		$this->lengthPassTest($arrValue);		//password должен быть от 6 символов и более
+		$this->passEqTest($arrValue);			//password и password_confirmation должны совпадать
 		
     }
 	
