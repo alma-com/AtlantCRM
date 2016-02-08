@@ -13,9 +13,6 @@ class ModelPermissionGroupTest extends TestCase
 	
     /**
 	 * Тестирование модели PermissionGroup
-	 * deletePermissionTest - отвязывание права доступа
-	 * deleteTest - удвление группы
-	 * 
      */
     public function testExample()
     {
@@ -25,6 +22,8 @@ class ModelPermissionGroupTest extends TestCase
 		
         $this->addTest($arr);
         $this->assignPermissionTest($arr);
+        $this->deletePermissionTest($arr);
+        $this->deleteTest($arr);
     }
 	
 	
@@ -32,7 +31,8 @@ class ModelPermissionGroupTest extends TestCase
 	/**
 	 * addTest - добавление группы
 	 */
-	public function addTest($arr){	
+	public function addTest($arr)
+	{	
 		//Success
 		$groupString = PermissionGroup::add(str_random(10));
 		$groupArrayMin = PermissionGroup::add(array('name' => str_random(10)));
@@ -74,7 +74,8 @@ class ModelPermissionGroupTest extends TestCase
 	/**
 	 * assignPermissionTest - привязывание права доступа к группе
 	 */
-	public function assignPermissionTest($arr){
+	public function assignPermissionTest($arr)
+	{
 		//Success
 		$group = PermissionGroup::add(str_random(10));
 		$permissionOne = Permission::add(str_random(10));
@@ -102,6 +103,94 @@ class ModelPermissionGroupTest extends TestCase
 		
 		$this->assertTrue(count($groupErr->permissions()->get()) == 0);
 	}
+	
+	
+	
+	/**
+	 * deletePermissionTest - отвязывание права доступа
+	 */
+	public function deletePermissionTest($arr)
+	{
+		//success
+		$group = PermissionGroup::add(str_random(10));
+		$permissionOne = Permission::add(str_random(10));
+		$permissionTwo = Permission::add(str_random(10));
+		$permissionThree = Permission::add(str_random(10));
+		
+		$group
+			->assignPermission($permissionOne)
+			->assignPermission($permissionTwo->name)
+			->assignPermission($permissionThree->id);
+		
+		
+		$group->deletePermission($permissionOne->id);
+		$this->assertTrue(count($group->permissions()->get()) == 2);
+		
+		$group->deletePermission($permissionTwo);
+		$this->assertTrue(count($group->permissions()->get()) == 1);
+
+		$group->deletePermission($permissionThree->name);
+		$this->assertTrue(count($group->permissions()->get()) == 0);
+		
+		
+		$groupDefault = PermissionGroup::getModelDefault();
+		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionOne->id)));
+		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionTwo->id)));
+		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
+		
+		
+		//error
+		$group->assignPermission($permissionThree->id);
+		$group->deletePermission(str_random(12));
+		$this->assertTrue(count($group->permissions()->get()) == 1);
+	}
+	
+	
+	
+	/**
+	 * deleteTest - удаление группы
+	 */
+	public function deleteTest($arr)
+	{
+		//success
+		$groupModel = PermissionGroup::add(str_random(10));
+		PermissionGroup::del($groupModel);
+		$this->assertTrue(is_null(PermissionGroup::getModel($groupModel->id)));
+		
+		$groupName = PermissionGroup::add(str_random(10));
+		PermissionGroup::del($groupName->name);
+		$this->assertTrue(is_null(PermissionGroup::getModel($groupName->id)));
+		
+		$groupId = PermissionGroup::add(str_random(10));
+		PermissionGroup::del($groupId->id);
+		$this->assertTrue(is_null(PermissionGroup::getModel($groupId->id)));
+		
+		
+		
+		$group = PermissionGroup::add(str_random(10));
+		$permissionOne = Permission::add(str_random(10));
+		$permissionTwo = Permission::add(str_random(10));
+		$permissionThree = Permission::add(str_random(10));
+		$group
+			->assignPermission($permissionOne)
+			->assignPermission($permissionTwo->name)
+			->assignPermission($permissionThree->id);
+			
+			
+		PermissionGroup::del($group);
+		
+		$this->assertTrue(count($group->permissions()->get()) == 0);
+		
+		$groupDefault = PermissionGroup::getModelDefault();
+		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionOne->id)));
+		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionTwo->id)));
+		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
+		
+		
+		//error
+		PermissionGroup::del(str_random(12));	
+	}
+
 }
 
 
