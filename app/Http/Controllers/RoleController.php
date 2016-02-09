@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Alma;
 use Session;
+use Validator;
 use App\Role;
 use App\Permission;
 use App\PermissionGroup;
@@ -52,7 +53,43 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $res = array();
+        $rules = array(
+            'name'       => 'required|max:255',
+            'display_name'       => 'required|max:255',
+        );
+		$validator = Validator::make($request->all(), $rules);
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
+		
+		
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn('Не удалось добавить роль', $arrStatus);
+		}
+		
+		
+		// Success
+		// Success
+		$arrParam = array(
+			'name' => $request->input('name'),
+			'display_name' => $request->input('display_name'),
+			'description' => $request->input('description'),
+		);
+		$role = Role::add($arrParam);
+		
+		$permissions = $request->input('permissions');
+		if(count($permissions) > 0){
+			foreach($permissions as $key => $id_perm){
+				$role->assignPermission($id_perm);
+			}
+		}
+		
+		
+		$arrStatus['url'] = route('roles.index');
+		return Alma::successReturn('Роль успешно добавлена', $arrStatus);	
     }
 
     /**

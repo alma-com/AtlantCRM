@@ -37,15 +37,15 @@
 					
 						<div class="col-md-6">
 							{{-- Название --}}
-							<div class="form-group is-required{{ $errors->has('name_display') ? ' has-error' : '' }}">
+							<div class="form-group is-required{{ $errors->has('display_name') ? ' has-error' : '' }}">
 								<label for="role">Название</label>
-								<input type="text" class="form-control" id="name_display" name="name_display" value="{{ old('name_display') }}">
+								<input type="text" class="form-control" id="display_name" name="display_name" value="{{ old('display_name') }}">
 							</div>
 						</div>
 						
 						<div class="col-md-6">
 							{{-- Уникальный код --}}
-							<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+							<div class="form-group is-required{{ $errors->has('name') ? ' has-error' : '' }}">
 								<label for="role">Уникальный код</label>
 								<input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
 							</div>
@@ -77,7 +77,7 @@
 									<div class="col-md-4">
 										<div class="checkbox">
 											<label>
-												<input type="checkbox">
+												<input type="checkbox" name="permissions[]" value="{{ $permission->id }}">
 												{{ $permission->display_name }}
 											</label>
 										</div>
