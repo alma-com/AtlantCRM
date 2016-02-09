@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @method assignPermission(int|string|object $perm)
  * @method deletePermission(int|string|object $perm)
+ * @method access(int|string|object $perm)
  *
  * @static @method add(array $arrData)
  * @static @method del(int|string|object $group)
@@ -50,7 +51,7 @@ class Role extends Model
 	{
 		$permission = Permission::getModel($perm);
 		
-		if(!is_null($permission)){
+		if(!is_null($permission) && !$this->access($permission)){
 			$this->permissions()->save($permission);
 		}
 
@@ -78,6 +79,34 @@ class Role extends Model
 		}
 		
 		return $this;
+	}
+	
+	
+	
+	
+	/**
+	 * Check access role
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id perm
+	 * 	@param {string} name perm
+	 * 	@param {object} object perm
+	 *
+	 * @returns {true|false}
+	 */
+	public function access($perm = '')
+	{
+		$permission = Permission::getModel($perm);
+		if(is_null($permission)){
+			return false;
+		}
+		
+		$findPerm = $permission->roles()->find($this->id);
+		if(count($findPerm) > 0){
+			return true;
+		}
+
+		return false;
 	}
 	
 	

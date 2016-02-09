@@ -19,6 +19,7 @@ class ModelRoleTest extends TestCase
 		
 		$this->addTest($arr);
 		$this->assignPermissionTest($arr);
+		$this->accessTest($arr);
 		$this->deletePermissionTest($arr);
         $this->deleteTest($arr);
     }
@@ -92,6 +93,40 @@ class ModelRoleTest extends TestCase
 			->assignPermission();
 		
 		$this->assertTrue(count($roleErr->permissions()->get()) == 0);
+	}
+	
+	
+	
+	/**
+	 * Check access role
+	 */
+	public function accessTest($arr)
+	{
+		//Success
+		$role = Role::add(str_random(10));
+		$permOne = Permission::add(str_random(10));
+		$permTwo = Permission::add(str_random(10));
+		$permThree = Permission::add(str_random(10));
+		
+		$role
+			->assignPermission($permOne)
+			->assignPermission($permOne)
+			->assignPermission($permTwo)
+			->assignPermission($permThree);
+			
+		
+		$this->assertTrue($role->access($permOne));
+		$this->assertTrue($role->access($permTwo->name));
+		$this->assertTrue($role->access($permThree->id));
+		
+		
+		//Error
+		$role->deletePermission($permOne);
+		$this->assertFalse($role->access($permOne->id));
+		$this->assertTrue($role->access($permTwo->name));
+		$this->assertTrue($role->access($permThree));
+		$this->assertFalse($role->access(str_random(10)));
+		
 	}
 	
 	

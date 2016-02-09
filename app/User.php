@@ -62,7 +62,10 @@ class User extends Authenticatable
 		$role = Role::getModel($role);
 		
 		if(!is_null($role)){
-			$this->roles()->save($role);
+			$findRole = $this->roles()->where('id', $role->id)->get();
+			if(count($findRole) === 0){
+				$this->roles()->save($role);
+			}
 		}
 
 		return $this;

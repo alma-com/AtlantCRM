@@ -109,6 +109,7 @@ class ModelUserTest extends TestCase
 		
 		$user
 			->assignRole($roleOne->name)
+			->assignRole($roleOne->name)
 			->assignRole($roleTwo)
 			->assignRole($roleThree->id);
 			

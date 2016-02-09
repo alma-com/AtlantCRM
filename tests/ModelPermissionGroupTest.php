@@ -77,6 +77,7 @@ class ModelPermissionGroupTest extends TestCase
 		
 		$group
 			->assignPermission($permissionOne)
+			->assignPermission($permissionOne)
 			->assignPermission($permissionTwo->name)
 			->assignPermission($permissionThree->id);
 			
