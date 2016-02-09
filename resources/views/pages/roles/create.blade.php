@@ -62,50 +62,38 @@
 					</div>					
 				</div>
 				
-				<div class="box-header with-border">
-						<h3 class="box-title">Общие настройки</h3>
+				@if(!is_null($groups))
+					@foreach($groups as $key => $group)
+				
+					<div class="box-header with-border">
+						<h3 class="box-title">{{ $group->display_name }}</h3>
 					</div>
-								
+									
 					<div class="box-body">
 						<div class="row">
 							<div class="form-group">
-							
-								<div class="col-md-6">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox">
-											Checkbox 1
-										</label>
-									</div>
-								</div>
 								
-								<div class="col-md-6">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox">
-											Checkbox 2
-										</label>
+								@foreach($group->permissions as $key => $permission)
+									<div class="col-md-4">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox">
+												{{ $permission->display_name }}
+											</label>
+										</div>
 									</div>
-								</div>
-								
-								<div class="col-md-6">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox">
-											Checkbox 3
-										</label>
-									</div>
-								</div>
-
+								@endforeach
 								
 							</div>
 						</div>
 					</div>
 					
+					@endforeach
+				@endif
 											
-					<div class="box-footer">
-						<button type="submit" class="btn btn-success" name="create_user" >Добавить</button>
-					</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-success" name="create_user" >Добавить</button>
+				</div>
 			</form>
 		</div> 
 	</div>
