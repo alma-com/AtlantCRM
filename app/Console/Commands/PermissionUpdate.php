@@ -60,13 +60,13 @@ class PermissionUpdate extends Command
 			'name' => 'general',
             'display_name' => 'Общие настройки',
 		);
-		PermissionGroup::addGroup($arrGroup);
+		PermissionGroup::add($arrGroup);
 		
 		$arrGroup = array(
 			'name' => 'user',
             'display_name' => 'Пользователи',
 		);
-		PermissionGroup::addGroup($arrGroup);
+		PermissionGroup::add($arrGroup);
 		
 		return true;
 	}
@@ -83,7 +83,7 @@ class PermissionUpdate extends Command
 			'name' => 'manage_role',
             'display_name' => 'Управление ролями',
 		);
-		Permission::addPermission($arrPermission, $groupName);
+		Permission::add($arrPermission, $groupName);
 	}
 	
 	
@@ -99,31 +99,31 @@ class PermissionUpdate extends Command
 			'name' => 'show_user',
             'display_name' => 'Просмотр',
 		);
-		Permission::addPermission($arrPermission, $groupName);
+		Permission::add($arrPermission, $groupName);
 		
 		$arrPermission = array(
 			'name' => 'add_user',
             'display_name' => 'Добавление',
 		);
-		Permission::addPermission($arrPermission, $groupName);
+		Permission::add($arrPermission, $groupName);
 		
 		$arrPermission = array(
 			'name' => 'edit_user',
             'display_name' => 'Редактирование',
 		);
-		Permission::addPermission($arrPermission, $groupName);
+		Permission::add($arrPermission, $groupName);
 		
 		$arrPermission = array(
 			'name' => 'change_role_user',
             'display_name' => 'Смена роли',
 		);
-		Permission::addPermission($arrPermission, $groupName);
+		Permission::add($arrPermission, $groupName);
 		
 		$arrPermission = array(
 			'name' => 'delete_user',
             'display_name' => 'Удаление',
 		);
-		Permission::addPermission($arrPermission, $groupName);
+		Permission::add($arrPermission, $groupName);
 	}
 	
 	
@@ -137,7 +137,7 @@ class PermissionUpdate extends Command
 			'name' => 'admin',
             'display_name' => 'Администратор',
 		);
-		$role = Role::addRole($arrRole);
+		$role = Role::add($arrRole);
 		
 		$role
 			->assignPermission('manage_role')
