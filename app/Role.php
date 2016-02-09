@@ -181,7 +181,7 @@ class Role extends Model
 		if(is_string($role) === true){
 			$roleModel = self::getByName($role);
 		}
-		if(is_int($role) === true){
+		if(is_numeric($role) === true){
 			$roleModel = self::find($role);
 		}
 		if(is_object($role) === true){

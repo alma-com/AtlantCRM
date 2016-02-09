@@ -140,7 +140,7 @@ class Permission extends Model
 		if(is_string($permission) === true){
 			$permModel = self::getByName($permission);
 		}
-		if(is_int($permission) === true){
+		if(is_numeric($permission) === true){
 			$permModel = self::find($permission);
 		}
 		if(is_object($permission) === true){

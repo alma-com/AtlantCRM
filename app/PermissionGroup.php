@@ -194,7 +194,7 @@ class PermissionGroup extends Model
 		if(is_string($group) === true){
 			$groupModel = self::getByName($group);
 		}
-		if(is_int($group) === true){
+		if(is_numeric($group) === true){
 			$groupModel = self::find($group);
 		}
 		if(is_object($group) === true){

@@ -14,6 +14,7 @@ use Hash;
  * @method access(int|string|object $perm)
  * 
  * @static @method add(array $arrData)
+ * @static @method del(int|string|object $user)
  * @static @method getModel(int|string|object $user)
  * @static @method checkArrayUser(array $arrData) 
  * 
@@ -198,7 +199,7 @@ class User extends Authenticatable
 		if(is_string($user) === true){
 			$userModel = self::where('email', $user);
 		}
-		if(is_int($user) === true){
+		if(is_numeric($user) === true){
 			$userModel = self::find($user);
 		}
 		if(is_object($user) === true){
