@@ -11,6 +11,7 @@ use Hash;
  * 
  * @method assignRole(int|string|object $role)
  * @method deleteRole(int|string|object $role)
+ * @method access(int|string|object $perm)
  * 
  * @static @method add(array $arrData)
  * @static @method getModel(int|string|object $user)
@@ -87,6 +88,36 @@ class User extends Authenticatable
 		}
 		
 		return $this;
+	}
+	
+	
+	/**
+	 * Check access user
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id perm
+	 * 	@param {string} name perm
+	 * 	@param {object} object perm
+	 *
+	 * @returns {true|false}
+	 */
+	public function access($perm = '')
+	{
+		$roles = $this->roles()->get();
+		$permission = Permission::getModel($perm);
+		
+		if(is_null($roles) || is_null($permission)){
+			return false;
+		}
+		
+		foreach($roles as $key => $item){
+			$findPerm = $permission->roles()->find($item->id);
+			if(count($findPerm) > 0){
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	

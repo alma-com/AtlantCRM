@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\User;
 use App\Role;
+use App\Permission;
 
 class ModelUserTest extends TestCase
 {
@@ -20,12 +21,15 @@ class ModelUserTest extends TestCase
 		$this->addTest($arr);
 		$this->updateTest($arr);
 		$this->assignRoleTest($arr);
+		$this->accessTest($arr);
 		$this->deleteRoleTest($arr);
         $this->deleteTest($arr);
     }
 	
 	
-	
+	/**
+	 * Add user
+	 */
 	public function addTest($arr)
 	{
 		//Success
@@ -67,6 +71,9 @@ class ModelUserTest extends TestCase
 	
 	
 	
+	/**
+	 * Update user
+	 */
 	public function updateTest($arr)
 	{
 		$user = User::add(array(
@@ -86,6 +93,9 @@ class ModelUserTest extends TestCase
 	
 	
 	
+	/**
+	 * Assign role to the user
+	 */
 	public function assignRoleTest($arr)
 	{
 		//Success
@@ -124,6 +134,47 @@ class ModelUserTest extends TestCase
 	
 	
 	
+	/**
+	 * Check access user
+	 */
+	public function accessTest($arr)
+	{
+		//Success
+		$user = User::add(array(
+			'name' => str_random(10),
+			'email' => $arr['faker']->email,
+		));
+		$role = Role::add(str_random(10));
+		$permOne = Permission::add(str_random(10));
+		$permTwo = Permission::add(str_random(10));
+		$permThree = Permission::add(str_random(10));
+		
+		$role
+			->assignPermission($permOne)
+			->assignPermission($permTwo)
+			->assignPermission($permThree);
+			
+		$user->assignRole($role);
+		
+		$this->assertTrue($user->access($permOne));
+		$this->assertTrue($user->access($permTwo->name));
+		$this->assertTrue($user->access($permThree->id));
+		
+		
+		//Error
+		$role->deletePermission($permOne);
+		$this->assertFalse($user->access($permOne->id));
+		$this->assertTrue($user->access($permTwo->name));
+		$this->assertTrue($user->access($permThree));
+		$this->assertFalse($user->access(str_random(10)));
+		
+	}
+	
+	
+	
+	/**
+	 * Delete role to the user
+	 */
 	public function deleteRoleTest($arr)
 	{
 		//Success
@@ -159,6 +210,9 @@ class ModelUserTest extends TestCase
 	
 	
 	
+	/**
+	 * Delete user
+	 */
 	public function deleteTest($arr)
 	{
 		//success
