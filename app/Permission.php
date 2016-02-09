@@ -27,6 +27,11 @@ class Permission extends Model
         return $this->belongsTo('App\PermissionGroup', 'group_id');
     }
 	
+	public function roles()
+    {
+       return $this->belongsToMany('App\Role', 'role_has_permissions');
+    }
+	
 	
 	
 	/**
