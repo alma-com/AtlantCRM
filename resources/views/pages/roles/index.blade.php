@@ -65,7 +65,7 @@
 										<input type="checkbox" name="item[]" value="{{ $role->id }}">
 									</td>
 									<td>
-										<div class="td-text"><a href="{{ route('users.edit', $role->id) }}">{{ $role->display_name }}</a></div>
+										<div class="td-text"><a href="{{ route('roles.edit', $role->id) }}">{{ $role->display_name }}</a></div>
 										<div class="td-input"><input type="text" class="form-control" name="display_name[{{ $role->id }}]" value="{{ $role->display_name }}"></div>
 									</td>
 									<td>
