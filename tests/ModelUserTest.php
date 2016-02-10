@@ -22,6 +22,7 @@ class ModelUserTest extends TestCase
 		$this->updateTest($arr);
 		$this->assignRoleTest($arr);
 		$this->accessTest($arr);
+		$this->hasRoleTest($arr);
 		$this->deleteRoleTest($arr);
         $this->deleteTest($arr);
     }
@@ -168,6 +169,41 @@ class ModelUserTest extends TestCase
 		$this->assertTrue($user->access($permTwo->name));
 		$this->assertTrue($user->access($permThree));
 		$this->assertFalse($user->access(str_random(10)));
+		
+	}
+	
+	
+	
+	/**
+	 * has role
+	 */
+	public function hasRoleTest($arr)
+	{
+		//Success
+		$user = User::add(array(
+			'name' => str_random(10),
+			'email' => $arr['faker']->email,
+		));
+		$roleOne = Role::add(str_random(10));
+		$roleTwo = Role::add(str_random(10));
+		$roleThree = Role::add(str_random(10));
+			
+		$user
+			->assignRole($roleOne->name)
+			->assignRole($roleTwo->id)
+			->assignRole($roleThree);
+		
+		$this->assertTrue($user->hasRole($roleOne));
+		$this->assertTrue($user->hasRole($roleTwo->id));
+		$this->assertTrue($user->hasRole($roleThree->name));
+		
+		
+		//Error
+		$user->deleteRole($roleOne);
+		$this->assertFalse($user->hasRole($roleOne));
+		$this->assertTrue($user->hasRole($roleTwo->id));
+		$this->assertTrue($user->hasRole($roleThree->name));
+		$this->assertFalse($user->hasRole(str_random(10)));
 		
 	}
 	

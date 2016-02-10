@@ -12,6 +12,7 @@ use Hash;
  * @method assignRole(int|string|object $role)
  * @method deleteRole(int|string|object $role)
  * @method access(int|string|object $perm)
+ * @method hasRole(int|string|object $role)
  * 
  * @static @method add(array $arrData)
  * @static @method del(int|string|object $user)
@@ -119,6 +120,34 @@ class User extends Authenticatable
 			if(count($findPerm) > 0){
 				return true;
 			}
+		}
+
+		return false;
+	}
+	
+	
+	
+	/**
+	 * Has role
+	 * 
+	 * @param {int|string|object}
+	 * 	@param {int} id role
+	 * 	@param {string} name role
+	 * 	@param {object} object role
+	 *
+	 * @returns {true|false}
+	 */
+	public function hasRole($role = '')
+	{
+		$roles = Role::getModel($role);
+		
+		if(is_null($roles)){
+			return false;
+		}
+		
+		$findRole = $this->roles()->find($roles->id);
+		if(count($findRole) > 0){
+			return true;
 		}
 
 		return false;
