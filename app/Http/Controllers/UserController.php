@@ -204,7 +204,7 @@ class UserController extends Controller
 		
 		// Success
 		foreach($itemArray as $key => $id_user){
-			$user = User::find($id);
+			$user = User::find($id_user);
 			$user->name = $request->input('name')[$id_user];
 			$user->email = $request->input('email')[$id_user];
 			$user->save();
@@ -212,8 +212,6 @@ class UserController extends Controller
 		
 		$arrStatus['url'] = route('users.index');
 		return Alma::successReturn('Пользователи успешно изменены', $arrStatus);
-		
-		return 1;
     }
 
 	
