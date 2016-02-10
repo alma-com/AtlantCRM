@@ -23,10 +23,6 @@
 		<i class="fa fa-btn fa-cog"></i>
 		Управление ролями
 	</a>
-	<a href="{{ route('roles.show', Auth::user()->id) }}" class="btn btn-default">
-		<i class="fa fa-btn fa-user"></i>
-		Мой профиль
-	</a>
 </div>
 
 <div class="row">
@@ -57,7 +53,6 @@
 								<th>ФИО</th>
 								<th>E-mail</th>
 								<th>Роль</th>
-								<th>Организация</th>
 							</tr>
 						</thead>
 						
@@ -75,15 +70,18 @@
 										<div class="td-text">{{ $user->email }}</div>
 										<div class="td-input"><input type="text"  class="form-control" name="email[{{ $user->id }}]" value="{{ $user->email }}"></div>
 									</td>
-									<td></td>
-									<td></td>
+									<td>
+										@if(count($roles[$user->id]) > 0)
+											{{ implode(", ", $roles[$user->id]) }}
+										@endif
+									</td>
 								</tr>
 							@endforeach
 						</tbody>
 						
 						<tfoot>
 							<tr>
-								<td colspan="5">
+								<td colspan="4">
 									<div class="box-body no-padding">
 										<div class="table-controls">
 										
