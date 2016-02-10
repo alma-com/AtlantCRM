@@ -23,7 +23,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {		
-		$roles = Role::all();	
+		$roles = Role::with('users')->get();	
 		$view = view('pages.roles.index')->with('roles', $roles);
 		return Alma::viewReturn($view, $request);
     }
@@ -55,7 +55,7 @@ class RoleController extends Controller
     {
         $res = array();
         $rules = array(
-            'name'       => 'required|max:255',
+            'name'       => 'required|max:255|unique:roles',
             'display_name'       => 'required|max:255',
         );
 		$validator = Validator::make($request->all(), $rules);
@@ -173,7 +173,7 @@ class RoleController extends Controller
     {
        $res = array();
         $rules = array(
-            'name'       => 'required|max:255',
+            'name'       => 'required|max:255|unique:users,name,'.$id,
             'display_name'       => 'required|max:255',
         );
 		$validator = Validator::make($request->all(), $rules);
@@ -221,7 +221,38 @@ class RoleController extends Controller
      */
     public function updateItems(Request $request)
     {
-		//
+		$rules = array();
+		$itemArray = $request->input('item');
+		foreach($itemArray as $key => $id_role){
+			 $rules['display_name.'.$id_role] =  'required|max:255';
+		}
+        $validator = Validator::make($request->all(), $rules);
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
+		
+        
+		if(count($itemArray) == 0){
+			return Alma::infoReturn('Ничего не выбрано', $arrStatus);
+		}
+		
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn('Не удалось изменить', $arrStatus);
+		}
+		
+		// Success
+		foreach($itemArray as $key => $id_role){
+			$role = Role::find($id_role);
+			$role->display_name = $request->input('display_name')[$id_role];
+			$role->description = $request->input('description')[$id_role];
+			$role->sort_order = $request->input('sort_order')[$id_role];
+			$role->save();
+		}
+		
+		$arrStatus['url'] = route('roles.index');
+		return Alma::successReturn('Роли успешно изменены', $arrStatus);
 	}
 	
 	

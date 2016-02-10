@@ -41,9 +41,9 @@
 				
                     {!! csrf_field() !!}
 					@if(count($roles) > 25)
-						<table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
+						<table class="data-table table table-bordered table-striped"  data-order='[[ 4, "asc" ]]'>
 					@else
-						<table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'>
+						<table class="data-table-small table table-bordered table-striped" data-order='[[ 4, "asc" ]]'>
 					@endif
 					
 						<thead>
@@ -70,11 +70,10 @@
 									</td>
 									<td>
 										<div class="td-text">{{ $role->description }}</div>
-										<div class="td-input"><input type="text"  class="form-control" name="email[{{ $role->id }}]" value="{{ $role->description }}"></div>
+										<div class="td-input"><input type="text"  class="form-control" name="description[{{ $role->id }}]" value="{{ $role->description }}"></div>
 									</td>
 									<td>
-										<div class="td-text">{{ $role->sort_order }}</div>
-										<div class="td-input"><input type="text"  class="form-control" name="sort_order[{{ $role->id }}]" value="{{ $role->sort_order }}"></div>
+										{{ count($role->users) }}
 									</td>
 									<td>
 										<div class="td-text">{{ $role->sort_order }}</div>
