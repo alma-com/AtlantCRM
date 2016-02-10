@@ -27,7 +27,7 @@ class FormTest extends TestCase
     {
 		$arrValue = Array(
 			'faker' => Faker\Factory::create(),
-			'user' => factory(App\User::class)->create(),
+			'user' => factory(App\User::class)->create()->assignRole('admin'),
 			'url' => '/users/create',
 			'url_err' => '/users/create',
 			'url_ok' => '/users',
