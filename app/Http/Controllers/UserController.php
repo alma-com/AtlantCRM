@@ -16,6 +16,7 @@ use Alma;
 use Hash;
 
 use App\User;
+use App\Role;
 
 class UserController extends Controller
 {
@@ -46,7 +47,8 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-		$view = view('pages.users.create');
+		$roles = Role::all();
+		$view = view('pages.users.create')->with('roles', $roles);
 		return Alma::viewReturn($view, $request);
     }
 
@@ -85,7 +87,14 @@ class UserController extends Controller
 			'email' => $request->input('email'),
 			'password' => $request->input('password'),
 		);
-		User::add($arrParam);
+		$user = User::add($arrParam);
+		
+		$roles = $request->input('roles');
+		if(count($roles) > 0){
+			foreach($roles as $key => $id_role){
+				$user->assignRole($id_role);
+			}
+		}
 		
 		$arrStatus['url'] = route('users.index');
 		return Alma::successReturn('Пользователь успешно добавлен', $arrStatus);	
@@ -115,11 +124,14 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
 		$user = User::find($id);
+		$roles = Role::all();
 		if(count($user) == 0){
 			Session::flash('warning', 'Пользователь не найден');
 		}
 		
-		$view = view('pages.users.edit')->with('user', $user);
+		$view = view('pages.users.edit')
+			->with('roles', $roles)
+			->with('user', $user);
 		return Alma::viewReturn($view, $request);
     }
 
@@ -167,6 +179,20 @@ class UserController extends Controller
 		$user->email = $request->input('email');
 		$user->password = Hash::make($password);
 		$user->save();
+			
+		$roles = $request->input('roles');
+		$roleAll = Role::all();
+		if(!is_null($roleAll)){
+			foreach($roleAll as $key => $item){
+				
+				if(count($roles) > 0 && in_array($item->id, $roles)){
+					$user->assignRole($item->id);
+				}else{
+					$user->deleteRole($item->id);
+				}
+				
+			}
+		}
 			
 		$arrStatus['url'] = route('users.index');
 		return Alma::successReturn('Пользователь успешно изменен', $arrStatus);	
