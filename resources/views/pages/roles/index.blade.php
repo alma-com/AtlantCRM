@@ -99,7 +99,7 @@
 													<i class="fa fa-pencil"></i>
 												</button>
                                                 <button type="button" class="btn btn-default btn-sm disabled" 
-													onclick="actionCall(this, '{{ route('users.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
+													onclick="actionCall(this, '{{ route('roles.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
 												>
                                                     <i class="fa fa-trash-o"></i>
                                                 </button>			
@@ -107,7 +107,7 @@
 												
 											<div class="btn-group-edit">	
 												<button type="button" class="btn btn-success" 
-													onclick="actionCall(this, '{{ route('users.updateItems') }}', 'Вы действительно хотите изменить данных пользователей?')"
+													onclick="actionCall(this, '{{ route('roles.updateItems') }}', 'Вы действительно хотите изменить данных пользователей?')"
 												>
 													<i class="fa fa-check"></i> Сохранить
 												</button>

@@ -216,6 +216,16 @@ class RoleController extends Controller
 
 	
 	
+	/**
+     * Обновление полей пользователей
+     */
+    public function updateItems(Request $request)
+    {
+		//
+	}
+	
+	
+	
     /**
      * Remove the specified resource from storage.
      *
@@ -224,6 +234,59 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rules = array();
+        $validator = Validator::make($request->all(), $rules);
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
+		
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn('Не удалось удалить роль', $arrStatus);
+		}
+		
+		
+		// Success
+		Role::del($id);
+			
+		$arrStatus['url'] = route('roles.index');
+		return Alma::successReturn('Роль успешно удалена', $arrStatus);	
+    }
+	
+	
+	
+	/**
+     * Удаление списка ролей
+     */
+    public function destroyItems(Request $request)
+    {
+		$rules = array();
+        $validator = Validator::make($request->all(), $rules);
+		$arrStatus = array(
+			'request' => $request,
+			'validator' => $validator,
+		);
+		
+        $itemArray = $request->input('item');
+		if(count($itemArray) == 0){
+			return Alma::infoReturn('Ничего не выбрано', $arrStatus);
+		}
+		
+		$arrStatus['validator'] = $validator;
+		
+		// Fails
+		if ($validator->fails()) {
+			return Alma::failsReturn('Не удалось удалить', $arrStatus);
+		}
+		
+		
+		// Success
+		foreach($itemArray as $key => $id_role){
+			Role::del($id_role);
+		}
+		
+		$arrStatus['url'] = route('roles.index');
+		return Alma::successReturn('Роли успешно удалены', $arrStatus);		
     }
 }

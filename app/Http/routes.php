@@ -36,6 +36,8 @@ Route::group(['middleware' => ['web']], function () {
 		Route::post('users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
 		
 		Route::resource('roles', 'RoleController');
+		Route::post('roles/destroyItems', ['as' => 'roles.destroyItems', 'uses' => 'RoleController@destroyItems']);
+		Route::post('roles/updateItems', ['as' => 'roles.updateItems', 'uses' => 'RoleController@updateItems']);
 		
 
 		Route::get('/example', function () {
