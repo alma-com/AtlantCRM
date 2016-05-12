@@ -155,18 +155,17 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-		
-		
+
+
 		/*
 		* Custom helpers
 		*/
         App\Providers\HelperServiceProvider::class,
-		
+
 		/*
 		* Extra
 		*/
 		Collective\Html\HtmlServiceProvider::class,
-		Spatie\Permission\PermissionServiceProvider::class,
 		Barryvdh\Debugbar\ServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
 		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
@@ -218,12 +217,12 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-		
+
 		/*
 		* Custom helpers
 		*/
 		'Alma' => App\Helpers\Alma::class,
-		
+
 		/*
 		* Extra
 		*/
