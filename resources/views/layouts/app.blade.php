@@ -310,14 +310,14 @@
             </div>
           </div>
           <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
+          <!-- <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
               <input type="text" name="q" class="form-control" placeholder="Поиск...">
               <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
               </span>
             </div>
-          </form>
+          </form> -->
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
 
@@ -331,7 +331,7 @@
                 </a>
             </li>
 
-            <li>
+            <!-- <li>
                 <a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
             </li>
             <li>
@@ -369,7 +369,7 @@
             </li>
             <li>
                 <a href="{{ url('/logout') }}" class="no-ajax"><i class="fa fa-sign-out"></i> <span>Выход</span></a>
-            </li>
+            </li> -->
           </ul>
         </section>
         <!-- /.sidebar -->
