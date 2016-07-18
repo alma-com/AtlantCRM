@@ -8,15 +8,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\UserRequest;
-
 use Auth;
 use Session;
 use Validator;
-use HTML;
 use Response;
 use Alma;
-use Hash;
-
 use App\User;
 use App\Role;
 
