@@ -53,7 +53,7 @@ class ModelTaskTest extends TestCase
         $this->seeInDatabase('tasks', $arrData);
     }
 
-
+    /*
     public function testAssignDirectors()
     {
         $task = factory(Task::class)->create();
@@ -154,5 +154,5 @@ class ModelTaskTest extends TestCase
         $task->deleteWatchers($watcher_second->id);
         $this->assertTrue(count($task->watchers()->get()) === 0);
     }
-
+    */
 }
