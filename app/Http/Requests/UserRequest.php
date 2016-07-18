@@ -23,11 +23,29 @@ class UserRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required|max:255',
-            'email' => 'required|unique:users|email|max:255',
-            'password' => 'required|min:6|max:255',
-            'password_confirmation' => 'required|same:password',
+            'email' => 'required|unique:users,email,' . $this->get('id') . '|email|max:255',
+            'password' => 'min:6|max:255',
+            'password_confirmation' => 'same:password',
         ];
+
+        if($this->isAdd() || $this->doNeedPassword()){
+            $rules['password'] = 'required|min:6|max:255';
+            $rules['password_confirmation'] = 'required|same:password';
+        }
+
+        return $rules;
+    }
+
+    private function isAdd()
+    {
+        return (bool)!$this->get('id');
+    }
+
+    private function doNeedPassword()
+    {
+        return $this->get('password_confirmation') == ''
+            && $this->get('password_confirmation') != $this->get('password');
     }
 }

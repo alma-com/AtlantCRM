@@ -22,8 +22,6 @@ use App\Role;
 
 class UserController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +53,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -107,62 +105,20 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UserRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $rules = array(
-            'name'       => 'required|max:255',
-            'email'      => 'required|email|max:255|unique:users,email,'.$id,
-            'password' => 'min:6|max:255',
-            'password_confirmation' => 'same:password',
-        );
-        $validator = Validator::make($request->all(), $rules);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        $user->roles()->sync($request->input('roles', []));
 
-        $password = $request->input('password');
-        $password_confirmation = $request->input('password_confirmation');
-
-        if ($password_confirmation == '' && $password_confirmation != $password){
-            $validator->after(function($validator){
-                $validator->errors()->add('password_confirmation', 'Значение "Еще раз пароль" должно совпадать с "Пароль".');
-            });
-        }
-        $arrStatus = array(
+        return Alma::successReturn('Пользователь успешно изменен', [
             'request' => $request,
-            'validator' => $validator,
-        );
-
-        // Fails
-        if ($validator->fails()) {
-            return Alma::failsReturn('Не удалось изменить пользователя', $arrStatus);
-        }
-
-
-        // Success
-        $user = User::find($id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($password);
-        $user->save();
-
-        $roles = $request->input('roles');
-        $roleAll = Role::all();
-        if(!is_null($roleAll)){
-            foreach($roleAll as $key => $item){
-
-                if(count($roles) > 0 && in_array($item->id, $roles)){
-                    $user->assignRole($item->id);
-                }else{
-                    $user->deleteRole($item->id);
-                }
-
-            }
-        }
-
-        $arrStatus['url'] = route('users.index');
-        return Alma::successReturn('Пользователь успешно изменен', $arrStatus);
+            'url' => route('users.index'),
+        ]);
     }
 
 
