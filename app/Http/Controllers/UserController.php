@@ -34,8 +34,6 @@ class UserController extends Controller
         return Alma::viewReturn(view('pages.users.index', compact('users')), $request);
     }
 
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -47,8 +45,6 @@ class UserController extends Controller
 
         return Alma::viewReturn(view('pages.users.create', compact('roles')), $request);
     }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -67,8 +63,6 @@ class UserController extends Controller
         ]);
     }
 
-
-
     /**
      * Display the specified resource.
      *
@@ -79,8 +73,6 @@ class UserController extends Controller
     {
         //
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -99,8 +91,6 @@ class UserController extends Controller
 
         return Alma::viewReturn(view('pages.users.edit', compact('user', 'roles')), $request);
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -121,37 +111,34 @@ class UserController extends Controller
         ]);
     }
 
-
-
     /**
-     * Обновление полей пользователей
+     * Update list items
      */
     public function updateItems(Request $request)
     {
-        $rules = array();
+        $rules = [];
         $itemArray = $request->input('item');
+
         foreach($itemArray as $key => $id_user){
              $rules['name.'.$id_user] =  'required|max:255';
              $rules['email.'.$id_user] =  'required|email|max:255|unique:users,email,'.$id_user;
         }
         $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+
+        $arrStatus = [
             'request' => $request,
             'validator' => $validator,
-        );
+        ];
 
 
-        if(count($itemArray) == 0){
+        if(count($itemArray) === 0){
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
         }
 
-        // Fails
         if ($validator->fails()) {
             return Alma::failsReturn('Не удалось изменить', $arrStatus);
         }
 
-
-        // Success
         foreach($itemArray as $key => $id_user){
             $user = User::find($id_user);
             $user->name = $request->input('name')[$id_user];
@@ -173,26 +160,24 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $rules = array();
+        $rules = [];
         $validator = Validator::make($request->all(), $rules);
         if (Auth::check() and Auth::user()->id == $id){
             $validator->after(function($validator){
                 $validator->errors()->add('field', 'Нельзя удалить себя');
             });
         }
-        $arrStatus = array(
+        $arrStatus = [
             'request' => $request,
             'validator' => $validator,
-        );
+        ];
 
-        // Fails
         if ($validator->fails()) {
             return Alma::failsReturn('Не удалось удалить пользователя', $arrStatus);
         }
 
-
-        // Success
-        User::del($id);
+        $user = User::find($id);
+        $user->delete();
 
         $arrStatus['url'] = route('users.index');
         return Alma::successReturn('Пользователь успешно удален', $arrStatus);
@@ -201,11 +186,11 @@ class UserController extends Controller
 
 
     /**
-     * Удаление списка пользователей
+     * destroy list items
      */
     public function destroyItems(Request $request)
     {
-        $rules = array();
+        $rules = [];
         $validator = Validator::make($request->all(), $rules);
         $arrStatus = array(
             'request' => $request,
@@ -226,15 +211,13 @@ class UserController extends Controller
         }
         $arrStatus['validator'] = $validator;
 
-        // Fails
         if ($validator->fails()) {
             return Alma::failsReturn('Не удалось удалить', $arrStatus);
         }
 
-
-        // Success
         foreach($itemArray as $key => $id_user){
-            User::del($id_user);
+            $user = User::find($id_user);
+            $user->delete();
         }
 
         $arrStatus['url'] = route('users.index');
