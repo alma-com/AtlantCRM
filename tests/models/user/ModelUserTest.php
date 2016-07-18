@@ -40,10 +40,10 @@ class ModelUserTest extends TestCase
 
     public function testUpdate()
     {
-        $user = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
+        ]);
 
         $newName = str_random(10);
         $user->name = $newName;
@@ -58,47 +58,25 @@ class ModelUserTest extends TestCase
 
     public function testAssignRole()
     {
-        //Success
-        $user = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
-        $roleOne = Role::add(str_random(10));
-        $roleTwo = Role::add(str_random(10));
-        $roleThree = Role::add(str_random(10));
+        ]);
+        $role = Role::add(str_random(10));
 
-        $user
-            ->assignRole($roleOne->name)
-            ->assignRole($roleOne->name)
-            ->assignRole($roleTwo)
-            ->assignRole($roleThree->id);
+        $user->roles()->sync([$role->id]);
 
-        $this->seeInDatabase('user_has_roles', ['role_id' => $roleOne->id, 'user_id' => $user->id]);
-        $this->seeInDatabase('user_has_roles', ['role_id' => $roleTwo->id, 'user_id' => $user->id]);
-        $this->seeInDatabase('user_has_roles', ['role_id' => $roleThree->id, 'user_id' => $user->id]);
-
-        $this->assertTrue(count($user->roles()->get()) == 3);
-
-        //Error
-        $userErr = User::add(array(
-            'name' => str_random(10),
-            'email' => $this->faker->email,
-        ));
-        $userErr
-            ->assignRole(str_random(12))
-            ->assignRole();
-
-        $this->assertTrue(count($userErr->roles()->get()) == 0);
+        $this->seeInDatabase('user_has_roles', ['role_id' => $role->id, 'user_id' => $user->id]);
+        $this->assertTrue(count($user->roles()->get()) === 1);
     }
 
 
     public function testAccess()
     {
-        //Success
-        $user = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
+        ]);
         $role = Role::add(str_random(10));
         $permOne = Permission::add(str_random(10));
         $permTwo = Permission::add(str_random(10));
@@ -109,125 +87,53 @@ class ModelUserTest extends TestCase
             ->assignPermission($permTwo)
             ->assignPermission($permThree);
 
-        $user->assignRole($role);
+        $user->roles()->sync([$role->id]);
 
         $this->assertTrue($user->access($permOne));
         $this->assertTrue($user->access($permTwo->name));
         $this->assertTrue($user->access($permThree->id));
-
-        //Error
-        $role->deletePermission($permOne);
-        $this->assertFalse($user->access($permOne->id));
-        $this->assertTrue($user->access($permTwo->name));
-        $this->assertTrue($user->access($permThree));
-        $this->assertFalse($user->access(str_random(10)));
-
     }
 
 
     public function testHasRole()
     {
-        //Success
-        $user = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
-        $roleOne = Role::add(str_random(10));
-        $roleTwo = Role::add(str_random(10));
-        $roleThree = Role::add(str_random(10));
+        ]);
+        $role = Role::add(str_random(10));
+        $user->roles()->sync([$role->id]);
 
-        $user
-            ->assignRole($roleOne->name)
-            ->assignRole($roleTwo->id)
-            ->assignRole($roleThree);
-
-        $this->assertTrue($user->hasRole($roleOne));
-        $this->assertTrue($user->hasRole($roleTwo->id));
-        $this->assertTrue($user->hasRole($roleThree->name));
-
-        //Error
-        $user->deleteRole($roleOne);
-        $this->assertFalse($user->hasRole($roleOne));
-        $this->assertTrue($user->hasRole($roleTwo->id));
-        $this->assertTrue($user->hasRole($roleThree->name));
-        $this->assertFalse($user->hasRole(str_random(10)));
+        $this->assertTrue($user->hasRole($role));
     }
 
 
     public function testDeleteRole()
     {
-        //Success
-        $user = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
-        $roleOne = Role::add(str_random(10));
-        $roleTwo = Role::add(str_random(10));
-        $roleThree = Role::add(str_random(10));
+        ]);
+        $role = Role::add(str_random(10));
+        $user->roles()->sync([$role->id]);
 
-        $user
-            ->assignRole($roleOne->name)
-            ->assignRole($roleTwo)
-            ->assignRole($roleThree->id);
+        $user->roles()->sync([]);
 
-        $user->deleteRole($roleOne->name);
-        $this->assertTrue(count($user->roles()->get()) == 2);
-
-        $user->deleteRole($roleTwo->id);
-        $this->assertTrue(count($user->roles()->get()) == 1);
-
-        $user->deleteRole($roleThree);
-        $this->assertTrue(count($user->roles()->get()) == 0);
-
-        //Error
-        $user->assignRole($roleThree);
-        $user->deleteRole(str_random(12));
-        $this->assertTrue(count($user->roles()->get()) == 1);
+        $this->assertFalse($user->hasRole($role));
     }
 
 
     public function testDelete()
     {
-        //success
-        $userModel = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
-        User::del($userModel);
-        $this->assertTrue(is_null(User::find($userModel->id)));
+        ]);
+        $role = Role::add(str_random(10));
+        $user->roles()->sync([$role->id]);
+        $user->delete();
 
-        $userEmail = User::add(array(
-            'name' => str_random(10),
-            'email' => $this->faker->email,
-        ));
-        User::del($userEmail->email);
-        $this->assertTrue(is_null(User::find($userEmail->id)));
-
-        $userId = User::add(array(
-            'name' => str_random(10),
-            'email' => $this->faker->email,
-        ));
-        User::del($userId->id);
-        $this->assertTrue(is_null(User::find($userId->id)));
-
-        $user = User::add(array(
-            'name' => str_random(10),
-            'email' => $this->faker->email,
-        ));
-        $roleOne = Role::add(str_random(10));
-        $roleTwo = Role::add(str_random(10));
-        $roleThree = Role::add(str_random(10));
-
-        $user
-            ->assignRole($roleOne->name)
-            ->assignRole($roleTwo)
-            ->assignRole($roleThree->id);
-        User::del($user);
-
-        $this->assertTrue(count($user->roles()->get()) == 0);
-
-        //error
-        User::del();
-        User::del(str_random(12));
+        $this->assertTrue(is_null(User::find($user->id)));
+        $this->assertTrue(count($user->roles()->get()) === 0);
     }
 }

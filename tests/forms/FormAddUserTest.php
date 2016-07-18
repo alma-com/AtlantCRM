@@ -30,8 +30,13 @@ class FormAddUserTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        $roleAdmin = App\Role::where('name', 'admin')->first();
+        $user = factory(App\User::class)->create();
+        $user->roles()->sync([$roleAdmin->id]);
+
         $this->faker = Faker\Factory::create();
-        $this->user = factory(App\User::class)->create()->assignRole('admin');
+        $this->user = $user;
         $this->url = '/users/create';
         $this->url_err = '/users/create';
         $this->url_ok = '/users';
