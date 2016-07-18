@@ -43,6 +43,11 @@ class User extends Authenticatable
        return $this->belongsToMany('App\Role', 'user_has_roles');
     }
 
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
     /**
      * Assign role to the user
      *
