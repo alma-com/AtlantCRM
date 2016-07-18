@@ -1,52 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Атлант')</title>
-	<!-- Bootstrap 3.3.5 -->
-	{{ HTML::style('AdminLTE/bootstrap/css/bootstrap.min.css') }}
-	<!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-	    <!-- Theme style -->
-	{{ HTML::style('AdminLTE/dist/css/AdminLTE.min.css') }}
-	<!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-	{{ HTML::style('AdminLTE/dist/css/skins/_all-skins.min.css') }}
-	<!-- iCheck -->
-	{{ HTML::style('AdminLTE/plugins/iCheck/flat/blue.css') }}
-    <!-- Morris chart -->
-	{{ HTML::style('AdminLTE/plugins/morris/morris.css') }}
-    <!-- jvectormap -->
-	{{ HTML::style('AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}
-    <!-- Date Picker -->
-	{{ HTML::style('AdminLTE/plugins/datepicker/datepicker3.css') }}
-    <!-- Daterange picker -->
-	{{ HTML::style('AdminLTE/plugins/daterangepicker/daterangepicker-bs3.css') }}
-    <!-- bootstrap wysihtml5 - text editor -->
-	{{ HTML::style('AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
-	<!-- DataTables -->
-	{{ HTML::style('AdminLTE/plugins/datatables/dataTables.bootstrap.css') }}
-	<!-- Pace style -->
-	{{ HTML::style('AdminLTE/plugins/pace/pace.min.css') }}
+  <title>@yield('title', 'Атлант')</title>
+  <!-- Bootstrap 3.3.5 -->
+  {{ HTML::style('AdminLTE/bootstrap/css/bootstrap.min.css') }}
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  {{ HTML::style('AdminLTE/dist/css/AdminLTE.min.css') }}
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+     folder instead of downloading all of them to reduce the load. -->
+  {{ HTML::style('AdminLTE/dist/css/skins/_all-skins.min.css') }}
+  <!-- iCheck -->
+  {{ HTML::style('AdminLTE/plugins/iCheck/flat/blue.css') }}
+  <!-- Morris chart -->
+  {{ HTML::style('AdminLTE/plugins/morris/morris.css') }}
+  <!-- jvectormap -->
+  {{ HTML::style('AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}
+  <!-- Date Picker -->
+  {{ HTML::style('AdminLTE/plugins/datepicker/datepicker3.css') }}
+  <!-- Daterange picker -->
+  {{ HTML::style('AdminLTE/plugins/daterangepicker/daterangepicker-bs3.css') }}
+  <!-- bootstrap wysihtml5 - text editor -->
+  {{ HTML::style('AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}
+  <!-- DataTables -->
+  {{ HTML::style('AdminLTE/plugins/datatables/dataTables.bootstrap.css') }}
+  <!-- Pace style -->
+  {{ HTML::style('AdminLTE/plugins/pace/pace.min.css') }}
 
+  <link rel="stylesheet" href="{{ elixir("css/app.css") }}">
 
-
-	<link rel="stylesheet" href="{{ elixir("css/app.css") }}">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -54,9 +50,8 @@
       <header class="main-header">
         <!-- Logo -->
         <a href="{{ route('home') }}" class="logo">
-			
-			<span class="logo-mini"><img src="/images/logo.png" alt="Атлант" style="height:20px"></span>
-			<span class="logo-lg"><img src="/images/logo.png" alt="Атлант" style="position:absolute;height:40px;left:0;top:3px;"><b>Aтлант</b></span>
+            <span class="logo-mini"><img src="/images/logo.png" alt="Атлант" style="height:20px"></span>
+            <span class="logo-lg"><img src="/images/logo.png" alt="Атлант" style="position:absolute;height:40px;left:0;top:3px;"><b>Aтлант</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -327,53 +322,53 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
 
 
-		  <ul class="sidebar-menu">
+          <ul class="sidebar-menu">
             <li class="header">ИЗБРАННОЕ</li>
 
-			<li class="{{ Route::is('users.*') ? 'active' : '' }}">
-				<a href="{{ route('users.index') }}">
-					<i class="fa fa-users"></i> <span>Пользователи</span></i>
-				</a>
+            <li class="{{ Route::is('users.*') ? 'active' : '' }}">
+                <a href="{{ route('users.index') }}">
+                    <i class="fa fa-users"></i> <span>Пользователи</span></i>
+                </a>
             </li>
 
-			<li>
-				<a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
+            <li>
+                <a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
             </li>
-			<li>
-				<a href="#"><i class="fa fa-tasks"></i> <span>Задачи</span></a>
+            <li>
+                <a href="#"><i class="fa fa-tasks"></i> <span>Задачи</span></a>
             </li>
-			<li>
-				<a href="#"><i class="fa fa-briefcase"></i> <span>Брифы</span></a>
+            <li>
+                <a href="#"><i class="fa fa-briefcase"></i> <span>Брифы</span></a>
             </li>
-			<li>
-				<a href="#"><i class="fa fa-globe"></i> <span>Домены и хостинг</span></a>
+            <li>
+                <a href="#"><i class="fa fa-globe"></i> <span>Домены и хостинг</span></a>
             </li>
-			<li>
-				<a href="#"><i class="fa fa-user-secret"></i> <span>Контрагенты</span></a>
+            <li>
+                <a href="#"><i class="fa fa-user-secret"></i> <span>Контрагенты</span></a>
             </li>
-			<li class="treeview">
-				<a href="#">
-					<i class="fa fa-file-text-o"></i> <span>Отчёты</span> <i class="fa fa-angle-left pull-right"></i>
-				</a>
-				<ul class="treeview-menu">
-					<li><a href="#">Отчёт по поддержке</a></li>
-					<li><a href="#">Отчёт по доменам и хостингу</a></li>
-				</ul>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-text-o"></i> <span>Отчёты</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Отчёт по поддержке</a></li>
+                    <li><a href="#">Отчёт по доменам и хостингу</a></li>
+                </ul>
             </li>
-			<li class="treeview">
-				<a href="#">
-					<i class="fa fa-picture-o"></i> <span>Шаблоны</span> <i class="fa fa-angle-left pull-right"></i>
-				</a>
-				<ul class="treeview-menu">
-					<li><a href="#">Бриф</a></li>
-					<li><a href="#">Дизайн</a></li>
-				</ul>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-picture-o"></i> <span>Шаблоны</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Бриф</a></li>
+                    <li><a href="#">Дизайн</a></li>
+                </ul>
             </li>
-			<li>
-				<a href="#"><i class="fa fa-cog"></i> <span>Настройки</span></a>
+            <li>
+                <a href="#"><i class="fa fa-cog"></i> <span>Настройки</span></a>
             </li>
-			<li>
-				<a href="{{ url('/logout') }}" class="no-ajax"><i class="fa fa-sign-out"></i> <span>Выход</span></a>
+            <li>
+                <a href="{{ url('/logout') }}" class="no-ajax"><i class="fa fa-sign-out"></i> <span>Выход</span></a>
             </li>
           </ul>
         </section>
@@ -383,21 +378,21 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
 
-		<section class="content-header">
-			@yield('content-header')
-		</section>
+        <section class="content-header">
+            @yield('content-header')
+        </section>
 
-		<section class="content">
-			<div id="content-alert">
-				@include('common.alert')
-			</div>
+        <section class="content">
+            <div id="content-alert">
+                @include('common.alert')
+            </div>
 
-			<div class="row">
-				<div class="col-xs-12" id="ajax-content">
-					@yield('content')
-				</div>
-			</div>
-		</section>
+            <div class="row">
+                <div class="col-xs-12" id="ajax-content">
+                    @yield('content')
+                </div>
+            </div>
+        </section>
 
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
@@ -575,67 +570,66 @@
     </div><!-- ./wrapper -->
 
 
-	@include('common.confirm')
+  @include('common.confirm')
+
+
+  <!-- jQuery 2.1.4 -->
+  {{ HTML::script('AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js') }}
+
+  <!-- jQuery UI 1.11.4 -->
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button);
+  </script>
+  <!-- Bootstrap 3.3.5 -->
+  {{ HTML::script('AdminLTE/bootstrap/js/bootstrap.min.js') }}
+  <!-- Morris.js charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  {{ HTML::script('AdminLTE/plugins/morris/morris.min.js') }}
+  <!-- Sparkline -->
+  {{ HTML::script('AdminLTE/plugins/sparkline/jquery.sparkline.min.js') }}
+  <!-- jvectormap -->
+  {{ HTML::script('AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}
+  {{ HTML::script('AdminLTE/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}
+  <!-- jQuery Knob Chart -->
+  {{ HTML::script('AdminLTE/plugins/knob/jquery.knob.js') }}
+  <!-- daterangepicker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+  {{ HTML::script('AdminLTE/plugins/daterangepicker/daterangepicker.js') }}
+  <!-- datepicker -->
+  {{ HTML::script('AdminLTE/plugins/datepicker/bootstrap-datepicker.js') }}
+  <!-- Bootstrap WYSIHTML5 -->
+  {{ HTML::script('AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
+  <!-- Slimscroll -->
+  {{ HTML::script('AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js') }}
+  <!-- FastClick -->
+  {{ HTML::script('AdminLTE/plugins/fastclick/fastclick.min.js') }}
+  <!-- DataTables -->
+  {{ HTML::script('AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
+  {{ HTML::script('AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
+  <!-- iCheck -->
+  {{ HTML::script('AdminLTE/plugins/iCheck/icheck.min.js') }}
+  <!-- PACE -->
+  {{ HTML::script('AdminLTE/plugins/pace/pace.js') }}
+
+
+  <!-- notie -->
+  {{ HTML::script('AdminLTE/plugins/notie/notie.js') }}
+  <!-- simplr-smoothscroll -->
+  {{ HTML::script('AdminLTE/plugins/simplr-smoothscroll/jquery.simplr.smoothscroll.min.js') }}
 
 
 
-	<!-- jQuery 2.1.4 -->
-	{{ HTML::script('AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js') }}
+  <!-- AdminLTE App -->
+  {{ HTML::script('AdminLTE/dist/js/app.min.js') }}
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  {{ HTML::script('AdminLTE/dist/js/pages/dashboard.js') }}
 
-    <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <!-- Bootstrap 3.3.5 -->
-	{{ HTML::script('AdminLTE/bootstrap/js/bootstrap.min.js') }}
-    <!-- Morris.js charts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-	{{ HTML::script('AdminLTE/plugins/morris/morris.min.js') }}
-    <!-- Sparkline -->
-	{{ HTML::script('AdminLTE/plugins/sparkline/jquery.sparkline.min.js') }}
-    <!-- jvectormap -->
-	{{ HTML::script('AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}
-	{{ HTML::script('AdminLTE/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}
-    <!-- jQuery Knob Chart -->
-	{{ HTML::script('AdminLTE/plugins/knob/jquery.knob.js') }}
-    <!-- daterangepicker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-	{{ HTML::script('AdminLTE/plugins/daterangepicker/daterangepicker.js') }}
-    <!-- datepicker -->
-	{{ HTML::script('AdminLTE/plugins/datepicker/bootstrap-datepicker.js') }}
-    <!-- Bootstrap WYSIHTML5 -->
-	{{ HTML::script('AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
-    <!-- Slimscroll -->
-	{{ HTML::script('AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js') }}
-    <!-- FastClick -->
-	{{ HTML::script('AdminLTE/plugins/fastclick/fastclick.min.js') }}
-	<!-- DataTables -->
-	{{ HTML::script('AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
-	{{ HTML::script('AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
-	<!-- iCheck -->
-	{{ HTML::script('AdminLTE/plugins/iCheck/icheck.min.js') }}
-	<!-- PACE -->
-	{{ HTML::script('AdminLTE/plugins/pace/pace.js') }}
+  <!-- AdminLTE for demo purposes -->
+  {{ HTML::script('AdminLTE/dist/js/demo.js') }}
 
 
-	<!-- notie -->
-	{{ HTML::script('AdminLTE/plugins/notie/notie.js') }}
-	<!-- simplr-smoothscroll -->
-	{{ HTML::script('AdminLTE/plugins/simplr-smoothscroll/jquery.simplr.smoothscroll.min.js') }}
-
-
-
-    <!-- AdminLTE App -->
-	{{ HTML::script('AdminLTE/dist/js/app.min.js') }}
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-	{{ HTML::script('AdminLTE/dist/js/pages/dashboard.js') }}
-
-    <!-- AdminLTE for demo purposes -->
-	{{ HTML::script('AdminLTE/dist/js/demo.js') }}
-
-	
-	{{ HTML::script('/js/all.js') }}
+  {{ HTML::script('/js/all.js') }}
 </body>
 </html>
