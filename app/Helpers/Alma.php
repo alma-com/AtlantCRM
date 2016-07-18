@@ -14,23 +14,23 @@ class Alma
      * arrStatus(
      * 'request' => $request,
      *     'validator' => $validator,
-     *     'url' => $url,                            -    редирект после операции
-     *     'errFields' => $errFields,            -    выделение красной рамкой и мигание неверных полей
+     *     'url' => $url,                    -    редирект после операции
+     *     'errFields' => $errFields,        -    выделение красной рамкой и мигание неверных полей
      *     'description' => $description,    -    вывод описания
      * )
      */
-    public static function gerArrStatus($arrStatus)
+    public static function getArrStatus($arrStatus)
     {
-        $arrDefault = array(
+        $arrDefault = [
             'request' => '',
             'validator' => '',
             'url' => '',
             'errFields' => '',
             'description' => '',
-        );
+        ];
         $res = array_merge($arrDefault, $arrStatus);
         if($res['description'] != ''){
-            $res['description'] = self::gerDescription('info', $res['description']);
+            $res['description'] = self::getDescription('info', $res['description']);
         }
 
         unset($res['request']);
@@ -43,7 +43,7 @@ class Alma
     /**
      * Получение подробного описания
      */
-    public static function gerDescription($status, $text)
+    public static function getDescription($status, $text)
     {
         $res = '';
         Session::flash($status, $text);
@@ -64,10 +64,10 @@ class Alma
         $validator = $arrStatus['validator'];
         $arrStatus['status'] = 'warning';
         $arrStatus['message'] = $message;
-        $res = self::gerArrStatus($arrStatus);
+        $res = self::getArrStatus($arrStatus);
 
         $res['errFields'] = $validator->messages();
-        $res['description'] = self::gerDescription($res['status'], HTML::ul($validator->errors()->all()));
+        $res['description'] = self::getDescription($res['status'], HTML::ul($validator->errors()->all()));
 
         if($request->ajax()){
             return Response::json($res);
@@ -94,7 +94,7 @@ class Alma
         $request = $arrStatus['request'];
         $arrStatus['status'] = 'success';
         $arrStatus['message'] = $message;
-        $res = self::gerArrStatus($arrStatus);
+        $res = self::getArrStatus($arrStatus);
 
         if($request->ajax()){
             return Response::json($res);
@@ -116,7 +116,7 @@ class Alma
         $request = $arrStatus['request'];
         $arrStatus['status'] = 'info';
         $arrStatus['message'] = $message;
-        $res = self::gerArrStatus($arrStatus);
+        $res = self::getArrStatus($arrStatus);
 
         if($request->ajax()){
             return Response::json($res);
