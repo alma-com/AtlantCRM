@@ -197,7 +197,7 @@ function successDo(data, $form){
         $findField.parent().addClass(CLASS_ERROR);
         blinkElem($findField.delay(300));
 
-      }else{
+      } else {
         //Поля таблицы
         var item = index.replace("table_", "");
         blinkElem($('tr[data-item="'+item+'"]').delay(300));
