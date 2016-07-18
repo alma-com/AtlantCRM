@@ -32,28 +32,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('roles')->get();
-        $roles = [];
 
-        if(!is_null($users)){
-            foreach($users as $key => $user){
-                $roles[$user->id] = array();
-
-                if(is_null($user->roles)){break;}
-
-                foreach($user->roles as $key => $role){
-                    $roles[$user->id][] = $role->display_name;
-                }
-            }
-        }
-
-        if(count($users) == 0){
-            Session::flash('warning', 'Пользователей нет');
-        }
-
-        $view = view('pages.users.index')
-            ->with('users', $users)
-            ->with('roles', $roles);
-        return Alma::viewReturn($view, $request);
+        return Alma::viewReturn(view('pages.users.index', compact('users')), $request);
     }
 
 
@@ -67,6 +47,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $view = view('pages.users.create')->with('roles', $roles);
+
         return Alma::viewReturn($view, $request);
     }
 
@@ -83,12 +64,10 @@ class UserController extends Controller
         $user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
 
-        $arrStatus = [
+        return Alma::successReturn('Пользователь успешно добавлен', [
             'request' => $request,
             'url' => route('users.index'),
-        ];
-
-        return Alma::successReturn('Пользователь успешно добавлен', $arrStatus);
+        ]);
     }
 
 

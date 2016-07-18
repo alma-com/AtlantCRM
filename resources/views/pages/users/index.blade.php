@@ -71,9 +71,7 @@
                     <div class="td-input"><input type="text"  class="form-control" name="email[{{ $user->id }}]" value="{{ $user->email }}"></div>
                   </td>
                   <td>
-                    @if(count($roles[$user->id]) > 0)
-                      {{ implode(", ", $roles[$user->id]) }}
-                    @endif
+                    {{ $user->roles->lists('display_name')->implode(', ') }}
                   </td>
                 </tr>
               @endforeach
@@ -108,7 +106,7 @@
                         </button>
                         <button type="button" class="btn btn-default" onclick="editTable(this, 'hide')">Отмена</button>
                       </div>
-                      
+
                     </div>
                   </div>
                 </td>
