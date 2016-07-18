@@ -45,10 +45,9 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $roles = Role::all();
-        $view = view('pages.users.create')->with('roles', $roles);
+        $roles = Role::lists('display_name', 'id');
 
-        return Alma::viewReturn($view, $request);
+        return Alma::viewReturn(view('pages.users.create', compact('roles')), $request);
     }
 
 
@@ -94,15 +93,13 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
-        $roles = Role::all();
+        $roles = Role::lists('display_name', 'id');
+
         if(count($user) == 0){
             Session::flash('warning', 'Пользователь не найден');
         }
 
-        $view = view('pages.users.edit')
-            ->with('roles', $roles)
-            ->with('user', $user);
-        return Alma::viewReturn($view, $request);
+        return Alma::viewReturn(view('pages.users.edit', compact('user', 'roles')), $request);
     }
 
 
