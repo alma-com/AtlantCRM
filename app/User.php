@@ -8,15 +8,9 @@ use Hash;
 
 
 /**
- *
- * @method assignRole(int|string|object $role)
- * @method deleteRole(int|string|object $role)
  * @method access(int|string|object $perm)
  * @method hasRole(int|string|object $role)
- *
- * @static @method del(int|string|object $user)
  * @static @method getModel(int|string|object $user)
- *
  */
 class User extends Authenticatable
 {
@@ -46,51 +40,6 @@ class User extends Authenticatable
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
-    }
-
-    /**
-     * Assign role to the user
-     *
-     * @param {int|string|object}
-     * @param {int} id role
-     * @param {string} name role
-     * @param {object} object role
-     *
-     * @returns {object}
-     */
-    public function assignRole($role = '')
-    {
-        $role = Role::getModel($role);
-
-        if(!is_null($role)){
-            $findRole = $this->roles()->where('id', $role->id)->get();
-            if(count($findRole) === 0){
-                $this->roles()->save($role);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Delete role to the user
-     *
-     * @param {int|string|object}
-     * @param {int} id role
-     * @param {string} name role
-     * @param {object} object role
-     *
-     * @returns {object}
-     */
-    public function deleteRole($role = '')
-    {
-        $role = Role::getModel($role);
-
-        if(!is_null($role)){
-            $this->roles()->detach($role);
-        }
-
-        return $this;
     }
 
     /**
@@ -146,26 +95,6 @@ class User extends Authenticatable
         }
 
         return false;
-    }
-
-    /**
-     * Delete user
-     *
-     * @param {int|string|object}
-     * @param {int} id user
-     * @param {string} email user
-     * @param {object} object user
-     *
-     * @returns {true}
-     */
-    public static function del($user = '')
-    {
-        $user = self::getModel($user);
-        if(!is_null($user)){
-            $user->delete();
-        }
-
-        return true;
     }
 
     /**
