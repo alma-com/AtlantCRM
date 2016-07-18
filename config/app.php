@@ -157,20 +157,20 @@ return [
         App\Providers\RouteServiceProvider::class,
 
 
-		/*
-		* Custom helpers
-		*/
+        /*
+        * Custom helpers
+        */
         App\Providers\HelperServiceProvider::class,
 
-		/*
-		* Extra
-		*/
-		Collective\Html\HtmlServiceProvider::class,
-		Barryvdh\Debugbar\ServiceProvider::class,
-		Barryvdh\DomPDF\ServiceProvider::class,
-		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
-		Creativeorange\Gravatar\GravatarServiceProvider::class,
-		Intervention\Image\ImageServiceProvider::class,
+        /*
+        * Extra
+        */
+        Collective\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+        Creativeorange\Gravatar\GravatarServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -218,21 +218,21 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
-		/*
-		* Custom helpers
-		*/
-		'Alma' => App\Helpers\Alma::class,
+        /*
+        * Custom helpers
+        */
+        'Alma' => App\Helpers\Alma::class,
 
-		/*
-		* Extra
-		*/
-		'Form' => Collective\Html\FormFacade::class,
-		'HTML' => Collective\Html\HtmlFacade::class,
-		'Debugbar' => Barryvdh\Debugbar\Facade::class,
-		'PDF' => Barryvdh\DomPDF\Facade::class,
-		'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
-		'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
-		'Image' => Intervention\Image\Facades\Image::class,
+        /*
+        * Extra
+        */
+        'Form' => Collective\Html\FormFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+        'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

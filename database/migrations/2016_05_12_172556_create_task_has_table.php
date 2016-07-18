@@ -12,7 +12,7 @@ class CreateTaskHasTable extends Migration
      */
     public function up()
     {
-		Schema::create('task_has_directors', function (Blueprint $table) {
+        Schema::create('task_has_directors', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned();
 
@@ -30,40 +30,40 @@ class CreateTaskHasTable extends Migration
         });
 
 
-		Schema::create('task_has_employees', function (Blueprint $table) {
-			$table->integer('user_id')->unsigned();
-			$table->integer('task_id')->unsigned();
+        Schema::create('task_has_employees', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('task_id')->unsigned();
 
-			$table->foreign('user_id')
-				->references('id')
-				->on('users')
-				->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
-			$table->foreign('task_id')
-				->references('id')
-				->on('tasks')
-				->onDelete('cascade');
+            $table->foreign('task_id')
+                ->references('id')
+                ->on('tasks')
+                ->onDelete('cascade');
 
-			$table->primary(['user_id', 'task_id']);
-		});
+            $table->primary(['user_id', 'task_id']);
+        });
 
 
-		Schema::create('task_has_watchers', function (Blueprint $table) {
-			$table->integer('user_id')->unsigned();
-			$table->integer('task_id')->unsigned();
+        Schema::create('task_has_watchers', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('task_id')->unsigned();
 
-			$table->foreign('user_id')
-				->references('id')
-				->on('users')
-				->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
-			$table->foreign('task_id')
-				->references('id')
-				->on('tasks')
-				->onDelete('cascade');
+            $table->foreign('task_id')
+                ->references('id')
+                ->on('tasks')
+                ->onDelete('cascade');
 
-			$table->primary(['user_id', 'task_id']);
-		});
+            $table->primary(['user_id', 'task_id']);
+        });
     }
 
     /**

@@ -1,20 +1,20 @@
 .form-group.is-required > label:after {
-    color: #ff0000;
-    vertical-align: super;
-    font-size: 60%;
-    content: " *";
-    text-shadow: 0 0 2px #b30000;
+  color: #ff0000;
+  vertical-align: super;
+  font-size: 60%;
+  content: " *";
+  text-shadow: 0 0 2px #b30000;
 }
 
 .icheckbox_flat-blue{
-	margin-top: -4px;
-	margin-right: 4px;
+  margin-top: -4px;
+  margin-right: 4px;
 }
 
 .checkbox, .radio{
-	margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .checkbox+.checkbox, .radio+.radio{
-	margin-top: 10px;
+  margin-top: 10px;
 }

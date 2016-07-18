@@ -9,155 +9,155 @@ use App\Permission;
 
 class ModelPermissionGroupTest extends TestCase
 {
-	use DatabaseTransactions;
+    use DatabaseTransactions;
 
-	protected $faker;
-
-
-	protected function setUp()
-	{
-		parent::setUp();
-		$this->faker = Faker\Factory::create();
-	}
+    protected $faker;
 
 
-	public function testAdd()
-	{
-		//Success
-		$groupString = PermissionGroup::add(str_random(10));
-		$groupArrayMin = PermissionGroup::add(array('name' => str_random(10)));
-		$groupArrayFull = PermissionGroup::add(array(
-			'name' => str_random(10),
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->faker = Faker\Factory::create();
+    }
+
+
+    public function testAdd()
+    {
+        //Success
+        $groupString = PermissionGroup::add(str_random(10));
+        $groupArrayMin = PermissionGroup::add(array('name' => str_random(10)));
+        $groupArrayFull = PermissionGroup::add(array(
+            'name' => str_random(10),
             'display_name' => str_random(10),
             'description' => str_random(10),
             'sort_order' => $this->faker->randomNumber,
-		));
+        ));
 
-		$this->assertFalse(is_null($groupString));
-		$this->assertFalse(is_null($groupArrayMin));
-		$this->assertFalse(is_null($groupArrayFull));
+        $this->assertFalse(is_null($groupString));
+        $this->assertFalse(is_null($groupArrayMin));
+        $this->assertFalse(is_null($groupArrayFull));
 
-		$this->seeInDatabase('permission_groups', ['id' => $groupString->id, 'name' => $groupString->name]);
-		$this->seeInDatabase('permission_groups', ['id' => $groupArrayMin->id, 'name' => $groupArrayMin->name]);
-		$this->seeInDatabase('permission_groups', [
-			'id' => $groupArrayFull->id,
-			'name' => $groupArrayFull->name,
-			'display_name' => $groupArrayFull->display_name,
-			'description' => $groupArrayFull->description,
-			'sort_order' => $groupArrayFull->sort_order
-		]);
+        $this->seeInDatabase('permission_groups', ['id' => $groupString->id, 'name' => $groupString->name]);
+        $this->seeInDatabase('permission_groups', ['id' => $groupArrayMin->id, 'name' => $groupArrayMin->name]);
+        $this->seeInDatabase('permission_groups', [
+            'id' => $groupArrayFull->id,
+            'name' => $groupArrayFull->name,
+            'display_name' => $groupArrayFull->display_name,
+            'description' => $groupArrayFull->description,
+            'sort_order' => $groupArrayFull->sort_order
+        ]);
 
-		//Error
-		$groupNull = PermissionGroup::add();
-		$groupInt = PermissionGroup::add($this->faker->randomNumber);
-		$groupErrArray = PermissionGroup::add(array('display_name' => str_random(10)));
+        //Error
+        $groupNull = PermissionGroup::add();
+        $groupInt = PermissionGroup::add($this->faker->randomNumber);
+        $groupErrArray = PermissionGroup::add(array('display_name' => str_random(10)));
 
-		$this->assertTrue(is_null($groupNull));
-		$this->assertTrue(is_null($groupInt));
-		$this->assertTrue(is_null($groupErrArray));
-	}
-
-
-	public function testAssignPermission()
-	{
-		//Success
-		$group = PermissionGroup::add(str_random(10));
-		$permissionOne = Permission::add(str_random(10));
-		$permissionTwo = Permission::add(str_random(10));
-		$permissionThree = Permission::add(str_random(10));
-
-		$group
-			->assignPermission($permissionOne)
-			->assignPermission($permissionOne)
-			->assignPermission($permissionTwo->name)
-			->assignPermission($permissionThree->id);
-
-		$this->seeInDatabase('permissions', ['id' => $permissionOne->id, 'group_id' => $group->id]);
-		$this->seeInDatabase('permissions', ['id' => $permissionTwo->id, 'group_id' => $group->id]);
-		$this->seeInDatabase('permissions', ['id' => $permissionThree->id, 'group_id' => $group->id]);
-
-		$this->assertTrue(count($group->permissions()->get()) == 3);
-
-		//Error
-		$groupErr = PermissionGroup::add(str_random(10));
-		$groupErr
-			->assignPermission(str_random(12))
-			->assignPermission();
-
-		$this->assertTrue(count($groupErr->permissions()->get()) == 0);
-	}
+        $this->assertTrue(is_null($groupNull));
+        $this->assertTrue(is_null($groupInt));
+        $this->assertTrue(is_null($groupErrArray));
+    }
 
 
-	public function testDeletePermission()
-	{
-		//success
-		$group = PermissionGroup::add(str_random(10));
-		$permissionOne = Permission::add(str_random(10));
-		$permissionTwo = Permission::add(str_random(10));
-		$permissionThree = Permission::add(str_random(10));
+    public function testAssignPermission()
+    {
+        //Success
+        $group = PermissionGroup::add(str_random(10));
+        $permissionOne = Permission::add(str_random(10));
+        $permissionTwo = Permission::add(str_random(10));
+        $permissionThree = Permission::add(str_random(10));
 
-		$group
-			->assignPermission($permissionOne)
-			->assignPermission($permissionTwo->name)
-			->assignPermission($permissionThree->id);
+        $group
+            ->assignPermission($permissionOne)
+            ->assignPermission($permissionOne)
+            ->assignPermission($permissionTwo->name)
+            ->assignPermission($permissionThree->id);
 
-		$group->deletePermission($permissionOne->id);
-		$this->assertTrue(count($group->permissions()->get()) == 2);
+        $this->seeInDatabase('permissions', ['id' => $permissionOne->id, 'group_id' => $group->id]);
+        $this->seeInDatabase('permissions', ['id' => $permissionTwo->id, 'group_id' => $group->id]);
+        $this->seeInDatabase('permissions', ['id' => $permissionThree->id, 'group_id' => $group->id]);
 
-		$group->deletePermission($permissionTwo);
-		$this->assertTrue(count($group->permissions()->get()) == 1);
+        $this->assertTrue(count($group->permissions()->get()) == 3);
 
-		$group->deletePermission($permissionThree->name);
-		$this->assertTrue(count($group->permissions()->get()) == 0);
+        //Error
+        $groupErr = PermissionGroup::add(str_random(10));
+        $groupErr
+            ->assignPermission(str_random(12))
+            ->assignPermission();
 
-		$groupDefault = PermissionGroup::getModelDefault();
-		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionOne->id)));
-		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionTwo->id)));
-		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
-
-		//Error
-		$group->assignPermission($permissionThree->id);
-		$group->deletePermission(str_random(12));
-		$this->assertTrue(count($group->permissions()->get()) == 1);
-	}
+        $this->assertTrue(count($groupErr->permissions()->get()) == 0);
+    }
 
 
-	public function testDelete()
-	{
-		//success
-		$groupModel = PermissionGroup::add(str_random(10));
-		PermissionGroup::del($groupModel);
-		$this->assertTrue(is_null(PermissionGroup::getModel($groupModel->id)));
+    public function testDeletePermission()
+    {
+        //success
+        $group = PermissionGroup::add(str_random(10));
+        $permissionOne = Permission::add(str_random(10));
+        $permissionTwo = Permission::add(str_random(10));
+        $permissionThree = Permission::add(str_random(10));
 
-		$groupName = PermissionGroup::add(str_random(10));
-		PermissionGroup::del($groupName->name);
-		$this->assertTrue(is_null(PermissionGroup::getModel($groupName->id)));
+        $group
+            ->assignPermission($permissionOne)
+            ->assignPermission($permissionTwo->name)
+            ->assignPermission($permissionThree->id);
 
-		$groupId = PermissionGroup::add(str_random(10));
-		PermissionGroup::del($groupId->id);
-		$this->assertTrue(is_null(PermissionGroup::getModel($groupId->id)));
+        $group->deletePermission($permissionOne->id);
+        $this->assertTrue(count($group->permissions()->get()) == 2);
 
-		$group = PermissionGroup::add(str_random(10));
-		$permissionOne = Permission::add(str_random(10));
-		$permissionTwo = Permission::add(str_random(10));
-		$permissionThree = Permission::add(str_random(10));
-		$group
-			->assignPermission($permissionOne)
-			->assignPermission($permissionTwo->name)
-			->assignPermission($permissionThree->id);
+        $group->deletePermission($permissionTwo);
+        $this->assertTrue(count($group->permissions()->get()) == 1);
 
-		PermissionGroup::del($group);
+        $group->deletePermission($permissionThree->name);
+        $this->assertTrue(count($group->permissions()->get()) == 0);
 
-		$this->assertTrue(count($group->permissions()->get()) == 0);
+        $groupDefault = PermissionGroup::getModelDefault();
+        $this->assertFalse(is_null($groupDefault->permissions()->find($permissionOne->id)));
+        $this->assertFalse(is_null($groupDefault->permissions()->find($permissionTwo->id)));
+        $this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
 
-		$groupDefault = PermissionGroup::getModelDefault();
-		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionOne->id)));
-		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionTwo->id)));
-		$this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
+        //Error
+        $group->assignPermission($permissionThree->id);
+        $group->deletePermission(str_random(12));
+        $this->assertTrue(count($group->permissions()->get()) == 1);
+    }
 
-		//Error
-		PermissionGroup::del();
-		PermissionGroup::del(str_random(12));
-	}
+
+    public function testDelete()
+    {
+        //success
+        $groupModel = PermissionGroup::add(str_random(10));
+        PermissionGroup::del($groupModel);
+        $this->assertTrue(is_null(PermissionGroup::getModel($groupModel->id)));
+
+        $groupName = PermissionGroup::add(str_random(10));
+        PermissionGroup::del($groupName->name);
+        $this->assertTrue(is_null(PermissionGroup::getModel($groupName->id)));
+
+        $groupId = PermissionGroup::add(str_random(10));
+        PermissionGroup::del($groupId->id);
+        $this->assertTrue(is_null(PermissionGroup::getModel($groupId->id)));
+
+        $group = PermissionGroup::add(str_random(10));
+        $permissionOne = Permission::add(str_random(10));
+        $permissionTwo = Permission::add(str_random(10));
+        $permissionThree = Permission::add(str_random(10));
+        $group
+            ->assignPermission($permissionOne)
+            ->assignPermission($permissionTwo->name)
+            ->assignPermission($permissionThree->id);
+
+        PermissionGroup::del($group);
+
+        $this->assertTrue(count($group->permissions()->get()) == 0);
+
+        $groupDefault = PermissionGroup::getModelDefault();
+        $this->assertFalse(is_null($groupDefault->permissions()->find($permissionOne->id)));
+        $this->assertFalse(is_null($groupDefault->permissions()->find($permissionTwo->id)));
+        $this->assertFalse(is_null($groupDefault->permissions()->find($permissionThree->id)));
+
+        //Error
+        PermissionGroup::del();
+        PermissionGroup::del(str_random(12));
+    }
 
 }

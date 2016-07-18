@@ -1,5 +1,5 @@
 .table-controls .btn-group{
-	padding-left:10px;
+  padding-left:10px;
 }
 
 
@@ -17,15 +17,15 @@ tr.show-input td .td-text{display:none;}
  * hide table controls
  */
 .table-controls{
-	.btn-group{padding-left:10px;}
-	
-	.btn-group-edit{
-		display:none;
-		padding-left: 10px;
-	}
-	
-	&.edit{
-		.btn-group-edit{display:inline-block;}
-		.btn-group{display:none;}
-	}
+  .btn-group{padding-left:10px;}
+
+  .btn-group-edit{
+    display:none;
+    padding-left: 10px;
+  }
+
+  &.edit{
+    .btn-group-edit{display:inline-block;}
+    .btn-group{display:none;}
+  }
 }

@@ -1,9 +1,9 @@
 body {
-	font-family: $font, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: $font, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 b, strong{
-	font-family:$font-bold; font-weight:normal;
+  font-family:$font-bold; font-weight:normal;
 }
 
 /* H1 - H6 font */
@@ -23,42 +23,42 @@ h6,
 }
 
 label, .control-sidebar-subheading{
-	font-family: $font;
-	font-weight: normal;
+  font-family: $font;
+  font-weight: normal;
 }
 
 .btn .fa{
-	padding-right: 4px;
+  padding-right: 4px;
 }
 
 
 table.dataTable thead > tr > th.no-sort{
-	padding-right: 0px;
+  padding-right: 0px;
 }
 
 th{
-	font-family: $font-bold;
-	font-weight: normal;
+  font-family: $font-bold;
+  font-weight: normal;
 }
 
 .alert ul{
-	list-style-type: none;
-    padding-left: 0px;
+  list-style-type: none;
+  padding-left: 0px;
 }
 
 
 .box-wrap{
-	border-top: 1px solid #f4f4f4;
-	border-bottom: 1px solid #f4f4f4;
-	color: #444;
-    display: block;
-    padding: 10px;
-    position: relative;
-	
-	.box-title {
-		display: inline-block;
-		font-size: 18px;
-		margin: 0;
-		line-height: 1;
-	}
+  border-top: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f4f4f4;
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
+
+  .box-title {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1;
+  }
 }

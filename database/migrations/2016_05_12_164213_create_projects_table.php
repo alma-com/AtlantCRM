@@ -14,8 +14,8 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('name');
-			$table->integer('sort_order');
+            $table->string('name');
+            $table->integer('sort_order');
             $table->timestamps();
         });
     }

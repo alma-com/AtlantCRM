@@ -42,109 +42,109 @@ class PermissionUpdate extends Command
      */
     public function handle()
     {
-		$this->addGroup();
-		$this->addPermGeneral();
-		$this->addPermUser();
+        $this->addGroup();
+        $this->addPermGeneral();
+        $this->addPermUser();
 
-		$this->addRole();
+        $this->addRole();
     }
-	
-	
-	
-	/**
-	 * Группы прав
-	 */
-	public function addGroup()
-	{
-		$arrGroup = array(
-			'name' => 'general',
+
+
+
+    /**
+     * Группы прав
+     */
+    public function addGroup()
+    {
+        $arrGroup = array(
+            'name' => 'general',
             'display_name' => 'Общие настройки',
-		);
-		PermissionGroup::add($arrGroup);
-		
-		$arrGroup = array(
-			'name' => 'user',
+        );
+        PermissionGroup::add($arrGroup);
+
+        $arrGroup = array(
+            'name' => 'user',
             'display_name' => 'Пользователи',
-		);
-		PermissionGroup::add($arrGroup);
-		
-		return true;
-	}
-	
-	
-	/**
-	 * Добавление общих прав
-	 */
-	public function addPermGeneral()
-	{
-		$groupName = 'general';
-		
-		$arrPermission = array(
-			'name' => 'manage_role',
+        );
+        PermissionGroup::add($arrGroup);
+
+        return true;
+    }
+
+
+    /**
+     * Добавление общих прав
+     */
+    public function addPermGeneral()
+    {
+        $groupName = 'general';
+
+        $arrPermission = array(
+            'name' => 'manage_role',
             'display_name' => 'Управление ролями',
-		);
-		Permission::add($arrPermission, $groupName);
-	}
-	
-	
-	
-	/**
-	 * Добавление прав для пользователей
-	 */
-	public function addPermUser()
-	{
-		$groupName = 'user';
-		
-		$arrPermission = array(
-			'name' => 'show_user',
+        );
+        Permission::add($arrPermission, $groupName);
+    }
+
+
+
+    /**
+     * Добавление прав для пользователей
+     */
+    public function addPermUser()
+    {
+        $groupName = 'user';
+
+        $arrPermission = array(
+            'name' => 'show_user',
             'display_name' => 'Просмотр',
-		);
-		Permission::add($arrPermission, $groupName);
-		
-		$arrPermission = array(
-			'name' => 'add_user',
+        );
+        Permission::add($arrPermission, $groupName);
+
+        $arrPermission = array(
+            'name' => 'add_user',
             'display_name' => 'Добавление',
-		);
-		Permission::add($arrPermission, $groupName);
-		
-		$arrPermission = array(
-			'name' => 'edit_user',
+        );
+        Permission::add($arrPermission, $groupName);
+
+        $arrPermission = array(
+            'name' => 'edit_user',
             'display_name' => 'Редактирование',
-		);
-		Permission::add($arrPermission, $groupName);
-		
-		$arrPermission = array(
-			'name' => 'change_role_user',
+        );
+        Permission::add($arrPermission, $groupName);
+
+        $arrPermission = array(
+            'name' => 'change_role_user',
             'display_name' => 'Смена роли',
-		);
-		Permission::add($arrPermission, $groupName);
-		
-		$arrPermission = array(
-			'name' => 'delete_user',
+        );
+        Permission::add($arrPermission, $groupName);
+
+        $arrPermission = array(
+            'name' => 'delete_user',
             'display_name' => 'Удаление',
-		);
-		Permission::add($arrPermission, $groupName);
-	}
-	
-	
-	
-	/**
-	 * Добавление роли
-	 */
-	public function addRole()
-	{		
-		$arrRole = array(
-			'name' => 'admin',
+        );
+        Permission::add($arrPermission, $groupName);
+    }
+
+
+
+    /**
+     * Добавление роли
+     */
+    public function addRole()
+    {
+        $arrRole = array(
+            'name' => 'admin',
             'display_name' => 'Администратор',
-		);
-		$role = Role::add($arrRole);
-		
-		$role
-			->assignPermission('manage_role')
-			->assignPermission('show_user')
-			->assignPermission('add_user')
-			->assignPermission('edit_user')
-			->assignPermission('change_role_user')
-			->assignPermission('delete_user');
-	}
+        );
+        $role = Role::add($arrRole);
+
+        $role
+            ->assignPermission('manage_role')
+            ->assignPermission('show_user')
+            ->assignPermission('add_user')
+            ->assignPermission('edit_user')
+            ->assignPermission('change_role_user')
+            ->assignPermission('delete_user');
+    }
 }

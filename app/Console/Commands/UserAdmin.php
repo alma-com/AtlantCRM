@@ -39,14 +39,14 @@ class UserAdmin extends Command
      */
     public function handle()
     {
-			$email = $this->argument('email');
-			$password = $this->argument('password');
+        $email = $this->argument('email');
+        $password = $this->argument('password');
 
-			$user = User::add([
-				'name' => 'Admin',
-				'email' => $email,
-				'password' => $password,
-			]);
-			$user->assignRole('admin');
+        $user = User::add([
+            'name' => 'Admin',
+            'email' => $email,
+            'password' => $password,
+        ]);
+        $user->assignRole('admin');
     }
 }

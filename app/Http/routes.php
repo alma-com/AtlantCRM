@@ -27,26 +27,26 @@
 Route::group(['middleware' => ['web']], function () {
     Route::auth();
 
-	Route::group(['middleware' => ['auth']], function () {
-		Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-		
-		
-		Route::group(['middleware' => ['access:show_user']], function () {
-			Route::resource('users', 'UserController');
-			Route::post('users/destroyItems', ['as' => 'users.destroyItems', 'uses' => 'UserController@destroyItems']);
-			Route::post('users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
-		});
-
-		
-		Route::group(['middleware' => ['access:manage_role']], function () {
-			Route::resource('roles', 'RoleController');
-			Route::post('roles/destroyItems', ['as' => 'roles.destroyItems', 'uses' => 'RoleController@destroyItems']);
-			Route::post('roles/updateItems', ['as' => 'roles.updateItems', 'uses' => 'RoleController@updateItems']);
-		});
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 
-		Route::get('/example', function () {
-			return view('example');
-		});
-	});
+        Route::group(['middleware' => ['access:show_user']], function () {
+            Route::resource('users', 'UserController');
+            Route::post('users/destroyItems', ['as' => 'users.destroyItems', 'uses' => 'UserController@destroyItems']);
+            Route::post('users/updateItems', ['as' => 'users.updateItems', 'uses' => 'UserController@updateItems']);
+        });
+
+
+        Route::group(['middleware' => ['access:manage_role']], function () {
+            Route::resource('roles', 'RoleController');
+            Route::post('roles/destroyItems', ['as' => 'roles.destroyItems', 'uses' => 'RoleController@destroyItems']);
+            Route::post('roles/updateItems', ['as' => 'roles.updateItems', 'uses' => 'RoleController@updateItems']);
+        });
+
+
+        Route::get('/example', function () {
+            return view('example');
+        });
+    });
 });

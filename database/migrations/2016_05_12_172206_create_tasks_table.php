@@ -12,23 +12,23 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-		Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('name');
-			$table->text('description');
-			$table->timestamp('date_start');
-			$table->timestamp('deadline');
-			$table->integer('planned_duration');
+            $table->string('name');
+            $table->text('description');
+            $table->timestamp('date_start');
+            $table->timestamp('deadline');
+            $table->integer('planned_duration');
             $table->timestamps();
         });
 
-		Schema::table('tasks', function (Blueprint $table) {
-			$table->integer('project_id')->unsigned()->nullable();
-			$table->foreign('project_id')
-			   ->references('id')
-			   ->on('projects')
-			   ->onDelete('cascade');
-		});
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->integer('project_id')->unsigned()->nullable();
+            $table->foreign('project_id')
+               ->references('id')
+               ->on('projects')
+               ->onDelete('cascade');
+        });
     }
 
     /**
@@ -38,9 +38,9 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-		Schema::table('tasks', function ($table) {
-			$table->dropForeign('tasks_project_id_foreign');
-		});
+        Schema::table('tasks', function ($table) {
+            $table->dropForeign('tasks_project_id_foreign');
+        });
         Schema::drop('tasks');
     }
 }
