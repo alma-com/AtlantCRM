@@ -14,10 +14,8 @@ use Hash;
  * @method access(int|string|object $perm)
  * @method hasRole(int|string|object $role)
  *
- * @static @method add(array $arrData)
  * @static @method del(int|string|object $user)
  * @static @method getModel(int|string|object $user)
- * @static @method checkArrayUser(array $arrData)
  *
  */
 class User extends Authenticatable
@@ -40,13 +38,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
     public function roles()
     {
        return $this->belongsToMany('App\Role', 'user_has_roles');
     }
-
-
 
     /**
      * Assign role to the user
@@ -72,8 +67,6 @@ class User extends Authenticatable
         return $this;
     }
 
-
-
     /**
      * Delete role to the user
      *
@@ -94,7 +87,6 @@ class User extends Authenticatable
 
         return $this;
     }
-
 
     /**
      * Check access user
@@ -125,8 +117,6 @@ class User extends Authenticatable
         return false;
     }
 
-
-
     /**
      * Has role
      *
@@ -153,45 +143,6 @@ class User extends Authenticatable
         return false;
     }
 
-
-
-    /**
-     * Save user
-     *
-     * @param {array} $arrData array with data to be added
-     * @param {string} $arrData['name'] name user
-     * @param {string} $arrData['email'] email user
-     * @param {string} $arrData['password'] password user
-     *
-     * @returns {object|null}
-     *
-     */
-    public static function add($arrData = array())
-    {
-        if(self::checkArrayUser($arrData) === false){
-            return null;
-        }
-
-        $arrDefault = array(
-            'name' => '',
-            'email' => '',
-            'password' => '',
-        );
-        $res = array_merge($arrDefault, $arrData);
-
-        $user = new User;
-        $user->name = $res['name'];
-        $user->email = $res['email'];
-        if($res['password'] != ''){
-            $user->password = Hash::make($res['password']);
-        }
-        $user->save();
-
-        return $user;
-    }
-
-
-
     /**
      * Delete user
      *
@@ -211,9 +162,6 @@ class User extends Authenticatable
 
         return true;
     }
-
-
-
 
     /**
      *  Getting the user by id or email or object
@@ -239,26 +187,5 @@ class User extends Authenticatable
         }
 
         return $userModel;
-    }
-
-
-
-
-    /**
-     * Checking to add to the array user
-     *
-     * @returns {true|false}
-     */
-    static function checkArrayUser($arrData = array())
-    {
-        if(
-            is_array($arrData) === true
-            && array_key_exists('name', $arrData) === true
-            && array_key_exists('email', $arrData) === true
-        ){
-            return true;
-        }
-
-        return false;
     }
 }

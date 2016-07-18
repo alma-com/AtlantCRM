@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\UserRequest;
+
 use Auth;
 use Session;
 use Validator;
@@ -30,7 +32,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('roles')->get();
-        $roles = array();
+        $roles = [];
 
         if(!is_null($users)){
             foreach($users as $key => $user){
@@ -76,43 +78,16 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $res = array();
-        $rules = array(
-            'name'       => 'required|max:255',
-            'email'      => 'required|unique:users|email|max:255',
-            'password' => 'required|min:6|max:255',
-            'password_confirmation' => 'required|same:password',
-        );
-        $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+        $user = User::create($request->all());
+        $user->roles()->sync($request->input('roles', []));
+
+        $arrStatus = [
             'request' => $request,
-            'validator' => $validator,
-        );
+            'url' => route('users.index'),
+        ];
 
-        // Fails
-        if ($validator->fails()) {
-            return Alma::failsReturn('Не удалось добавить пользователя', $arrStatus);
-        }
-
-
-        // Success
-        $arrParam = array(
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-        );
-        $user = User::add($arrParam);
-
-        $roles = $request->input('roles');
-        if(count($roles) > 0){
-            foreach($roles as $key => $id_role){
-                $user->assignRole($id_role);
-            }
-        }
-
-        $arrStatus['url'] = route('users.index');
         return Alma::successReturn('Пользователь успешно добавлен', $arrStatus);
     }
 

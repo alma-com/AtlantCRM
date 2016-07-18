@@ -23,40 +23,18 @@ class ModelUserTest extends TestCase
 
     public function testAdd()
     {
-        //Success
-        $userArrayMin = User::add(array(
+        $user = User::create([
             'name' => str_random(10),
             'email' => $this->faker->email,
-        ));
-        $this->assertFalse(is_null($userArrayMin));
-        $this->seeInDatabase('users', [
-            'id' => $userArrayMin->id,
-            'name' => $userArrayMin->name,
-            'email' => $userArrayMin->email
         ]);
 
-        $userArrayFull = User::add(array(
-            'name' => str_random(10),
-            'email' => $this->faker->email,
-            'password' => Hash::make(str_random(10)),
-        ));
-        $this->assertFalse(is_null($userArrayFull));
+        $this->assertFalse(is_null($user));
+
         $this->seeInDatabase('users', [
-            'id' => $userArrayFull->id,
-            'name' => $userArrayFull->name,
-            'email' => $userArrayFull->email,
-            'password' => $userArrayFull->password
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
         ]);
-
-        //Error
-        $userNull = User::add();
-        $userString = User::add(str_random(10));
-        $userInt = User::add($this->faker->randomNumber);
-        $userErrArray = User::add(array('name' => str_random(10)));
-
-        $this->assertTrue(is_null($userNull));
-        $this->assertTrue(is_null($userInt));
-        $this->assertTrue(is_null($userErrArray));
     }
 
 
