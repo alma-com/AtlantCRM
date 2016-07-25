@@ -11,6 +11,11 @@ use Session;
 
 abstract class Request extends FormRequest
 {
+    public function isAdd()
+    {
+        return (bool)!$this->get('id');
+    }
+
     /**
      * Get the proper failed validation response for the request.
      *
