@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\User;
+use App\Role;
 
 class UserAdmin extends Command
 {
@@ -42,11 +43,12 @@ class UserAdmin extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
 
-        $user = User::add([
+        $user = User::create([
             'name' => 'Admin',
             'email' => $email,
             'password' => $password,
         ]);
-        $user->assignRole('admin');
+        $roleAdmin = Role::where('name', 'admin')->first();
+        $user->roles()->sync([$roleAdmin->id]);
     }
 }
