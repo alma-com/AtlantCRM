@@ -8,7 +8,7 @@
 
         php artisan key:generate
 
-1. Run migrate
+1. Run migrate command
 
         php artisan migrate
 
