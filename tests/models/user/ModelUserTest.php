@@ -62,7 +62,7 @@ class ModelUserTest extends TestCase
             'name' => str_random(10),
             'email' => $this->faker->email,
         ]);
-        $role = Role::add(str_random(10));
+        $role = Role::create(['name' => str_random(10)]);
 
         $user->roles()->sync([$role->id]);
 
@@ -77,15 +77,11 @@ class ModelUserTest extends TestCase
             'name' => str_random(10),
             'email' => $this->faker->email,
         ]);
-        $role = Role::add(str_random(10));
+        $role = Role::create(['name' => str_random(10)]);
         $permOne = Permission::add(str_random(10));
         $permTwo = Permission::add(str_random(10));
         $permThree = Permission::add(str_random(10));
-
-        $role
-            ->assignPermission($permOne)
-            ->assignPermission($permTwo)
-            ->assignPermission($permThree);
+        $role->permissions()->sync([$permOne->id, $permTwo->id, $permThree->id]);
 
         $user->roles()->sync([$role->id]);
 
@@ -101,7 +97,7 @@ class ModelUserTest extends TestCase
             'name' => str_random(10),
             'email' => $this->faker->email,
         ]);
-        $role = Role::add(str_random(10));
+        $role = Role::create(['name' => str_random(10)]);
         $user->roles()->sync([$role->id]);
 
         $this->assertTrue($user->hasRole($role));
@@ -114,7 +110,7 @@ class ModelUserTest extends TestCase
             'name' => str_random(10),
             'email' => $this->faker->email,
         ]);
-        $role = Role::add(str_random(10));
+        $role = Role::create(['name' => str_random(10)]);
         $user->roles()->sync([$role->id]);
 
         $user->roles()->sync([]);
@@ -129,7 +125,7 @@ class ModelUserTest extends TestCase
             'name' => str_random(10),
             'email' => $this->faker->email,
         ]);
-        $role = Role::add(str_random(10));
+        $role = Role::create(['name' => str_random(10)]);
         $user->roles()->sync([$role->id]);
         $user->delete();
 

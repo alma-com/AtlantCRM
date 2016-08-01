@@ -38,11 +38,6 @@ class UserRequest extends Request
         return $rules;
     }
 
-    private function isAdd()
-    {
-        return (bool)!$this->get('id');
-    }
-
     private function doNeedPassword()
     {
         return $this->get('password_confirmation') == ''

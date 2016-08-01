@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\RoleRequest;
 use Alma;
 use Session;
 use Validator;
@@ -24,11 +25,9 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $roles = Role::with('users')->get();
-        $view = view('pages.roles.index')->with('roles', $roles);
-        return Alma::viewReturn($view, $request);
+
+        return Alma::viewReturn(view('pages.roles.index', compact('roles')), $request);
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -39,55 +38,24 @@ class RoleController extends Controller
     {
         $groups = PermissionGroup::with('permissions')->get();
 
-        $view = view('pages.roles.create')->with('groups', $groups);
-        return Alma::viewReturn($view, $request);
+        return Alma::viewReturn(view('pages.roles.create', compact('groups')), $request);
     }
-
-
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RoleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $res = array();
-        $rules = array(
-            'name'       => 'required|max:255|unique:roles',
-            'display_name'       => 'required|max:255',
-        );
-        $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+        $role = Role::create($request->all());
+        $role->permissions()->sync($request->input('permissions', []));
+
+        return Alma::successReturn('Роль успешно добавлена', [
             'request' => $request,
-            'validator' => $validator,
-        );
-
-        // Fails
-        if ($validator->fails()) {
-            return Alma::failsReturn('Не удалось добавить роль', $arrStatus);
-        }
-
-
-        // Success
-        $arrParam = array(
-            'name' => $request->input('name'),
-            'display_name' => $request->input('display_name'),
-            'description' => $request->input('description'),
-        );
-        $role = Role::add($arrParam);
-
-        $permissions = $request->input('permissions');
-        if(count($permissions) > 0){
-            foreach($permissions as $key => $id_perm){
-                $role->assignPermission($id_perm);
-            }
-        }
-
-
-        $arrStatus['url'] = route('roles.index');
-        return Alma::successReturn('Роль успешно добавлена', $arrStatus);
+            'url' => route('roles.index'),
+        ]);
     }
 
 
