@@ -16,6 +16,11 @@ abstract class Request extends FormRequest
         return (bool)!$this->get('id');
     }
 
+    public function isUpdate()
+    {
+        return (bool)$this->get('id');
+    }
+
     /**
      * Get the proper failed validation response for the request.
      *
