@@ -33,6 +33,7 @@
       </div>
       <form id="form-admin" role="form" method="POST" action="{{ route('roles.update', $role->id) }}" data-confirm="Вы действительно хотите изменить роль?">
         {!! csrf_field() !!}
+        {!! Form::hidden('id', $role->id) !!}
         <input name="_method" type="hidden" value="PUT">
 
         <div class="box-body">
@@ -99,7 +100,7 @@
         @endif
 
         <div class="box-footer">
-          <button type="submit" class="btn btn-success" name="create_user" >Добавить</button>
+          <button type="submit" class="btn btn-success" name="create_user" >Изменить</button>
         </div>
       </form>
     </div>
