@@ -114,10 +114,9 @@ class UserController extends Controller
     {
         $rules = [];
         $itemArray = $request->input('item');
-
-        foreach($itemArray as $key => $id_user){
-             $rules['name.'.$id_user] =  'required|max:255';
-             $rules['email.'.$id_user] =  'required|email|max:255|unique:users,email,'.$id_user;
+        foreach($itemArray as $key => $id_user) {
+             $rules['name.'.$id_user] = 'required|max:255';
+             $rules['email.'.$id_user] = 'required|email|max:255|unique:users,email,' . $id_user;
         }
         $validator = Validator::make($request->all(), $rules);
 
@@ -125,7 +124,6 @@ class UserController extends Controller
             'request' => $request,
             'validator' => $validator,
         ];
-
 
         if(count($itemArray) === 0){
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
@@ -188,10 +186,10 @@ class UserController extends Controller
     {
         $rules = [];
         $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+        $arrStatus = [
             'request' => $request,
             'validator' => $validator,
-        );
+        ];
 
         $itemArray = $request->input('item');
         if(count($itemArray) == 0){
