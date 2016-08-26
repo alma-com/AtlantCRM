@@ -25,7 +25,7 @@ class RoleRequest extends Request
     {
         return [
             'display_name' => 'required|max:255',
-            'name' => 'required|max:255|unique:roles,name' . $this->get('id'),
+            'name' => 'required|max:255|unique:roles,name,' . $this->get('id'),
         ];
     }
 

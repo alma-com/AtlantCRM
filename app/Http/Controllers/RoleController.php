@@ -68,41 +68,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $res = array();
-        $rules = array(
-            'name'       => 'required|max:255',
-            'display_name'       => 'required|max:255',
-        );
-        $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
-            'request' => $request,
-            'validator' => $validator,
-        );
-
-        // Fails
-        if ($validator->fails()) {
-            return Alma::failsReturn('Не удалось добавить роль', $arrStatus);
-        }
-
-
-        // Success
-        $arrParam = array(
-            'name' => $request->input('name'),
-            'display_name' => $request->input('display_name'),
-            'description' => $request->input('description'),
-        );
-        $role = Role::add($arrParam);
-
-        $permissions = $request->input('permissions');
-        if(count($permissions) > 0){
-            foreach($permissions as $key => $id_perm){
-                $role->assignPermission($id_perm);
-            }
-        }
-
-
-        $arrStatus['url'] = route('roles.index');
-        return Alma::successReturn('Роль успешно добавлена', $arrStatus);
+        //
     }
 
 
@@ -118,14 +84,11 @@ class RoleController extends Controller
         $role = Role::find($id);
         $groups = PermissionGroup::with('permissions')->get();
 
-        if(is_null($role)){
+        if(count($role) == 0){
             Session::flash('warning', 'Роль не найдена');
         }
 
-        $view = view('pages.roles.edit')
-            ->with('role', $role)
-            ->with('groups', $groups);
-        return Alma::viewReturn($view, $request);
+        return Alma::viewReturn(view('pages.roles.edit', compact('role', 'groups')), $request);
     }
 
 
@@ -133,53 +96,20 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RoleRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request, $id)
     {
-       $res = array();
-        $rules = array(
-            'name'       => 'required|max:255|unique:users,name,'.$id,
-            'display_name'       => 'required|max:255',
-        );
-        $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+        $role = Role::findOrFail($id);
+        $role->update($request->all());
+        $role->permissions()->sync($request->input('permissions', []));
+
+        return Alma::successReturn('Роль успешно изменена', [
             'request' => $request,
-            'validator' => $validator,
-        );
-
-        // Fails
-        if ($validator->fails()) {
-            return Alma::failsReturn('Не удалось изменить роль', $arrStatus);
-        }
-
-
-        // Success
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->display_name = $request->input('display_name');
-        $role->description = $request->input('description');
-        $role->save();
-
-        $permissions = $request->input('permissions');
-        $permAll = Permission::all();
-        if(!is_null($permAll)){
-            foreach($permAll as $key => $item){
-
-                if(count($permissions) > 0 && in_array($item->id, $permissions)){
-                    $role->assignPermission($item->id);
-                }else{
-                    $role->deletePermission($item->id);
-                }
-
-            }
-        }
-
-
-        $arrStatus['url'] = route('roles.index');
-        return Alma::successReturn('Роль успешно изменена', $arrStatus);
+            'url' => route('roles.index'),
+        ]);
     }
 
 
@@ -189,28 +119,26 @@ class RoleController extends Controller
      */
     public function updateItems(Request $request)
     {
-        $rules = array();
+        $rules = [];
         $itemArray = $request->input('item');
-        foreach($itemArray as $key => $id_role){
+        foreach($itemArray as $key => $id_role) {
              $rules['display_name.'.$id_role] =  'required|max:255';
         }
         $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+
+        $arrStatus = [
             'request' => $request,
             'validator' => $validator,
-        );
-
+        ];
 
         if(count($itemArray) == 0){
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
         }
 
-        // Fails
         if ($validator->fails()) {
             return Alma::failsReturn('Не удалось изменить', $arrStatus);
         }
 
-        // Success
         foreach($itemArray as $key => $id_role){
             $role = Role::find($id_role);
             $role->display_name = $request->input('display_name')[$id_role];
@@ -233,21 +161,19 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $rules = array();
+        $rules = [];
         $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+        $arrStatus = [
             'request' => $request,
             'validator' => $validator,
-        );
+        ];
 
-        // Fails
         if ($validator->fails()) {
             return Alma::failsReturn('Не удалось удалить роль', $arrStatus);
         }
 
-
-        // Success
-        Role::del($id);
+        $role = Role::find($id);
+        $role->delete();
 
         $arrStatus['url'] = route('roles.index');
         return Alma::successReturn('Роль успешно удалена', $arrStatus);
@@ -260,12 +186,12 @@ class RoleController extends Controller
      */
     public function destroyItems(Request $request)
     {
-        $rules = array();
+        $rules = [];
         $validator = Validator::make($request->all(), $rules);
-        $arrStatus = array(
+        $arrStatus = [
             'request' => $request,
             'validator' => $validator,
-        );
+        ];
 
         $itemArray = $request->input('item');
         if(count($itemArray) == 0){
@@ -274,15 +200,13 @@ class RoleController extends Controller
 
         $arrStatus['validator'] = $validator;
 
-        // Fails
         if ($validator->fails()) {
             return Alma::failsReturn('Не удалось удалить', $arrStatus);
         }
 
-
-        // Success
         foreach($itemArray as $key => $id_role){
-            Role::del($id_role);
+            $role = Role::find($id_role);
+            $role->delete();
         }
 
         $arrStatus['url'] = route('roles.index');
