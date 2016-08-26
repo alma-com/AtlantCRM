@@ -15,14 +15,21 @@
 
 @section('content')
 <div class="btn-group margin-bottom">
-  <a href="{{ route('users.create') }}" class="btn btn-info">
-    <i class="fa fa-btn fa-plus"></i>
-    Добавить пользователя
-  </a>
-  <a href="{{ route('roles.index') }}" class="btn btn-default">
-    <i class="fa fa-btn fa-cog"></i>
-    Управление ролями
-  </a>
+
+  @permission('add_user')
+    <a href="{{ route('users.create') }}" class="btn btn-info">
+      <i class="fa fa-btn fa-plus"></i>
+      Добавить пользователя
+    </a>
+  @endpermission
+
+  @permission('manage_role')
+    <a href="{{ route('roles.index') }}" class="btn btn-default">
+      <i class="fa fa-btn fa-cog"></i>
+      Управление ролями
+    </a>
+  @endpermission
+
 </div>
 
 <div class="row">
@@ -63,7 +70,11 @@
                     <input type="checkbox" name="item[]" value="{{ $user->id }}">
                   </td>
                   <td>
-                    <div class="td-text"><a href="{{ route('users.edit', $user->id) }}">{{ $user->name }}</a></div>
+                    <div class="td-text">
+                      @permission('edit_user')<a href="{{ route('users.edit', $user->id) }}">@endpermission
+                        {{ $user->name }}
+                      @permission('edit_user')</a>@endpermission
+                    </div>
                     <div class="td-input"><input type="text" class="form-control" name="name[{{ $user->id }}]" value="{{ $user->name }}"></div>
                   </td>
                   <td>
@@ -77,41 +88,52 @@
               @endforeach
             </tbody>
 
-            <tfoot>
-              <tr>
-                <td colspan="4">
-                  <div class="box-body no-padding">
-                    <div class="table-controls">
 
-                      <input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
+            @permission('edit_user'))
+              @permission('delete_user')
+              <tfoot>
+                <tr>
+                  <td colspan="4">
+                    <div class="box-body no-padding">
+                      <div class="table-controls">
 
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm disabled"
-                          onclick="editTable(this, 'show')"
-                        >
-                          <i class="fa fa-pencil"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm disabled"
-                          onclick="actionCall(this, '{{ route('users.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
-                        >
-                          <i class="fa fa-trash-o"></i>
-                        </button>
+                        <input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
+
+                        <div class="btn-group">
+                          @permission('edit_user')
+                            <button type="button" class="btn btn-default btn-sm disabled"
+                              onclick="editTable(this, 'show')"
+                            >
+                              <i class="fa fa-pencil"></i>
+                            </button>
+                          @endpermission
+
+                          @permission('delete_user')
+                            <button type="button" class="btn btn-default btn-sm disabled"
+                              onclick="actionCall(this, '{{ route('users.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
+                            >
+                              <i class="fa fa-trash-o"></i>
+                            </button>
+                          @endpermission
+
+                        </div>
+
+                        <div class="btn-group-edit">
+                          <button type="button" class="btn btn-success"
+                            onclick="actionCall(this, '{{ route('users.updateItems') }}', 'Вы действительно хотите изменить данных пользователей?')"
+                          >
+                            <i class="fa fa-check"></i> Сохранить
+                          </button>
+                          <button type="button" class="btn btn-default" onclick="editTable(this, 'hide')">Отмена</button>
+                        </div>
+
                       </div>
-
-                      <div class="btn-group-edit">
-                        <button type="button" class="btn btn-success"
-                          onclick="actionCall(this, '{{ route('users.updateItems') }}', 'Вы действительно хотите изменить данных пользователей?')"
-                        >
-                          <i class="fa fa-check"></i> Сохранить
-                        </button>
-                        <button type="button" class="btn btn-default" onclick="editTable(this, 'hide')">Отмена</button>
-                      </div>
-
                     </div>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
+                  </td>
+                </tr>
+              </tfoot>
+              @endpermission
+            @endpermission
 
           </table>
           </form>

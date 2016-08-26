@@ -24,28 +24,30 @@
 
 </div>
 
-{{-- Роли --}}
-@if(!is_null($roles))
-  <div class="box-header with-border">
-    <h3 class="box-title">Роли</h3>
-  </div>
+@permission('change_role_user')
+  {{-- Роли --}}
+  @if(!is_null($roles))
+    <div class="box-header with-border">
+      <h3 class="box-title">Роли</h3>
+    </div>
 
-  <div class="box-body">
-    <div class="row">
-      <div class="form-group">
+    <div class="box-body">
+      <div class="row">
+        <div class="form-group">
 
-        @foreach($roles as $id => $name)
-          <div class="col-md-12">
-            <div class="checkbox">
-              <label>{!! Form::checkbox('roles[]', $id, (isset($user) && $user->hasRole($id) ? 1 : 0)) !!}{{ $name }}</label>
+          @foreach($roles as $id => $name)
+            <div class="col-md-12">
+              <div class="checkbox">
+                <label>{!! Form::checkbox('roles[]', $id, (isset($user) && $user->hasRole($id) ? 1 : 0)) !!}{{ $name }}</label>
+              </div>
             </div>
-          </div>
-        @endforeach
+          @endforeach
 
+        </div>
       </div>
     </div>
-  </div>
-@endif
+  @endif
+@endpermission
 
 <div class="box-footer">
   {!! Form::submit($buttonText, ['name' => 'create_user', 'class' => 'btn btn-success']) !!}

@@ -18,6 +18,16 @@ use App\PermissionGroup;
 class RoleController extends Controller
 {
     /**
+    * Instantiate a new new controller instance.
+    *
+    * @return void
+    */
+    public function __construct()
+    {
+        $this->middleware('access:manage_role');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

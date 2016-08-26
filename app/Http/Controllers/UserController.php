@@ -19,6 +19,19 @@ use App\Role;
 class UserController extends Controller
 {
     /**
+    * Instantiate a new new controller instance.
+    *
+    * @return void
+    */
+    public function __construct()
+    {
+        $this->middleware('access:show_user');
+        $this->middleware('access:add_user')->only('create', 'store');
+        $this->middleware('access:edit_user')->only('edit', 'update', 'updateItems');
+        $this->middleware('access:delete_user')->only('destroy', 'destroyItems');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -51,7 +64,9 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::create($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        if($user->access('change_role_user')) {
+            $user->roles()->sync($request->input('roles', []));
+        }
 
         return Alma::successReturn('Пользователь успешно добавлен', [
             'request' => $request,
@@ -99,7 +114,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        if($user->access('change_role_user')) {
+            $user->roles()->sync($request->input('roles', []));
+        }
 
         return Alma::successReturn('Пользователь успешно изменен', [
             'request' => $request,

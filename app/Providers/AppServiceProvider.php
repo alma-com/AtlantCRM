@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Blade::directive('permission', function($expression) {
+            return "<?php if (Auth::user()->access($expression)) : ?>";
+        });
+
+        \Blade::directive('endpermission', function($expression) {
+            return "<?php endif;?>";
+        });
     }
 
     /**
