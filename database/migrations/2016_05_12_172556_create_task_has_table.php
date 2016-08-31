@@ -13,6 +13,7 @@ class CreateTaskHasTable extends Migration
     public function up()
     {
         Schema::create('task_has_directors', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned();
 
@@ -31,6 +32,7 @@ class CreateTaskHasTable extends Migration
 
 
         Schema::create('task_has_employees', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned();
 
@@ -49,6 +51,7 @@ class CreateTaskHasTable extends Migration
 
 
         Schema::create('task_has_watchers', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned();
 

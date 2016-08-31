@@ -13,18 +13,21 @@ class CreatePermissionTables extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
         Schema::create('permissions', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
         Schema::create('user_has_permissions', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('user_id')->unsigned();
             $table->integer('permission_id')->unsigned();
 
@@ -42,6 +45,7 @@ class CreatePermissionTables extends Migration
         });
 
         Schema::create('user_has_roles', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('role_id')->unsigned();
             $table->integer('user_id')->unsigned();
 
@@ -58,6 +62,7 @@ class CreatePermissionTables extends Migration
             $table->primary(['role_id', 'user_id']);
 
             Schema::create('role_has_permissions', function (Blueprint $table) {
+                $table->engine = 'InnoDB';
                 $table->integer('permission_id')->unsigned();
                 $table->integer('role_id')->unsigned();
 

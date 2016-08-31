@@ -13,6 +13,7 @@ class CreateTaskReportsTable extends Migration
     public function up()
     {
         Schema::create('task_reports', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->text('comment');
