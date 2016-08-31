@@ -25,7 +25,7 @@ class ModelTaskReportTest extends TestCase
             'comment' => str_random(1000),
             'hours' => $this->faker->randomDigit,
         ]);
-
+        
         $this->assertFalse(is_null($report));
         $this->seeInDatabase('task_reports', [
             'name' => $report->name,

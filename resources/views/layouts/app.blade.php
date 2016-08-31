@@ -331,6 +331,12 @@
                 </a>
             </li>
 
+            <li class="{{ Route::is('task-reports.*') ? 'active' : '' }}">
+                <a href="{{ route('task-reports.index') }}">
+                    <i class="fa fa-tasks"></i> <span>Отчет по задачам</span></i>
+                </a>
+            </li>
+
             <!-- <li>
                 <a href="#"><i class="fa fa-paperclip"></i> <span>Договоры</span></a>
             </li>
