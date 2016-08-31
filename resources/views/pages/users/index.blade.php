@@ -46,6 +46,7 @@
           <form id="form-items" role="form" method="POST">
           {!! csrf_field() !!}
 
+
           @if(count($users) > 25)
             <table class="data-table table table-bordered table-striped"  data-order='[[ 1, "asc" ]]'>
           @else
@@ -89,7 +90,7 @@
             </tbody>
 
 
-            @permission('edit_user'))
+            @permission('edit_user')
               @permission('delete_user')
               <tfoot>
                 <tr>
