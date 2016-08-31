@@ -29,6 +29,7 @@
 
         @if(count($reports) > 0)
         <form id="form-items" role="form" method="POST">
+          {!! csrf_field() !!}
           <table class="data-table-small table table-bordered table-striped" data-order='[[ 1, "asc" ]]'>
             <thead>
               <tr>
@@ -80,7 +81,7 @@
                           </button>
 
                           <button type="button" class="btn btn-default btn-sm disabled"
-                            onclick="actionCall(this, '{{ route('users.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
+                            onclick="actionCall(this, '{{ route('task-reports.destroyItems') }}', 'Вы действительно хотите удалить отчет?')"
                           >
                             <i class="fa fa-trash-o"></i>
                           </button>
@@ -88,7 +89,7 @@
 
                       <div class="btn-group-edit">
                         <button type="button" class="btn btn-success"
-                          onclick="actionCall(this, '{{ route('users.updateItems') }}', 'Вы действительно хотите изменить данных пользователей?')"
+                          onclick="actionCall(this, '{{ route('task-reports.updateItems') }}', 'Вы действительно хотите изменить данные отчета?')"
                         >
                           <i class="fa fa-check"></i> Сохранить
                         </button>
@@ -103,6 +104,11 @@
           </table>
         </form>
         @endif
+
+
+        <div class="box-header">
+          <h3 class="box-title">Добавление в отчет</h3>
+        </div>
 
         {!! Form::open([
             'method' => 'POST',

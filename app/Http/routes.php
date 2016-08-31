@@ -39,6 +39,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('roles/updateItems', ['as' => 'roles.updateItems', 'uses' => 'RoleController@updateItems']);
 
         Route::resource('task-reports', 'TaskReportsController');
+        Route::post('task-reports/destroyItems', ['as' => 'task-reports.destroyItems', 'uses' => 'TaskReportsController@destroyItems']);
+        Route::post('task-reports/updateItems', ['as' => 'task-reports.updateItems', 'uses' => 'TaskReportsController@updateItems']);
 
         Route::get('/example', function () {
             return view('example');
