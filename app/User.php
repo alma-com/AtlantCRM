@@ -37,6 +37,11 @@ class User extends Authenticatable
        return $this->belongsToMany('App\Role', 'user_has_roles');
     }
 
+    public function taskReports()
+    {
+        return $this->hasMany('App\TaskReport');
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);

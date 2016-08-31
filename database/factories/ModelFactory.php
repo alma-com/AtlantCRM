@@ -37,3 +37,11 @@ $factory->define(App\Task::class, function (Faker\Generator $faker) {
         'planned_duration' => $faker->randomDigitNotNull(),
     ];
 });
+
+$factory->define(App\TaskReport::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->text($maxNbChars = 200),
+        'comment' => $faker->text($maxNbChars = 400),
+        'hours' => $faker->randomDigitNotNull(),
+    ];
+});
