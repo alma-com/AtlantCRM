@@ -50,5 +50,5 @@
 @endpermission
 
 <div class="box-footer">
-  {!! Form::submit($buttonText, ['name' => 'create_user', 'class' => 'btn btn-success']) !!}
+  {!! Form::submit($buttonText, ['name' => $buttonName, 'class' => 'btn btn-success']) !!}
 </div>

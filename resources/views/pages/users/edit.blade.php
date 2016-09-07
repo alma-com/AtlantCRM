@@ -38,9 +38,9 @@
             'role' => 'form',
             'data-confirm' => 'Вы действительно хотите изменить пользователя?',
         ]) !!}
-          @include('pages.users.form', ['buttonText' => 'Сохранить'])
+          @include('pages.users.form', ['buttonText' => 'Сохранить', 'buttonName' => 'edit_user'])
         {!! Form::close() !!}
-        
+
     </div>
   </div>
 </div>

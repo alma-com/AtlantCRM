@@ -4,20 +4,21 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
- * Checking form add new user
+ * Checking form edit user
  * Rules:
- * - required fields: name, email, password, password_confirmation
+ * - required fields: name, email
  * - email unique
  * - email must be format e-mail
  * - password must be 6 or more symbols
  * - password and password_confirmation must be same
  */
-class FormAddUserTest extends TestCase
+class FormEditUserTest extends TestCase
 {
     use DatabaseTransactions;
 
     protected $faker;
     protected $admin;
+    protected $userEdit;
     protected $url;
     protected $url_err;
     protected $url_ok;
@@ -33,24 +34,32 @@ class FormAddUserTest extends TestCase
 
         $this->faker = Faker\Factory::create();
         $this->admin = $admin;
-        $this->url = '/users/create';
-        $this->url_err = '/users/create';
+        $this->userEdit = factory(App\User::class)->create();
+        $this->url = '/users/' . $this->userEdit->id . '/edit';
+        $this->url_err = '/users/' . $this->userEdit->id . '/edit';
         $this->url_ok = '/users';
-        $this->press = 'create_user';
+        $this->press = 'edit_user';
+    }
+
+    public function testNoChange()
+    {
+        $this->actingAs($this->admin)
+            ->visit($this->url)
+                ->press($this->press)
+                ->seePageIs($this->url_ok);
+
+        $this->seeInDatabase('users', ['email' => $this->userEdit->email, 'name' => $this->userEdit->name]);
     }
 
     public function testValid()
     {
         $name = $this->faker->name;
         $email = $this->faker->email;
-        $password = $this->faker->lexify('??????');
 
         $this->actingAs($this->admin)
             ->visit($this->url)
                 ->type($name, 'name')
                 ->type($email, 'email')
-                ->type($password, 'password')
-                ->type($password, 'password_confirmation')
                 ->press($this->press)
                 ->seePageIs($this->url_ok);
 
@@ -61,34 +70,19 @@ class FormAddUserTest extends TestCase
     {
         $this->actingAs($this->admin)
             ->visit($this->url)
+                ->type('', 'name')
+                ->type('', 'email')
                 ->press($this->press)
                 ->see('Поле "Имя" обязательно для заполнения')
                 ->see('Поле "E-mail" обязательно для заполнения')
-                ->see('Поле "Пароль" обязательно для заполнения')
-                ->see('Поле "Еще раз пароль" обязательно для заполнения')
                 ->seePageIs($this->url_err);
     }
 
     public function testUnique()
     {
-        $email = $this->faker->email;
-        $password = $this->faker->lexify('??????');
-
         $this->actingAs($this->admin)
             ->visit($this->url)
-                ->type($this->faker->name, 'name')
-                ->type($email, 'email')
-                ->type($password, 'password')
-                ->type($password, 'password_confirmation')
-                ->press($this->press)
-                ->seePageIs($this->url_ok);
-
-        $this->actingAs($this->admin)
-            ->visit($this->url)
-                ->type($this->faker->name, 'name')
-                ->type($email, 'email')
-                ->type($password, 'password')
-                ->type($password, 'password_confirmation')
+                ->type($this->admin->email, 'email')
                 ->press($this->press)
                 ->see('Такое значение поля "E-mail" уже существует')
                 ->seePageIs($this->url_err);
@@ -114,8 +108,6 @@ class FormAddUserTest extends TestCase
 
         $this->actingAs($this->admin)
             ->visit($this->url)
-                ->type($this->faker->name, 'name')
-                ->type($this->faker->email, 'email')
                 ->type($password, 'password')
                 ->type($password, 'password_confirmation')
                 ->press($this->press)
@@ -130,8 +122,6 @@ class FormAddUserTest extends TestCase
 
         $this->actingAs($this->admin)
             ->visit($this->url)
-                ->type($this->faker->name, 'name')
-                ->type($this->faker->email, 'email')
                 ->type($password, 'password')
                 ->type($password2, 'password_confirmation')
                 ->press($this->press)

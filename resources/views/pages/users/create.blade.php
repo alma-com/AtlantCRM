@@ -36,7 +36,7 @@
           'role' => 'form',
           'data-confirm' => 'Вы действительно хотите добавить пользователя?',
       ]) !!}
-        @include('pages.users.form', ['buttonText' => 'Добавить'])
+        @include('pages.users.form', ['buttonText' => 'Добавить', 'buttonName' => 'create_user'])
       {!! Form::close() !!}
     </div>
   </div>
