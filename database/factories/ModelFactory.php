@@ -20,6 +20,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Role::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'display_name' => $faker->name,
+    ];
+});
 
 $factory->define(App\Project::class, function (Faker\Generator $faker) {
     return [

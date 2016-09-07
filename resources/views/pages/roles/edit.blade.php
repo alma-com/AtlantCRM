@@ -39,7 +39,7 @@
             'role' => 'form',
             'data-confirm' => 'Вы действительно хотите изменить роль?',
         ]) !!}
-          @include('pages.roles.form', ['buttonText' => 'Сохранить'])
+          @include('pages.roles.form', ['buttonText' => 'Сохранить', 'buttonName' => 'edit_role'])
         {!! Form::close() !!}
 
     </div>

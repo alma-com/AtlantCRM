@@ -61,6 +61,6 @@
   @endif
 
   <div class="box-footer">
-    {!! Form::submit($buttonText, ['name' => 'submit_role', 'class' => 'btn btn-success']) !!}
+    {!! Form::submit($buttonText, ['name' => $buttonName, 'class' => 'btn btn-success']) !!}
   </div>
 </form>
