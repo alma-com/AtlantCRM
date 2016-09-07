@@ -28,6 +28,14 @@ class Role extends Model
     }
 
     /**
+     * scopeOrdered
+     */
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order', 'asc')->get();
+    }
+
+    /**
      * Check access role
      *
      * @param {int|string|object}
