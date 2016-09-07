@@ -32,7 +32,7 @@ class ModelRoleTest extends TestCase
 
     public function testAssignPermission()
     {
-        $role = Role::create(['name' => str_random(10)]);
+        $role = factory(App\Role::class)->create();
         $permOne = Permission::add(str_random(10));
         $permTwo = Permission::add(str_random(10));
         $permThree = Permission::add(str_random(10));
@@ -49,7 +49,7 @@ class ModelRoleTest extends TestCase
 
     public function testAccess()
     {
-        $role = Role::create(['name' => str_random(10)]);
+        $role = factory(App\Role::class)->create();
         $permOne = Permission::add(str_random(10));
         $permTwo = Permission::add(str_random(10));
         $permThree = Permission::add(str_random(10));
@@ -65,7 +65,7 @@ class ModelRoleTest extends TestCase
     public function testDeletePermission()
     {
         //Success
-        $role = Role::create(['name' => str_random(10)]);
+        $role = factory(App\Role::class)->create();
         $permOne = Permission::add(str_random(10));
         $permTwo = Permission::add(str_random(10));
         $permThree = Permission::add(str_random(10));
@@ -86,7 +86,7 @@ class ModelRoleTest extends TestCase
 
     public function testDelete()
     {
-        $role = Role::create(['name' => str_random(10)]);
+        $role = factory(App\Role::class)->create();
         $perm = Permission::add(str_random(10));
         $role->permissions()->sync([$perm->id]);
 
