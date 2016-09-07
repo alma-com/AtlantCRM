@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $roles = Role::ordered()->lists('display_name', 'id');
+        $roles = Role::ordered()->toArray();
 
         return Alma::viewReturn(view('pages.users.create', compact('roles')), $request);
     }
@@ -64,7 +64,8 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::create($request->all());
-        if($user->access('change_role_user')) {
+
+        if(Auth::user()->access('change_role_user')) {
             $user->roles()->sync($request->input('roles', []));
         }
 
@@ -94,7 +95,7 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
-        $roles = Role::ordered()->lists('display_name', 'id');
+        $roles = Role::ordered()->toArray();
 
         if(count($user) == 0){
             Session::flash('warning', 'Пользователь не найден');
@@ -114,7 +115,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        if($user->access('change_role_user')) {
+        if(Auth::user()->access('change_role_user')) {
             $user->roles()->sync($request->input('roles', []));
         }
 

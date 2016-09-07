@@ -24,11 +24,18 @@ class CreateUserAdminTableSeeder extends Seeder
         /**
          * Create Roles and Permission
          */
+        $role_user_id = DB::table('roles')->insertGetId([
+            'name' => 'user',
+            'display_name' => 'Обычный пользователь',
+            'description' => '',
+            'sort_order' => 0,
+        ]);
+
         $role_id = DB::table('roles')->insertGetId([
             'name' => 'admin',
             'display_name' => 'Администратор',
             'description' => '',
-            'sort_order' => 0,
+            'sort_order' => 10,
         ]);
 
         $group_id = DB::table('permission_groups')->insertGetId([
@@ -59,6 +66,6 @@ class CreateUserAdminTableSeeder extends Seeder
             'permission_id' => $permission_id,
             'role_id' => $role_id,
         ]);
-        
+
     }
 }

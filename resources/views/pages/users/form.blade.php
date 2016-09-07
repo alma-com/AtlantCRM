@@ -35,10 +35,17 @@
       <div class="row">
         <div class="form-group">
 
-          @foreach($roles as $id => $name)
+          @foreach($roles as $role)
             <div class="col-md-12">
               <div class="checkbox">
-                <label>{!! Form::checkbox('roles[]', $id, (isset($user) && $user->hasRole($id) ? 1 : 0)) !!}{{ $name }}</label>
+                <label>
+                  @if($role['name'] === 'user')
+                    {!! Form::hidden('roles[]', $role['id']) !!}
+                    {!! Form::checkbox('roles[]', $role['id'], 1, ['disabled' => 'disabled']) !!}{{ $role['display_name'] }}
+                  @else
+                    {!! Form::checkbox('roles[]',  $role['id'], (isset($user) && $user->hasRole( $role['id']) ? 1 : 0)) !!}{{ $role['display_name'] }}
+                  @endif
+                </label>
               </div>
             </div>
           @endforeach
