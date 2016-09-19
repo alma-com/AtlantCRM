@@ -21,10 +21,10 @@
         php artisan user:admin {email} {password}
         
 ## License
-"Corporate portal "ATLANT" software is free for commercial and non-commercial use on condition of placing a link to the developer's website.
-The link should be placed on every page of the portal. The link should be visible to users. The link should be active.
-Link: http://atlant-crm.ru/
-Text of the link: atlant-crm.ru
+"Corporate portal "ATLANT" software is free for commercial and non-commercial use on condition of placing a link to the developer's website.  
+The link should be placed on every page of the portal. The link should be visible to users. The link should be active.  
+Link: http://atlant-crm.ru/  
+Text of the link: atlant-crm.ru  
 
 ## License RU
 Программное обеспечение "Корпоративный портал "Атлант" распространяется бесплатно для коммерческого и некоммерческого использования, с соблюдением условия размещения ссылки на сайт разработчика.  
