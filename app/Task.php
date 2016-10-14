@@ -15,6 +15,22 @@ class Task extends Model
         'project_id',
     ];
 
+    /**
+     * Set permission
+     * Command: php artisan permission:update 'App\Task'
+     */
+    public static function setPermissions()
+    {
+        return [
+            'group' => ['tasks' => 'Задачи'],
+            'permissions' => [
+                'show tasks' => 'Просмотр',
+                'add tasks' => 'Добавление',
+                'edit tasks' => 'Редактирование',
+                'delete tasks' => 'Удаление',
+            ],
+        ];
+    }
 
     /**
      * assign director

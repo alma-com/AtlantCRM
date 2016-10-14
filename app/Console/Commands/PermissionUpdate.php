@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use Slug;
 use App\PermissionGroup;
 use App\Permission;
 use App\Role;
@@ -16,7 +17,7 @@ class PermissionUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'permission:update';
+    protected $signature = 'permission:update {model}';
 
     /**
      * The console command description.
@@ -42,14 +43,83 @@ class PermissionUpdate extends Command
      */
     public function handle()
     {
-        $this->addGroup();
-        $this->addPermGeneral();
-        $this->addPermUser();
+        $class = $this->argument('model');
+        $list = $class::setPermissions();
 
-        $this->addRole();
+        $message = '';
+        $message .= $this->keyExistMessage('group');
+        $message .= $this->keyExistMessage('permissions');
+        $message .= $this->groupMultipleMessage();
+
+        if ($message !== '') {
+            $this->info($message);
+            return false;
+        }
+
+        //PermissionGroup::where('name', $groupKey);
+
+        $group = PermissionGroup::create([
+            'name' => Slug::make(key($list['group'])),
+            'display_name' => array_shift($list['group']),
+        ]);
+        $groupId = $group->id;
+
+
+        // $permissions = Permission::whereIn('name', array_keys($list['permissions']))->get();
+        // if (count($permissions) > 0) {
+        //     $permissionNames = implode(', ', $permissions->lists('name')->toArray());
+        //     $this->info("permissions '".$permissionNames."' already exist");
+        //     return false;
+        // }
+
+        // $group = PermissionGroup::create([
+        //     'name' => $groupKey,
+        //     'display_name' => $list['name'],
+        // ]);
+        // $groupId = $group->id;
+        //
+        // foreach ($list['permissions'] as $name => $displayName) {
+        //     Permission::create([
+        //         'name' => $name,
+        //         'display_name' => $displayName,
+        //         'group_id' => $groupId,
+        //     ]);
+        // }
     }
 
+    /**
+     * Key exist message
+     * @param  string $key
+     * @return string
+     */
+    public function keyExistMessage($key)
+    {
+        $class = $this->argument('model');
+        $list = $class::setPermissions();
+        if (!array_key_exists($key, $list)) {
+            return "not found key '".$key."' in ".$class."::setPermissions()\n";
+        }
 
+        return '';
+    }
+
+    /**
+     * if group multible return message
+     * @param  string $key
+     * @return string
+     */
+    public function groupMultipleMessage()
+    {
+        $class = $this->argument('model');
+        $list = $class::setPermissions();
+        $group = array_key_exists('group', $list) ? $list['group'] : [];
+
+        if(count($list['group']) === 0 || count($list['group']) > 1) {
+            return "group should be one. Now groups: ".count($list['group'])."\n";
+        }
+
+        return '';
+    }
 
     /**
      * Группы прав

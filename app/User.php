@@ -24,6 +24,24 @@ class User extends Authenticatable
     ];
 
     /**
+     * Set permission
+     * Command: php artisan permission:update 'App\User'
+     */
+    public static function setPermissions()
+    {
+        return [
+            'group' => ['user' => 'Пользователи'],
+            'permissions' => [
+                'show users' => 'Просмотр',
+                'add users' => 'Добавление',
+                'edit users' => 'Редактирование',
+                'change role users' => 'Смена роли',
+                'delete users' => 'Удаление',
+            ],
+        ];
+    }
+
+    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
