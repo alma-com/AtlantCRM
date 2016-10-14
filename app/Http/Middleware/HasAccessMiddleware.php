@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AccessMiddleware
+class HasAccessMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class AccessMiddleware
      */
     public function handle($request, Closure $next, $permission)
     {
-		if (! $request->user()->access($permission)) {
+		if (! $request->user()->hasAccess($permission)) {
 			abort(404);
         }
         return $next($request);

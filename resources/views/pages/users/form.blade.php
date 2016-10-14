@@ -24,7 +24,7 @@
 
 </div>
 
-@permission('change_role_user')
+@can('change_role_user')
   {{-- Роли --}}
   @if(!is_null($roles))
     <div class="box-header with-border">
@@ -54,7 +54,7 @@
       </div>
     </div>
   @endif
-@endpermission
+@endcan
 
 <div class="box-footer">
   {!! Form::submit($buttonText, ['name' => $buttonName, 'class' => 'btn btn-success']) !!}

@@ -48,7 +48,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check access user
+     * Check hasAccess user
      *
      * @param {int|string|object}
      * @param {int} id perm
@@ -57,7 +57,7 @@ class User extends Authenticatable
      *
      * @returns {true|false}
      */
-    public function access($perm = '')
+    public function hasAccess($perm = '')
     {
         $roles = $this->roles()->get();
         $permission = Permission::getModel($perm);

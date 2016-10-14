@@ -16,19 +16,19 @@
 @section('content')
 <div class="btn-group margin-bottom">
 
-  @permission('add_user')
+  @access('add_user')
     <a href="{{ route('users.create') }}" class="btn btn-info">
       <i class="fa fa-btn fa-plus"></i>
       Добавить пользователя
     </a>
-  @endpermission
+  @endaccess
 
-  @permission('manage_role')
+  @access('manage_role')
     <a href="{{ route('roles.index') }}" class="btn btn-default">
       <i class="fa fa-btn fa-cog"></i>
       Управление ролями
     </a>
-  @endpermission
+  @endaccess
 
 </div>
 
@@ -72,9 +72,9 @@
                   </td>
                   <td>
                     <div class="td-text">
-                      @permission('edit_user')<a href="{{ route('users.edit', $user->id) }}">@endpermission
+                      @access('edit_user')<a href="{{ route('users.edit', $user->id) }}">@endaccess
                         {{ $user->name }}
-                      @permission('edit_user')</a>@endpermission
+                      @access('edit_user')</a>@endaccess
                     </div>
                     <div class="td-input"><input type="text" class="form-control" name="name[{{ $user->id }}]" value="{{ $user->name }}"></div>
                   </td>
@@ -90,8 +90,8 @@
             </tbody>
 
 
-            @permission('edit_user')
-              @permission('delete_user')
+            @access('edit_user')
+              @access('delete_user')
               <tfoot>
                 <tr>
                   <td colspan="4">
@@ -101,21 +101,21 @@
                         <input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 
                         <div class="btn-group">
-                          @permission('edit_user')
+                          @access('edit_user')
                             <button type="button" class="btn btn-default btn-sm disabled"
                               onclick="editTable(this, 'show')"
                             >
                               <i class="fa fa-pencil"></i>
                             </button>
-                          @endpermission
+                          @endaccess
 
-                          @permission('delete_user')
+                          @access('delete_user')
                             <button type="button" class="btn btn-default btn-sm disabled"
                               onclick="actionCall(this, '{{ route('users.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
                             >
                               <i class="fa fa-trash-o"></i>
                             </button>
-                          @endpermission
+                          @endaccess
 
                         </div>
 
@@ -133,8 +133,8 @@
                   </td>
                 </tr>
               </tfoot>
-              @endpermission
-            @endpermission
+              @endaccess
+            @endaccess
 
           </table>
           </form>

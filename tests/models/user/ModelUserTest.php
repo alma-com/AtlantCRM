@@ -85,9 +85,9 @@ class ModelUserTest extends TestCase
 
         $user->roles()->sync([$role->id]);
 
-        $this->assertTrue($user->access($permOne));
-        $this->assertTrue($user->access($permTwo->name));
-        $this->assertTrue($user->access($permThree->id));
+        $this->assertTrue($user->hasAccess($permOne));
+        $this->assertTrue($user->hasAccess($permTwo->name));
+        $this->assertTrue($user->hasAccess($permThree->id));
     }
 
 

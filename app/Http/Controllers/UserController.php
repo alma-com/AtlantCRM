@@ -25,10 +25,10 @@ class UserController extends Controller
     */
     public function __construct()
     {
-        $this->middleware('access:show_user');
-        $this->middleware('access:add_user')->only('create', 'store');
-        $this->middleware('access:edit_user')->only('edit', 'update', 'updateItems');
-        $this->middleware('access:delete_user')->only('destroy', 'destroyItems');
+        $this->middleware('hasAccess:show_user');
+        $this->middleware('hasAccess:add_user')->only('create', 'store');
+        $this->middleware('hasAccess:edit_user')->only('edit', 'update', 'updateItems');
+        $this->middleware('hasAccess:delete_user')->only('destroy', 'destroyItems');
     }
 
     /**
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
 
-        if(Auth::user()->access('change_role_user')) {
+        if(Auth::user()->hasAccess('change_role_user')) {
             $user->roles()->sync($request->input('roles', []));
         }
 
@@ -115,7 +115,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        if(Auth::user()->access('change_role_user')) {
+        if(Auth::user()->hasAccess('change_role_user')) {
             $user->roles()->sync($request->input('roles', []));
         }
 
