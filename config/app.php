@@ -158,19 +158,20 @@ return [
 
 
         /*
-        * Custom helpers
-        */
+         * Custom helpers
+         */
         App\Providers\HelperServiceProvider::class,
 
         /*
-        * Extra
-        */
+         * Extra
+         */
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        IvanLemeshev\Laravel5CyrillicSlug\SlugServiceProvider::class,
 
     ],
 
@@ -219,13 +220,13 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         /*
-        * Custom helpers
-        */
+         * Custom helpers
+         */
         'Alma' => App\Helpers\Alma::class,
 
         /*
-        * Extra
-        */
+         * Extra
+         */
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
@@ -233,6 +234,7 @@ return [
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Slug' => IvanLemeshev\Laravel5CyrillicSlug\SlugFacade::class,
 
     ],
 
