@@ -48,7 +48,7 @@ class PermissionGroup extends Model
     {
         $permission = Permission::getModel($perm);
 
-        if(!is_null($permission)){
+        if (!is_null($permission)) {
             $this->permissions()->save($permission);
         }
 
@@ -72,7 +72,7 @@ class PermissionGroup extends Model
         $permission = Permission::getModel($perm);
         $groupDefault = self::getModelDefault();
 
-        if(!is_null($permission)){
+        if (!is_null($permission)) {
             $groupDefault->assignPermission($permission);
         }
 
@@ -94,9 +94,9 @@ class PermissionGroup extends Model
      */
     public static function add($arrData = array())
     {
-        if(self::checkArrayGroup($arrData) === false){return null;}
+        if (self::checkArrayGroup($arrData) === false) { return null; }
 
-        if(is_string($arrData) === true && $arrData !== ''){
+        if (is_string($arrData) === true && $arrData !== '') {
             $arrData = array('name' => $arrData);
         }
         $sort_order = PermissionGroup::max('sort_order')+10;
@@ -109,7 +109,7 @@ class PermissionGroup extends Model
         $res = array_merge($arrDefault, $arrData);
 
         $group = PermissionGroup::where('name', $res['name'])->first();
-        if(is_null($group)){
+        if (is_null($group)) {
             $group = new PermissionGroup;
             $group->name = $res['name'];
             $group->display_name = $res['display_name'];
@@ -137,9 +137,9 @@ class PermissionGroup extends Model
     public static function del($group = '')
     {
         $group = self::getModel($group);
-        if(!is_null($group)){
+        if (!is_null($group)) {
             $permission = $group->permissions()->get();
-            if(count($permission) > 0){
+            if (count($permission) > 0) {
                 foreach($permission as $key => $item){
                     $group->deletePermission($item);
                 }
@@ -162,13 +162,13 @@ class PermissionGroup extends Model
     public static function getByName($name = ''){
         $group = null;
         $id_group = '';
-        if($name != ''){
+        if ($name != '') {
             $group = self::where('name', $name)->first();
         }
 
-        if(is_null($group)){
+        if (is_null($group)) {
             $group = self::where('name', self::$defaultName)->first();
-            if(is_null($group)){
+            if (is_null($group)) {
                 $group = self::add(array('name' => self::$defaultName));
             }
         }
@@ -191,13 +191,13 @@ class PermissionGroup extends Model
     public static function getModel($group = '')
     {
         $groupModel = null;
-        if(is_string($group) === true){
+        if (is_string($group) === true) {
             $groupModel = self::getByName($group);
         }
-        if(is_numeric($group) === true){
+        if (is_numeric($group) === true) {
             $groupModel = self::find($group);
         }
-        if(is_object($group) === true){
+        if (is_object($group) === true) {
             $groupModel = self::find($group->id);
         }
 
@@ -225,10 +225,10 @@ class PermissionGroup extends Model
      */
     public static function checkArrayGroup($arrData = array())
     {
-        if(is_string($arrData) === true && $arrData !== ''){
+        if (is_string($arrData) === true && $arrData !== '') {
             return true;
         }
-        if(is_array($arrData) === true && array_key_exists('name', $arrData) === true){
+        if (is_array($arrData) === true && array_key_exists('name', $arrData) === true) {
             return true;
         }
 

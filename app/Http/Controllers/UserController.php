@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
 
-        if(Auth::user()->hasAccess('change_role_user')) {
+        if (Auth::user()->hasAccess('change_role_user')) {
             $user->roles()->sync($request->input('roles', []));
         }
 
@@ -97,7 +97,7 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::ordered()->toArray();
 
-        if(count($user) == 0){
+        if (count($user) == 0) {
             Session::flash('warning', 'Пользователь не найден');
         }
 
@@ -115,7 +115,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        if(Auth::user()->hasAccess('change_role_user')) {
+        if (Auth::user()->hasAccess('change_role_user')) {
             $user->roles()->sync($request->input('roles', []));
         }
 
@@ -143,7 +143,7 @@ class UserController extends Controller
             'validator' => $validator,
         ];
 
-        if(count($itemArray) === 0){
+        if (count($itemArray) === 0) {
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
         }
 
@@ -210,7 +210,7 @@ class UserController extends Controller
         ];
 
         $itemArray = $request->input('item');
-        if(count($itemArray) == 0){
+        if (count($itemArray) == 0) {
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
         }
 

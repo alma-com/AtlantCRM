@@ -29,7 +29,7 @@ class Alma
             'description' => '',
         ];
         $res = array_merge($arrDefault, $arrStatus);
-        if($res['description'] != ''){
+        if ($res['description'] != '') {
             $res['description'] = self::getDescription('info', $res['description']);
         }
 
@@ -69,12 +69,12 @@ class Alma
         $res['errFields'] = $validator->messages();
         $res['description'] = self::getDescription($res['status'], HTML::ul($validator->errors()->all()));
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return Response::json($res);
         }
 
         Session::flash($res['status'], HTML::ul($validator->errors()->all()));
-        if($res['url'] != ''){
+        if ($res['url'] != '') {
             return redirect($res['url'])
                 ->withErrors($validator)
                 ->withInput();
@@ -96,12 +96,12 @@ class Alma
         $arrStatus['message'] = $message;
         $res = self::getArrStatus($arrStatus);
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return Response::json($res);
         }
 
         Session::flash($res['status'], $res['message']);
-        if($res['url'] != ''){
+        if ($res['url'] != '') {
             return redirect($res['url']);
         }
         return redirect()->back();
@@ -118,12 +118,12 @@ class Alma
         $arrStatus['message'] = $message;
         $res = self::getArrStatus($arrStatus);
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return Response::json($res);
         }
 
         Session::flash($res['status'], $res['message']);
-        if($res['url'] != ''){
+        if ($res['url'] != '') {
             return redirect($res['url']);
         }
         return redirect()->back();
@@ -136,7 +136,7 @@ class Alma
      */
     public static function viewReturn($view, $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return $view->renderSections();
         }
         return $view;

@@ -30,7 +30,7 @@ class UserRequest extends Request
             'password_confirmation' => 'same:password',
         ];
 
-        if($this->isAdd() || $this->doNeedPassword()){
+        if ($this->isAdd() || $this->doNeedPassword()) {
             $rules['password'] = 'required|min:6|max:255';
             $rules['password_confirmation'] = 'required|same:password';
         }

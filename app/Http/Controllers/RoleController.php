@@ -94,7 +94,7 @@ class RoleController extends Controller
         $role = Role::find($id);
         $groups = PermissionGroup::with('permissions')->get();
 
-        if(count($role) == 0){
+        if (count($role) == 0) {
             Session::flash('warning', 'Роль не найдена');
         }
 
@@ -141,7 +141,7 @@ class RoleController extends Controller
             'validator' => $validator,
         ];
 
-        if(count($itemArray) == 0){
+        if (count($itemArray) == 0) {
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
         }
 
@@ -204,7 +204,7 @@ class RoleController extends Controller
         ];
 
         $itemArray = $request->input('item');
-        if(count($itemArray) == 0){
+        if (count($itemArray) == 0) {
             return Alma::infoReturn('Ничего не выбрано', $arrStatus);
         }
 

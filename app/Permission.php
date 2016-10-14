@@ -49,9 +49,9 @@ class Permission extends Model
      */
     public static function add($arrData = array(), $groupName = '')
     {
-        if(self::checkArrayPermission($arrData) === false){return null;}
+        if (self::checkArrayPermission($arrData) === false) { return null; }
 
-        if(is_string($arrData) === true && $arrData !== ''){
+        if (is_string($arrData) === true && $arrData !== '') {
             $arrData = array('name' => $arrData);
         }
 
@@ -69,7 +69,7 @@ class Permission extends Model
 
 
         $permission = Permission::where('name', $res['name'])->first();
-        if(count($permission) == 0){
+        if (count($permission) == 0) {
             $permission = new Permission;
             $permission->name = $res['name'];
             $permission->display_name = $res['display_name'];
@@ -97,7 +97,7 @@ class Permission extends Model
     public static function del($permission = '')
     {
         $permission = self::getModel($permission);
-        if(!is_null($permission)){
+        if (!is_null($permission)) {
             $permission->delete();
         }
 
@@ -115,7 +115,7 @@ class Permission extends Model
      */
     public static function getByName($name = ''){
         $permission = null;
-        if($name != ''){
+        if ($name != '') {
             $permission = self::where('name', $name)->first();
         }
 
@@ -137,13 +137,13 @@ class Permission extends Model
     public static function getModel($permission = '')
     {
         $permModel = null;
-        if(is_string($permission) === true){
+        if (is_string($permission) === true) {
             $permModel = self::getByName($permission);
         }
-        if(is_numeric($permission) === true){
+        if (is_numeric($permission) === true) {
             $permModel = self::find($permission);
         }
-        if(is_object($permission) === true){
+        if (is_object($permission) === true) {
             $permModel = self::find($permission->id);
         }
 
@@ -159,10 +159,10 @@ class Permission extends Model
      */
     public static function checkArrayPermission($arrData = array())
     {
-        if(is_string($arrData) === true && $arrData !== ''){
+        if (is_string($arrData) === true && $arrData !== '') {
             return true;
         }
-        if(is_array($arrData) === true && array_key_exists('name', $arrData) === true){
+        if (is_array($arrData) === true && array_key_exists('name', $arrData) === true) {
             return true;
         }
 
