@@ -4,11 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use Slug;
 use App\PermissionGroup;
 use App\Permission;
-use App\Role;
-use App\User;
+use Slug;
 
 class PermissionUpdate extends Command
 {
@@ -17,7 +15,7 @@ class PermissionUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'permission:update {model}';
+    protected $signature = 'permission:update {model} {--force}';
 
     /**
      * The console command description.
@@ -50,41 +48,18 @@ class PermissionUpdate extends Command
         $message .= $this->keyExistMessage('group');
         $message .= $this->keyExistMessage('permissions');
         $message .= $this->groupMultipleMessage();
+        if (!$this->option('force')) {
+            $message .= $this->groupExistMessage();
+        }
 
         if ($message !== '') {
             $this->info($message);
             return false;
         }
 
-        //PermissionGroup::where('name', $groupKey);
-
-        $group = PermissionGroup::create([
-            'name' => Slug::make(key($list['group'])),
-            'display_name' => array_shift($list['group']),
-        ]);
-        $groupId = $group->id;
-
-
-        // $permissions = Permission::whereIn('name', array_keys($list['permissions']))->get();
-        // if (count($permissions) > 0) {
-        //     $permissionNames = implode(', ', $permissions->lists('name')->toArray());
-        //     $this->info("permissions '".$permissionNames."' already exist");
-        //     return false;
-        // }
-
-        // $group = PermissionGroup::create([
-        //     'name' => $groupKey,
-        //     'display_name' => $list['name'],
-        // ]);
-        // $groupId = $group->id;
-        //
-        // foreach ($list['permissions'] as $name => $displayName) {
-        //     Permission::create([
-        //         'name' => $name,
-        //         'display_name' => $displayName,
-        //         'group_id' => $groupId,
-        //     ]);
-        // }
+        $group = $this->createOrUpdateGroup($list['group']);
+        $permissions = $this->newArrayPermission($list['permissions'], $group->name);
+        $this->syncPermissions($list['permissions'], $group->id);
     }
 
     /**
@@ -104,7 +79,7 @@ class PermissionUpdate extends Command
     }
 
     /**
-     * if group multible return message
+     * if group multible then return message
      * @param  string $key
      * @return string
      */
@@ -114,7 +89,7 @@ class PermissionUpdate extends Command
         $list = $class::setPermissions();
         $group = array_key_exists('group', $list) ? $list['group'] : [];
 
-        if(count($list['group']) === 0 || count($list['group']) > 1) {
+        if (count($list['group']) === 0 || count($list['group']) > 1) {
             return "group should be one. Now groups: ".count($list['group'])."\n";
         }
 
@@ -122,102 +97,104 @@ class PermissionUpdate extends Command
     }
 
     /**
-     * Группы прав
+     * if group exists then return message
+     * @return string
      */
-    public function addGroup()
+    public function groupExistMessage()
     {
-        PermissionGroup::create([
-            'name' => 'general',
-            'display_name' => 'Общие настройки',
-        ]);
+        $class = $this->argument('model');
+        $list = $class::setPermissions();
+        $group = array_key_exists('group', $list) ? $list['group'] : [];
+        $groupKey = Slug::make(key($group));
 
-        PermissionGroup::create([
-            'name' => 'user',
-            'display_name' => 'Пользователи',
-        ]);
+        if (PermissionGroup::where('name', $groupKey)->exists()) {
+            $run = "\n  php artisan permission:update '{$class}' --force";
+            return "group already exist. If you need update then run: {$run}\n";
+        }
+
+        return '';
     }
 
-
     /**
-     * Добавление общих прав
+     * Synchronization permissions - create, update and destroy
+     * @param  array $listPerm
+     * @param  int $groupId
+     * @return void
      */
-    public function addPermGeneral()
+    public function syncPermissions($listPerm, $groupId)
     {
-        $generalGroup = PermissionGroup::where('name', 'general')->first();
+        $permDestroy = Permission::where('group_id', $groupId)
+            ->whereNotIn('name', array_keys($listPerm))
+            ->delete();
 
-        $permission = Permission::create([
-            'name' => 'manage_role',
-            'display_name' => 'Управление ролями',
-            'group_id' => $generalGroup->id,
-        ]);
+        $order = 0;
+        foreach ($listPerm as $name => $displayName) {
+            $this->createOrUpdatePermission([
+                'name' => $name,
+                'displayName' => $displayName,
+                'groupId' => $groupId,
+                'order' => $order,
+            ]);
+            $order += 1;
+        }
     }
 
-
-
     /**
-     * Добавление прав для пользователей
+     * New array where key add groupName
+     * @param  array $list
+     * @param  string $groupName
+     * @return array
      */
-    public function addPermUser()
+    public function newArrayPermission($list = [], $groupName = '')
     {
-        $userGroup = PermissionGroup::where('name', 'user')->first();
+        $permissions = [];
+        foreach($list as $key => $perm) {
+            $permissions[$key . ' ' . $groupName] = $perm;
+        }
 
-        $permShow = Permission::create([
-            'name' => 'show_user',
-            'display_name' => 'Просмотр',
-            'group_id' => $userGroup->id,
-        ]);
-
-        $permAdd = Permission::create([
-            'name' => 'add_user',
-            'display_name' => 'Добавление',
-            'group_id' => $userGroup->id,
-        ]);
-
-        $permEdit = Permission::create([
-            'name' => 'edit_user',
-            'display_name' => 'Редактирование',
-            'group_id' => $userGroup->id,
-        ]);
-
-        $permRole = Permission::create([
-            'name' => 'change_role_user',
-            'display_name' => 'Смена роли',
-            'group_id' => $userGroup->id,
-        ]);
-
-        $permDelete = Permission::create([
-            'name' => 'delete_user',
-            'display_name' => 'Удаление',
-            'group_id' => $userGroup->id,
-        ]);
+        return $permissions;
     }
 
+    /**
+     * Create or update Group by name
+     * @param  array $data
+     * @return Eloquent
+     */
+    public function createOrUpdateGroup($data)
+    {
+        $groupKey = Slug::make(key($data));
+        $group = PermissionGroup::where('name', $groupKey)->first();
+        if (count($group) === 0) {
+            $group = new PermissionGroup();
+        }
+        $group->name = $groupKey;
+        $group->display_name = array_shift($data);
+        $group->save();
 
+        return $group;
+    }
 
     /**
-     * Добавление роли
+     * Create or update Permission by name and group id
+     * @param  array $data
+     * @return Eloquent
      */
-    public function addRole()
+    public function createOrUpdatePermission($data)
     {
-        $role = Role::create([
-            'name' => 'admin',
-            'display_name' => 'Администратор',
-        ]);
+        $perm = Permission::where('name', $data['name'])
+            ->where('group_id', $data['groupId'])
+            ->first();
 
-        $permManage = Permission::where('name', 'manage_role')->first();
-        $permShow = Permission::where('name', 'show_user')->first();
-        $permAdd = Permission::where('name', 'add_user')->first();
-        $permEdit = Permission::where('name', 'edit_user')->first();
-        $permRole = Permission::where('name', 'change_role_user')->first();
-        $permDelete = Permission::where('name', 'delete_user')->first();
+        if (count($perm) === 0) {
+            $perm = new Permission();
+        }
 
-        $role->permissions()->sync([
-            $permManage->id,
-            $permShow->id,
-            $permAdd->id,
-            $permEdit->id,
-            $permRole->id,
-            $permDelete->id,
-        ]);
+        $perm->name = $data['name'];
+        $perm->display_name = $data['displayName'];
+        $perm->group_id = $data['groupId'];
+        $perm->sort_order = $data['order'];
+        $perm->save();
+
+        return $perm;
     }
 }
