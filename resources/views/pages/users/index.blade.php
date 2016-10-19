@@ -16,7 +16,7 @@
 @section('content')
 <div class="btn-group margin-bottom">
 
-  @access('add_user')
+  @access('add users')
     <a href="{{ route('users.create') }}" class="btn btn-info">
       <i class="fa fa-btn fa-plus"></i>
       Добавить пользователя
@@ -72,9 +72,13 @@
                   </td>
                   <td>
                     <div class="td-text">
-                      @access('edit_user')<a href="{{ route('users.edit', $user->id) }}">@endaccess
+                      @access('edit users')
+                        <a href="{{ route('users.edit', $user->id) }}">
+                          {{ $user->name }}
+                        </a>
+                      @else
                         {{ $user->name }}
-                      @access('edit_user')</a>@endaccess
+                      @endaccess
                     </div>
                     <div class="td-input"><input type="text" class="form-control" name="name[{{ $user->id }}]" value="{{ $user->name }}"></div>
                   </td>
@@ -90,8 +94,8 @@
             </tbody>
 
 
-            @access('edit_user')
-              @access('delete_user')
+            @access('edit users')
+              @access('delete users')
               <tfoot>
                 <tr>
                   <td colspan="4">
@@ -101,7 +105,7 @@
                         <input type="checkbox" class="checkbox-toggle" name="checkbox-toggle" data-name="item[]" value="">
 
                         <div class="btn-group">
-                          @access('edit_user')
+                          @access('edit users')
                             <button type="button" class="btn btn-default btn-sm disabled"
                               onclick="editTable(this, 'show')"
                             >
@@ -109,7 +113,7 @@
                             </button>
                           @endaccess
 
-                          @access('delete_user')
+                          @access('delete users')
                             <button type="button" class="btn btn-default btn-sm disabled"
                               onclick="actionCall(this, '{{ route('users.destroyItems') }}', 'Вы действительно хотите удалить пользователей?')"
                             >

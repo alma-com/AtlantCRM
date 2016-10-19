@@ -24,10 +24,10 @@ class Task extends Model
         return [
             'group' => ['tasks' => 'Задачи'],
             'permissions' => [
-                'show' => 'Просмотр',
-                'add' => 'Добавление',
-                'edit' => 'Редактирование',
-                'delete' => 'Удаление',
+                'show tasks' => 'Просмотр',
+                'add tasks' => 'Добавление',
+                'edit tasks' => 'Редактирование',
+                'delete tasks' => 'Удаление',
             ],
         ];
     }

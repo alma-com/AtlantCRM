@@ -30,7 +30,7 @@ class User extends Authenticatable
     public static function setPermissions()
     {
         return [
-            'group' => ['user' => 'Пользователи'],
+            'group' => ['users' => 'Пользователи'],
             'permissions' => [
                 'show users' => 'Просмотр',
                 'add users' => 'Добавление',

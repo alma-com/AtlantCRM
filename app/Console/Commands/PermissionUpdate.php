@@ -58,7 +58,6 @@ class PermissionUpdate extends Command
         }
 
         $group = $this->createOrUpdateGroup($list['group']);
-        $permissions = $this->newArrayPermission($list['permissions'], $group->name);
         $this->syncPermissions($list['permissions'], $group->id);
     }
 
@@ -137,22 +136,6 @@ class PermissionUpdate extends Command
             ]);
             $order += 1;
         }
-    }
-
-    /**
-     * New array where key add groupName
-     * @param  array $list
-     * @param  string $groupName
-     * @return array
-     */
-    public function newArrayPermission($list = [], $groupName = '')
-    {
-        $permissions = [];
-        foreach($list as $key => $perm) {
-            $permissions[$key . ' ' . $groupName] = $perm;
-        }
-
-        return $permissions;
     }
 
     /**
