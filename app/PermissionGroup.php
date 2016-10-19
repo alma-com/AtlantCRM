@@ -32,7 +32,10 @@ class PermissionGroup extends Model
         return $this->hasMany('App\Permission', 'group_id');
     }
 
-
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order', 'asc');
+    }
 
     /**
      * Assign permission to the group

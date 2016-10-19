@@ -92,7 +92,11 @@ class RoleController extends Controller
     public function edit(Request $request, $id)
     {
         $role = Role::find($id);
-        $groups = PermissionGroup::with('permissions')->get();
+        $groups = PermissionGroup::with(['permissions' => function($query) {
+                $query->ordered();
+            }])
+            ->ordered()
+            ->get();
 
         if (count($role) == 0) {
             Session::flash('warning', 'Роль не найдена');

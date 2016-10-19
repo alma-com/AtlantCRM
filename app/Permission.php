@@ -32,7 +32,10 @@ class Permission extends Model
        return $this->belongsToMany('App\Role', 'role_has_permissions');
     }
 
-
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order', 'asc');
+    }
 
     /**
      * Adding permissions
