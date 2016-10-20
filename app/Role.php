@@ -4,14 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-/**
- * @method access(int|string|object $perm)
- * @static @method getModel(int|string|object $role)
- */
 class Role extends Model
 {
-
     protected $fillable = [
         'name', 'display_name', 'description', 'sort_order',
     ];
@@ -26,62 +20,46 @@ class Role extends Model
        return $this->belongsToMany('App\User', 'user_has_roles');
     }
 
-    /**
-     * scopeOrdered
-     */
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order', 'asc')->get();
     }
 
-    /**
-     * Check access role
-     *
-     * @param {int|string|object}
-     * @param {int} id perm
-     * @param {string} name perm
-     * @param {object} object perm
-     *
-     * @returns {true|false}
-     */
-    public function access($perm = '')
+    public static function findAdmin()
     {
-        $permission = Permission::getModel($perm);
-        if(is_null($permission)){
-            return false;
+        return self::whereName('admin')->first();
+    }
+
+    public static function findUser()
+    {
+        return self::whereName('user')->first();
+    }
+
+    public static function findByIdOrName($value)
+    {
+        if (is_numeric($value)) {
+            return self::whereId($value);
         }
 
-        $findPerm = $permission->roles()->find($this->id);
-        if(count($findPerm) > 0){
-            return true;
+        return self::whereName($value);
+    }
+    
+    /**
+     * Check access
+     * @param  string|int $perm id or name permission
+     * @return boolean
+     */
+    public function hasAccess($perm = '')
+    {
+        $permission = Permission::findByIdOrName($perm)->with('roles')->first();
+
+        if (count($permission)) {
+            $findPerm = $permission->roles()->find($this->id);
+            if (count($findPerm)) {
+                return true;
+            }
         }
 
         return false;
-    }
-
-    /**
-     *  Getting the role by id or name or object
-     *
-     * @param {int|string|object}
-     * @param {int} id role
-     * @param {string} name role
-     * @param {object} object role
-     *
-     * @returns {object|null}
-     */
-    public static function getModel($role = '')
-    {
-        $roleModel = null;
-        if(is_string($role) === true){
-            $roleModel = self::where('name', $role);
-        }
-        if(is_numeric($role) === true){
-            $roleModel = self::find($role);
-        }
-        if(is_object($role) === true){
-            $roleModel = self::find($role->id);
-        }
-
-        return $roleModel;
     }
 }

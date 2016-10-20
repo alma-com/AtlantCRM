@@ -40,7 +40,7 @@
               <div class="checkbox">
                 <label>
                   @if($role['name'] === 'user')
-                    {!! Form::hidden('roles[]', $role['id']) !!}
+                    <input type="hidden" name="roles[]" value="{{ $role['id'] }}">
                     {!! Form::checkbox('roles[]', $role['id'], 1, ['disabled' => 'disabled']) !!}{{ $role['display_name'] }}
                   @else
                     {!! Form::checkbox('roles[]',  $role['id'], (isset($user) && $user->hasRole( $role['id']) ? 1 : 0)) !!}{{ $role['display_name'] }}

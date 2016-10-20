@@ -24,7 +24,7 @@ class FormAddRoleTest extends TestCase
     {
         parent::setUp();
 
-        $roleAdmin = App\Role::where('name', 'admin')->first();
+        $roleAdmin = App\Role::findAdmin();
         $admin = factory(App\User::class)->create();
         $admin->roles()->sync([$roleAdmin->id]);
 

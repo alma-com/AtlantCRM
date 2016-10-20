@@ -156,7 +156,6 @@ class RoleController extends Controller
         foreach($itemArray as $key => $id_role){
             $role = Role::find($id_role);
             $role->display_name = $request->input('display_name')[$id_role];
-            $role->description = $request->input('description')[$id_role];
             $role->sort_order = $request->input('sort_order')[$id_role];
             $role->save();
         }
