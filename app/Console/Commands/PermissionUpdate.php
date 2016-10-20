@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use App\PermissionGroup;
 use App\Permission;
+use App\Role;
 use Slug;
 
 class PermissionUpdate extends Command
@@ -15,14 +16,14 @@ class PermissionUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'permission:update {model} {--force}';
+    protected $signature = 'crm:permission-update {model} {--force}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Permission update';
 
     /**
      * Create a new command instance.
@@ -41,24 +42,41 @@ class PermissionUpdate extends Command
      */
     public function handle()
     {
-        $class = $this->argument('model');
-        $list = $class::setPermissions();
-
-        $message = '';
-        $message .= $this->keyExistMessage('group');
-        $message .= $this->keyExistMessage('permissions');
-        $message .= $this->groupMultipleMessage();
-        if (!$this->option('force')) {
-            $message .= $this->groupExistMessage();
-        }
-
-        if ($message !== '') {
-            $this->info($message);
+        $messages = $this->getErrorMessages();
+        if ($messages !== '') {
+            $this->info($messages);
             return false;
         }
-
+        $list = $this->getPermissionsList();
         $group = $this->createOrUpdateGroup($list['group']);
         $this->syncPermissions($list['permissions'], $group->id);
+    }
+
+    /**
+     * Get permissions list
+     * @return array
+     */
+    public function getPermissionsList()
+    {
+        $class = trim($this->argument('model'), "'");
+        return $class::setPermissions();
+    }
+
+    /**
+     * Get error messages
+     * @return string
+     */
+    public function getErrorMessages()
+    {
+        $messages = '';
+        $messages .= $this->keyExistMessage('group');
+        $messages .= $this->keyExistMessage('permissions');
+        $messages .= $this->groupMultipleMessage();
+        if (!$this->option('force')) {
+            $messages .= $this->groupExistMessage();
+        }
+
+        return $messages;
     }
 
     /**
@@ -68,8 +86,7 @@ class PermissionUpdate extends Command
      */
     public function keyExistMessage($key)
     {
-        $class = $this->argument('model');
-        $list = $class::setPermissions();
+        $list = $this->getPermissionsList();
         if (!array_key_exists($key, $list)) {
             return "not found key '".$key."' in ".$class."::setPermissions()\n";
         }
@@ -84,8 +101,7 @@ class PermissionUpdate extends Command
      */
     public function groupMultipleMessage()
     {
-        $class = $this->argument('model');
-        $list = $class::setPermissions();
+        $list = $this->getPermissionsList();
         $group = array_key_exists('group', $list) ? $list['group'] : [];
 
         if (count($list['group']) === 0 || count($list['group']) > 1) {
@@ -101,13 +117,12 @@ class PermissionUpdate extends Command
      */
     public function groupExistMessage()
     {
-        $class = $this->argument('model');
-        $list = $class::setPermissions();
+        $list = $this->getPermissionsList();
         $group = array_key_exists('group', $list) ? $list['group'] : [];
         $groupKey = Slug::make(key($group));
 
         if (PermissionGroup::where('name', $groupKey)->exists()) {
-            $run = "\n  php artisan permission:update '{$class}' --force";
+            $run = "\n  php artisan crm:permission-update '{$class}' --force";
             return "group already exist. If you need update then run: {$run}\n";
         }
 
@@ -149,6 +164,7 @@ class PermissionUpdate extends Command
         $group = PermissionGroup::where('name', $groupKey)->first();
         if (count($group) === 0) {
             $group = new PermissionGroup();
+            $group->sort_order = PermissionGroup::max('sort_order') + 1;
         }
         $group->name = $groupKey;
         $group->display_name = array_shift($data);
@@ -168,8 +184,10 @@ class PermissionUpdate extends Command
             ->where('group_id', $data['groupId'])
             ->first();
 
+        $isNew = false;
         if (count($perm) === 0) {
             $perm = new Permission();
+            $isNew = true;
         }
 
         $perm->name = $data['name'];
@@ -177,6 +195,10 @@ class PermissionUpdate extends Command
         $perm->group_id = $data['groupId'];
         $perm->sort_order = $data['order'];
         $perm->save();
+
+        if ($isNew) {
+            Role::findAdmin()->permissions()->attach($perm->id);
+        }
 
         return $perm;
     }
