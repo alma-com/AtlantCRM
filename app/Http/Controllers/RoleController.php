@@ -24,7 +24,7 @@ class RoleController extends Controller
     */
     public function __construct()
     {
-        $this->middleware('hasAccess:manage_role');
+        $this->middleware('hasAccess:manage role users');
     }
 
     /**

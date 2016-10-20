@@ -23,7 +23,7 @@
     </a>
   @endaccess
 
-  @access('manage_role')
+  @access('manage role users')
     <a href="{{ route('roles.index') }}" class="btn btn-default">
       <i class="fa fa-btn fa-cog"></i>
       Управление ролями

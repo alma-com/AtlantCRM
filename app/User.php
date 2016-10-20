@@ -33,6 +33,7 @@ class User extends Authenticatable
             'group' => ['users' => 'Пользователи'],
             'permissions' => [
                 'show users' => 'Просмотр',
+                'manage role users' => 'Управление ролями',
                 'add users' => 'Добавление',
                 'edit users' => 'Редактирование',
                 'change role users' => 'Смена роли',
