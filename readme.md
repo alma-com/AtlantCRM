@@ -12,14 +12,18 @@
 
         php artisan migrate
 
+1. Run seed command for create roles
+
+        php artisan db:seed
+
 1. Permission update
 
-        php artisan permission:update
+        php artisan crm:permission-update 'App\User'
 
 1. Create admininstrator
 
-        php artisan user:admin {email} {password}
-        
+        php artisan crm:create-admin
+
 ## License
 "Corporate portal "ATLANT" software is free for commercial and non-commercial use on condition of placing a link to the developer's website.  
 The link should be placed on every page of the portal. The link should be visible to users. The link should be active.  
