@@ -16,7 +16,7 @@ class PermissionUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:permission-update {model} {--force}';
+    protected $signature = 'crm:permission-update {model} {--function=setPermissions} {--force}';
 
     /**
      * The console command description.
@@ -53,13 +53,23 @@ class PermissionUpdate extends Command
     }
 
     /**
+     * Get class name
+     * @return string
+     */
+    public function getClass()
+    {
+        return trim($this->argument('model'), "'");
+    }
+
+    /**
      * Get permissions list
      * @return array
      */
     public function getPermissionsList()
     {
-        $class = trim($this->argument('model'), "'");
-        return $class::setPermissions();
+        $class = $this->getClass();
+        $function = $this->option('function');
+        return $class::$function();
     }
 
     /**
@@ -88,7 +98,7 @@ class PermissionUpdate extends Command
     {
         $list = $this->getPermissionsList();
         if (!array_key_exists($key, $list)) {
-            return "not found key '".$key."' in ".$class."::setPermissions()\n";
+            return "not found key '{$key}' in {$this->getClass()}::{$this->option('function')}()\n";
         }
 
         return '';
@@ -104,7 +114,7 @@ class PermissionUpdate extends Command
         $list = $this->getPermissionsList();
         $group = array_key_exists('group', $list) ? $list['group'] : [];
 
-        if (count($list['group']) === 0 || count($list['group']) > 1) {
+        if (count($group) > 1) {
             return "group should be one. Now groups: ".count($list['group'])."\n";
         }
 
@@ -122,7 +132,7 @@ class PermissionUpdate extends Command
         $groupKey = Slug::make(key($group));
 
         if (PermissionGroup::where('name', $groupKey)->exists()) {
-            $run = "\n  php artisan crm:permission-update '{$class}' --force";
+            $run = "\n  php artisan crm:permission-update '{$this->getClass()}' --force";
             return "group already exist. If you need update then run: {$run}\n";
         }
 
