@@ -47,8 +47,7 @@ class TestExamples
     }
 }
 
-
-class PermissionUpdateTest extends TestCase
+class ConsolePermissionUpdateTest extends TestCase
 {
     use DatabaseTransactions;
 
