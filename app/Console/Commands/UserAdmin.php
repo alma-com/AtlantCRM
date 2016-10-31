@@ -14,7 +14,7 @@ class UserAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:create-admin';
+    protected $signature = 'crm:create-admin {email?} {password?}';
 
     /**
      * The console command description.
@@ -40,8 +40,11 @@ class UserAdmin extends Command
      */
     public function handle()
     {
-        $email = $this->ask('What is your email?');
-        $password = $this->secret('What is the password?');
+        $argEmail = $this->argument('email');
+        $argPass = $this->argument('password');
+
+        $email = ($argEmail !== null) ? $argEmail : $this->ask('What is your email?');
+        $password = ($argPass !== null) ? $argPass : $this->secret('What is the password?');
 
         $user = User::create([
             'name' => 'Admin',
